@@ -1,8 +1,10 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
+import java.util.Map;
 
 public class LoginScreen{
 
@@ -11,6 +13,31 @@ public class LoginScreen{
 
     public LoginScreen(BufferedReader consoleReader) {
         this.consoleReader = consoleReader;
+
     }
+
+    public void render(){
+        try {
+            System.out.print("UserName: ");
+            String userName = consoleReader.readLine(); // throws Exception here
+
+            System.out.print("Password: ");
+            String password = consoleReader.readLine();
+
+            Map<String, AppUser> appUsers = UserDAO.getUsers();
+
+            AppUser user = appUsers.get(userName);
+
+            if(user == null){
+                System.out.println("Login Failed");
+            }
+            else{
+                System.out.println("Login Success");
+
+            }
+        }
+        catch(Exception e){}
+    }
+
 
 }
