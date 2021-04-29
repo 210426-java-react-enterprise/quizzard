@@ -1,6 +1,7 @@
 package com.revature.quizzard;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
@@ -21,8 +22,8 @@ public class Driver {
 
         // try () {} == try-with-resources
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-            registerScreen.render();
+            LoginScreen loginScreen = new LoginScreen(consoleReader);
+            LoginScreen.render();
         } catch (Exception e) {
             e.printStackTrace();
         }

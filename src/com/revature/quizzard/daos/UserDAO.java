@@ -15,28 +15,7 @@ public class UserDAO {
     }
 
     // TODO implement me!
-    public AppUser findUserByUsername(String username) {
-        try(BufferedReader inRead = new BufferedReader(new FileReader("resources/users.txt"))
-        {
-            String userData = inRead.readLine();
-            //userData.split;
-
-
-            String[] userInfo = userData.split(";");
-            String credentialPassword = userInfo[1];
-            String credentialUsername = userInfo[0];
-
-
-
-
-
-        }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void findUserByUsername(String username) {
 
     }
 }
