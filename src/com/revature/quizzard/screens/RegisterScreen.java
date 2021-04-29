@@ -7,11 +7,12 @@ import java.io.BufferedReader;
 
 public class RegisterScreen {
 
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
+    private UserDAO userDao;
     private BufferedReader consoleReader;
 
-    public RegisterScreen(BufferedReader consoleReader) {
+    public RegisterScreen(BufferedReader consoleReader, UserDAO userDAO) {
         this.consoleReader = consoleReader;
+        this.userDao = userDAO;
     }
 
     public void render() {

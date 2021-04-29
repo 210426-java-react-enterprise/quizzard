@@ -1,12 +1,17 @@
 package com.revature.quizzard;
 
+import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Driver {
+
+    static UserDAO userDAO = new UserDAO();
 
     public static void main(String[] args) {
         AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
@@ -21,12 +26,21 @@ public class Driver {
 
         // try () {} == try-with-resources
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+            RegisterScreen registerScreen = new RegisterScreen(consoleReader, userDAO);
+            LoginScreen loginScreen = new LoginScreen(consoleReader, userDAO);
             registerScreen.render();
+            loginScreen.render();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+
+//        List<AppUser> users = userDAO.loadUserProfile();
+//        for (AppUser user : users) {
+//            System.out.println(user);
+//        }
         // what we used to have to do prior to Java 7's try-with-resources
 //        finally {
 //            // this block will execute regardless of whether or not the try block code throws an
