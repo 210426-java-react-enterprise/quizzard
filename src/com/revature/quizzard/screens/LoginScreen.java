@@ -1,5 +1,6 @@
 package com.revature.quizzard.screens;
 
+import java.io.BufferedReader;
 public class LoginScreen {
 
     private BufferedReader consoleReader;
