@@ -6,6 +6,8 @@ import com.revature.quizzard.screens.RegisterScreen;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import com.revature.quizzard.screens.LoginScreen;
+
 public class Driver {
 
     public static void main(String[] args) {
@@ -21,8 +23,9 @@ public class Driver {
 
         // try () {} == try-with-resources
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-            registerScreen.render();
+            LoginScreen loginScreen = new LoginScreen(consoleReader);
+            loginScreen.render();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
