@@ -2,9 +2,7 @@ package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class UserDAO {
 
@@ -14,6 +12,18 @@ public class UserDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String[] readUserFromFile() {
+        String userInfo ="";
+        String[] userData;
+        try (BufferedReader reader = new BufferedReader(new FileReader("resources/users.txt"))) {
+            userInfo =reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return(userData = userInfo.split(";"));
+
     }
 
     // TODO implement me!
