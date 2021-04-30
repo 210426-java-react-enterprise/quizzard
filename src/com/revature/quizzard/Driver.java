@@ -3,6 +3,7 @@ package com.revature.quizzard;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
+import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,9 +13,9 @@ import java.util.Scanner;
 public class Driver {
 
     public static void main(String[] args) {
-        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
-                                      "wezley.singleton@revature.com",
-                                      "Wezley", "Singleton", 30);
+//        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
+//                                      "wezley.singleton@revature.com",
+//                                      "Wezley", "Singleton", 30);
 
         int userInput ;
 
@@ -28,7 +29,7 @@ public class Driver {
         Scanner scan = new Scanner(System.in);
         userInput = scan.nextInt();
 
-        switch(userInput){
+        switch(userInput) {
             case 1:
                 try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
                     RegisterScreen registerScreen = new RegisterScreen(consoleReader);
@@ -46,21 +47,24 @@ public class Driver {
                 }
                 break;
             default:
-                System.out.println("try again");*/
+                System.out.println("try again");
                 LoginScreen loginScreen = new LoginScreen(consoleReader);
                 loginScreen.render();
-        }
-        // try () {} == try-with-resources
-       /* try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-            registerScreen.render();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }*/
+                // try () {} == try-with-resources
 
-        */
+                try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+//            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+//            registerScreen.render();
+                    LoginScreen loginScreen = new LoginScreen(consoleReader);
+                    loginScreen.render();
 
-        // what we used to have to do prior to Java 7's try-with-resources
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                // what we used to have to do prior to Java 7's try-with-resources
 //        finally {
 //            // this block will execute regardless of whether or not the try block code throws an
 //            // exception or executes successfully
@@ -71,7 +75,7 @@ public class Driver {
 //            }
 //        }
 
-
+        }
     }
 
 }

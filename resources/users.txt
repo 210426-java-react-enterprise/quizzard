@@ -1,1 +1,3 @@
-t.osho;pass123;osho@gmail.com;titi;osho;24
+wsingleton;password;wezley.singleton@revature.com;Wezley;Singleton;30
+aanderson;p4ssw0rd;aanderson@revature.com;Alice;Anderson;23
+
