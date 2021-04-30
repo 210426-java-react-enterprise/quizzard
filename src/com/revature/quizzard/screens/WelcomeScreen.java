@@ -2,6 +2,8 @@ package com.revature.quizzard.screens;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import com.revature.quizzard.screens.RegisterScreen;
+import com.revature.quizzard.screens.LoginScreen;
 
 public class WelcomeScreen {
 
@@ -19,13 +21,22 @@ public class WelcomeScreen {
             System.out.print("Enter 1 or 2: ");
             choice = consoleReader.readLine();
 
-            if(choice == "1") {
-                LoginScreen loginScreen = new LoginScreen(consoleReader);
-                loginScreen.render();
-            } else if (choice== "2") {
-                RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-                registerScreen.render();
+            switch (choice) {
+                case "1": {
+                    LoginScreen loginScreen = new LoginScreen(consoleReader);
+                    loginScreen.render();
+                    break;
+                }
+                case "2": {
+                    RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+                    registerScreen.render();
+                    break;
+                }
+                default: {
+                    break;
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

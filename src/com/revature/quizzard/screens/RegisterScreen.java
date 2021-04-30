@@ -2,6 +2,7 @@ package com.revature.quizzard.screens;
 
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.screens.WelcomeScreen;
 
 import java.io.BufferedReader;
 
@@ -53,6 +54,8 @@ public class RegisterScreen {
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
             userDao.saveUserToFile(newUser);
+            WelcomeScreen welcomeScreen = new WelcomeScreen(consoleReader);
+            welcomeScreen.render();
 
         } catch (NumberFormatException nfe) {
             // do something about these!
