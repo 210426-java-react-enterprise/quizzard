@@ -1,7 +1,6 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
 

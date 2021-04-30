@@ -1,11 +1,9 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.models.MyList;
+import com.revature.quizzard.utilities.MyList;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAO {
 

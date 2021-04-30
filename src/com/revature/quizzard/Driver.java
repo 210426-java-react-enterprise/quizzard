@@ -3,11 +3,9 @@ package com.revature.quizzard;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
-import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.List;
 
 public class Driver {
 

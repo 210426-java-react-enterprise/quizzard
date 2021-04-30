@@ -1,6 +1,5 @@
-package com.revature.quizzard.models;
+package com.revature.quizzard.utilities;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class MyList<T> implements List<T> {
