@@ -30,7 +30,7 @@ public class LoginScreen {
 
             if (user == null) {
                 System.out.println("Login Failed");
-            } else if (user.getUsername() == userName) {
+            } else if (user.getPassword() == password) {
                 System.out.println("Login Success");
 
             } else {
