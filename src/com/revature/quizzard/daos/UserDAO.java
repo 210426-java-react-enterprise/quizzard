@@ -1,6 +1,7 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.models.MyList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ public class UserDAO {
     }
 
     // TODO implement me!
-    public List<AppUser> loadUserProfile()
+    public MyList<AppUser> loadUserProfile()
     {
         String[] result = new String[10];
-        List<AppUser> userList = new ArrayList<>();
+        MyList<AppUser> userList = new MyList<>();
 
         try(BufferedReader reader = new BufferedReader(new FileReader("resources/users.txt")))
         {
@@ -46,11 +47,11 @@ public class UserDAO {
 
     public AppUser findUserByUsername(String username) {
 
-        List<AppUser> users = loadUserProfile();
+        MyList<AppUser> users = loadUserProfile();
 
-        for (AppUser user : users) {
-            if(user.getUsername().equals(username)) {
-                return user;
+        for (int i = 0; i < users.size(); i++) {
+            if(users.at(i).getUsername().equals(username)) {
+                return users.at(i);
             }
 //            System.out.println(user);
         }
