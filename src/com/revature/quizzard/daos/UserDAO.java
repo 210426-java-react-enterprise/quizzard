@@ -10,16 +10,26 @@ import java.util.Scanner;
 
 public class UserDAO {
     public static String UserFilePath = "resources/users.txt";
+    private static Map<String,AppUser> Users;
+
+    static{
+        Users = fetchUsersFromFile();
+    }
 
     public static void saveUserToFile(AppUser newUser) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(UserFilePath, true))) {
             writer.write(newUser.toFileString() + "\n");
+            Users.put(newUser.getUsername(), newUser); //prevents need to reload from disk.  all users are stored in memory
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static Map<String,AppUser> getUsers(){
+        return Users;
+    }
+
+    public static Map<String,AppUser> fetchUsersFromFile(){
 
         Map map = new HashMap<String,AppUser>();
         try {
