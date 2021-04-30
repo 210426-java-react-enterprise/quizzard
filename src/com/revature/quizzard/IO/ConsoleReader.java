@@ -10,8 +10,5 @@ public class ConsoleReader extends BufferedReader{
         super(in);
     }
 
-    public String promptIn(String prompText) throws IOException {
-        System.out.print(prompText);
-        return this.readLine(); // throws Exception here
-    }
+
 }

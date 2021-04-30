@@ -23,13 +23,10 @@ public class Driver {
 //        System.out.printf("Test char with digit specifier: %d", 'a');
 
         // try () {} == try-with-resources
-        try (ConsoleReader consoleReader = new ConsoleReader(new InputStreamReader(System.in))) {
-            Screen.setReader(consoleReader);
-            LoginScreen loginScreen = new LoginScreen();
-            loginScreen.render();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        LoginScreen loginScreen = new LoginScreen();
+        loginScreen.render();
+
 
         // what we used to have to do prior to Java 7's try-with-resources
 //        finally {

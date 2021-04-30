@@ -15,8 +15,8 @@ public class LoginScreen extends Screen{
     public void render() {
         try {
 
-            String userName = consoleReader.promptIn("Username: ");
-            String password = consoleReader.promptIn("Password: ");
+            String userName = promptIn("Username: ");
+            String password = promptIn("Password: ");
 
             Map<String, AppUser> appUsers = UserDAO.getUsers();
 
@@ -33,6 +33,7 @@ public class LoginScreen extends Screen{
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
