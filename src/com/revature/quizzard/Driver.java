@@ -1,6 +1,5 @@
 package com.revature.quizzard;
 
-import com.revature.quizzard.IO.ConsoleReader;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;

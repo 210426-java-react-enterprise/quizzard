@@ -29,23 +29,13 @@ public class RegisterScreen extends Screen{
             System.out.println("Register for a new account!");
             System.out.println("+-------------------------+");
 
-            System.out.print("First name: ");
-            firstName = consoleReader.readLine(); // throws Exception here
+            firstName = promptIn("First name: ");
+            lastName = promptIn("Last name: ");
+            email = promptIn("Email: ");
+            username = promptIn("Username: ");
+            password = promptIn("Password: ");
+            age =  Integer.parseInt(promptIn("Age: "));
 
-            System.out.print("Last name: ");
-            lastName = consoleReader.readLine();
-
-            System.out.print("Email: ");
-            email = consoleReader.readLine();
-
-            System.out.print("Username: ");
-            username = consoleReader.readLine();
-
-            System.out.print("Password: ");
-            password = consoleReader.readLine();
-
-            System.out.print("Age: ");
-            age = Integer.parseInt(consoleReader.readLine());
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
             userDao.saveUserToFile(newUser);
