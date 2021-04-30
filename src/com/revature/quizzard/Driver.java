@@ -1,7 +1,9 @@
 package com.revature.quizzard;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.models.Prompt;
 import com.revature.quizzard.screens.LoginScreen;
+import com.revature.quizzard.screens.PromptScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
@@ -9,19 +11,38 @@ import java.io.InputStreamReader;
 
 public class Driver {
 
+//    private static BufferedReader consoleReader;
+    private BufferedReader consoleReader;
+    public String prompt(String response) {
+        return response;
+    }
+
     public static void main(String[] args) {
-        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
-                                      "wezley.singleton@revature.com",
-                                      "Wezley", "Singleton", 30);
 
-//        newUser.toString()
-//        System.out.printf("Hello and welcome, %s! I see that you are %d years old, nice!", newUser.getUsername(), newUser.getAge());
+//        try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
-        // doesn't work because %d only works with digits
-//        System.out.printf("Test char with digit specifier: %d", 'a');
+        String response;
 
-        // try () {} == try-with-resources
+
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+//            System.out.print("Would you like to Register? (y/n)");
+//            response = consoleReader.readLine();
+//
+////            System.out.println("response "+ response.getClass().getSimpleName());
+//
+//            if(response == "y") {
+//                System.out.println("in iff");
+//
+//                RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+//                registerScreen.render();
+//                LoginScreen loginScreen = new LoginScreen(consoleReader);
+//                loginScreen.render();
+//            }
+
             RegisterScreen registerScreen = new RegisterScreen(consoleReader);
             registerScreen.render();
             LoginScreen loginScreen = new LoginScreen(consoleReader);
@@ -30,18 +51,7 @@ public class Driver {
             e.printStackTrace();
         }
 
-        // what we used to have to do prior to Java 7's try-with-resources
-//        finally {
-//            // this block will execute regardless of whether or not the try block code throws an
-//            // exception or executes successfully
-//            try {
-//                consoleReader.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-
     }
+
 
 }
