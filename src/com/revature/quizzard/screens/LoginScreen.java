@@ -1,38 +1,46 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.models.AppUser;
+
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
-public class LoginScreen<username> {
+public class LoginScreen {
 
+    private UserDAO userDao = new UserDAO();
     private BufferedReader consoleReader;
+
     public LoginScreen(BufferedReader consoleReader) {
         this.consoleReader = consoleReader;
     }
-    public void render(){
-        String username;
-        String password;
+    public void render() {
+
         try {
-            System.out.println("Username: ");
+            String username;
+            String password;
+
+            System.out.println("Log into your account!");
+            System.out.println("+---------------------+");
+
+            System.out.print("Username: ");
             username = consoleReader.readLine();
-            System.out.println("Password: ");
+
+            System.out.print("Password: ");
             password = consoleReader.readLine();
-            File file = new File(("resources/users.txt"));
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String st;
-            st = br.readLine();
-            String[] credentials = st.split(";");
-            // System.out.println(credentials[0] + credentials[1]);
-            if (username.equals(credentials[0]) && password.equals(credentials[1])){
-                System.out.println("Login Successful!");
+
+            if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+                AppUser authenticatedUser = userDao.findUserByUsernameAndPassword(username, password);
+                if (authenticatedUser != null) {
+                    System.out.println("Login successful!");
+                } else {
+                    System.out.println("Login failed!");
+                }
             } else {
-                System.out.println("Login failed!");
+                System.out.println("It looks like you didn't provide any credentials!");
             }
-        } catch (IOException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }
