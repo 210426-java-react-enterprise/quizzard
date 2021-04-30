@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class UserDAO {
-    public static String UserFilePath = "resources/users.txt";
+    private static String UserFilePath = "resources/users.txt";
     private static Map<String,AppUser> Users;
 
     static{
