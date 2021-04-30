@@ -52,6 +52,7 @@ public class RegisterScreen {
             age = Integer.parseInt(consoleReader.readLine());
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
+            System.out.println("registersc newuser " + newUser);
             userDao.saveUserToFile(newUser);
 
         } catch (NumberFormatException nfe) {

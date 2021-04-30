@@ -1,8 +1,12 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.models.LoginUser;
+
 import java.io.BufferedReader;
 public class LoginScreen {
 
+    private UserDAO userDAO = new UserDAO();
     private BufferedReader consoleReader;
 
     public LoginScreen(BufferedReader consoleReader) {
@@ -23,6 +27,12 @@ public class LoginScreen {
 
             System.out.print("Password: ");
             password = consoleReader.readLine();
+
+            LoginUser login = new LoginUser(username, password);
+            System.out.println("login creds " + login);
+
+            userDAO.checkForUser(login);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

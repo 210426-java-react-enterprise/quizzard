@@ -81,7 +81,7 @@ public class AppUser {
     }
 
     public String toFileString() {
-        return String.format("%s;%s;%s;%s;%s;%d", username, password, email, firstName, lastName, age);
+        return String.format("%s\n%s\n%s\n%s\n%s\n%d\n", username, password, email, firstName, lastName, age);
     }
 
 //    @Override
