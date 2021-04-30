@@ -35,10 +35,10 @@ import java.io.BufferedReader;
                 System.out.print("Password: ");
                 password = consoleReader.readLine();
 
-                AppUser user = userDao.readUserFromFile(username, password);
+                AppUser userInfo = userDao.readUserFromFile(username, password);
                 String str;
-                if ((str = user.getUsername()) != null){
-                    System.out.println(user.getUsername());
+                if ((str = userInfo.getUsername()) != null){
+                    System.out.println(userInfo.getUsername());
                     System.out.println("Login successful!");
                 }else{
                     System.out.print("Login failed!");
