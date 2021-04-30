@@ -3,12 +3,16 @@ package com.revature.quizzard.screens;
 import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
+import com.revature.quizzard.models.AppUser;
 
 public class LoginScreen {
 
     private BufferedReader consoleReader;
+    public LoginScreen(BufferedReader consoleReader) {
+        this.consoleReader = consoleReader;
+    }
 
-    public void render() {
+    public AppUser render() {
         String username;
         String password;
 
@@ -23,13 +27,15 @@ public class LoginScreen {
             System.out.print("Password: ");
             password = consoleReader.readLine();
 
+            AppUser loginUser = new AppUser(username, password);
+            return loginUser;
+
             
         } catch (Exception e) {
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
         }
 
-
-
+        return null;
     }
 }
