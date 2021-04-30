@@ -20,7 +20,7 @@ public class AppUser {
     private int age;
 
     public AppUser(String username, String password, String email, String firstName, String lastName, int age) {
-        System.out.println("AppUser constructor invoked!");
+//        System.out.println("AppUser constructor invoked!");
         this.username = username;
         this.password = password;
         this.email = email;

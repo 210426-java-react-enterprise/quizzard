@@ -49,12 +49,11 @@ public class UserDAO {
         List<AppUser> users = loadUserProfile();
 
         for (AppUser user : users) {
-            if(user.getUsername().equals(username))
+            if(user.getUsername().equals(username)) {
                 return user;
-
+            }
 //            System.out.println(user);
         }
-
         return null;
     }
 }

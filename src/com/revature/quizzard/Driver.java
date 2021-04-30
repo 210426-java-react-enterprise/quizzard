@@ -26,10 +26,21 @@ public class Driver {
 
         // try () {} == try-with-resources
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader, userDAO);
+//            RegisterScreen registerScreen = new RegisterScreen(consoleReader, userDAO);
             LoginScreen loginScreen = new LoginScreen(consoleReader, userDAO);
-            registerScreen.render();
+//            registerScreen.render();
             loginScreen.render();
+            AppUser user = userDAO.findUserByUsername(loginScreen.getUsername());
+            if(user == null)
+            {
+                System.out.println("Login failed! No such user was found!");
+            } else if(loginScreen.getPassword().equals(user.getPassword()))
+            {
+                System.out.println("Login successful!");
+            } else
+            {
+                System.out.println("Login failed! Wrong password!");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

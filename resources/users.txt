@@ -1,1 +1,4 @@
 seantaba;password;sean@gmail.com;sean;taba;25
+davidmack;password;david@gmail.com;david;mack;24
+johndoe;johnpassword;john@gmail.com;john;doe;65
+alecbaldwin;alecpassword;alec@gmail.com;alec;baldwin;39
