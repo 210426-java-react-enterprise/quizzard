@@ -29,6 +29,11 @@ public class AppUser {
         this.age = age;
     }
 
+    public AppUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUsername() {
         // you do not have to include "this." here because there is no other variable
         // with the same name in this scope
@@ -80,8 +85,13 @@ public class AppUser {
         this.age = age;
     }
 
+
+
     public String toFileString() {
         return String.format("%s;%s;%s;%s;%s;%d", username, password, email, firstName, lastName, age);
+    }
+    public String toFile(){
+        return String.format("%s;%s", username,password);
     }
 
 //    @Override

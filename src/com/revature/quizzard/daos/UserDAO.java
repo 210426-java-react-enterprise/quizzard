@@ -2,9 +2,7 @@ package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class UserDAO {
 
@@ -17,7 +15,13 @@ public class UserDAO {
     }
 
     // TODO implement me!
-    public AppUser findUserByUsername(String username) {
-        return null;
+    public void findUserByUsername(AppUser userName) {
+        try(BufferedReader reader = new BufferedReader(new FileReader("resources/users.txt"))){
+            String st; st = reader.readLine();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //return null;
     }
 }
