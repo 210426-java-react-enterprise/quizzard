@@ -6,7 +6,7 @@ import com.revature.quizzard.models.AppUser;
 import java.io.BufferedReader;
 import java.util.Map;
 
-public class LoginScreen{
+public class LoginScreen {
 
     private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
     private BufferedReader consoleReader;
@@ -16,7 +16,7 @@ public class LoginScreen{
 
     }
 
-    public void render(){
+    public void render() {
         try {
             System.out.print("UserName: ");
             String userName = consoleReader.readLine(); // throws Exception here
@@ -28,19 +28,17 @@ public class LoginScreen{
 
             AppUser user = appUsers.get(userName);
 
-            if(user == null){
+            if (user == null) {
                 System.out.println("Login Failed");
-            }
-            else if(user.getUsername() == userName){
+            } else if (user.getUsername() == userName) {
                 System.out.println("Login Success");
 
-            }
-            else{
+            } else {
                 System.out.println("Login Failed");
             }
 
+        } catch (Exception e) {
         }
-        catch(Exception e){}
     }
 
 

@@ -109,5 +109,5 @@ public class AppUser {
         sb.append('}');
         return sb.toString();
     }
-    
+
 }
