@@ -19,6 +19,11 @@ public class AppUser {
     private String lastName;
     private int age;
 
+
+    public AppUser(){
+
+    }
+
     public AppUser(String username, String password, String email, String firstName, String lastName, int age) {
         System.out.println("AppUser constructor invoked!");
         this.username = username;

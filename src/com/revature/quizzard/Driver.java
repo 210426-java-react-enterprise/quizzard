@@ -1,6 +1,7 @@
 package com.revature.quizzard;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
@@ -20,13 +21,13 @@ public class Driver {
 //        System.out.printf("Test char with digit specifier: %d", 'a');
 
         // try () {} == try-with-resources
-        try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+ /*       try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
             RegisterScreen registerScreen = new RegisterScreen(consoleReader);
             registerScreen.render();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+*/
         // what we used to have to do prior to Java 7's try-with-resources
 //        finally {
 //            // this block will execute regardless of whether or not the try block code throws an
@@ -37,6 +38,13 @@ public class Driver {
 //                e.printStackTrace();
 //            }
 //        }
+
+        try (BufferedReader consoleReader2 = new BufferedReader(new InputStreamReader(System.in))) {
+            LoginScreen loginScreen = new LoginScreen(consoleReader2);
+            loginScreen.render();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
