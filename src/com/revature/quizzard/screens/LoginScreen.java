@@ -1,5 +1,5 @@
 package com.revature.quizzard.screens;
-
+import java.util.ArrayList;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
 import java.io.*;
@@ -13,7 +13,8 @@ public class LoginScreen {
     public LoginScreen(BufferedReader consoleReader) {
         this.consoleReader = consoleReader;
     }
-
+    static String[] userInfo;
+    String[] userList;
     public void render() {
 
         String username;
@@ -32,18 +33,27 @@ public class LoginScreen {
             System.out.print("Password: ");
             password = consoleReader.readLine();
 
-            File file = new File("/Users/jbongard/Desktop/Revature/quizzard/quizzard/users.txt");
+            File file = new File("/Users/jbongard/Desktop/Revature/quizzard/quizzard/resources/users.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
             String data;
+            //ArrayList<ArrayList<String>> userArray = new ArrayList<ArrayList<String>>();
+
+            //traverse through the text file and populate our list
             while((data = br.readLine()) != null){
-                //System.out.println(data);
-                if (data.contains(username) && (data.contains(password))){
-                    System.out.println("Login Successful");
-                }else{
-                    System.out.println("Login Failed");
-                    this.render();
-                }
+                userInfo = data.split(";");
+                userList = userInfo;
+                System.out.println(data);
+                //TODO: Create a nested array that holds all of our registeredUsers + split line data into parts
+
             }
+            System.out.println(userList);
+            //check if user exists in our list
+//            if (data != null && data.contains(username) && (data.contains(password))){
+//                System.out.println("Login Successful");
+//            }else{
+//                System.out.println("Login Failed");
+//                this.render();
+//            }
 
 
         } catch (FileNotFoundException fnfe) {

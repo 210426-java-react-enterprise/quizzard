@@ -28,6 +28,7 @@ public class Driver {
                 case "2":
                     LoginScreen loginScreen =  new LoginScreen(consoleReader);
                     loginScreen.render();
+                    break;
 
             }
 
