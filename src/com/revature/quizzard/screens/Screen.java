@@ -26,4 +26,14 @@ public abstract class Screen{
     public static void setReader(BufferedReader cr){
         consoleReader = cr;
     }
+
+    public static void closeReader(){
+        if(consoleReader != null) {
+            try {
+                consoleReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

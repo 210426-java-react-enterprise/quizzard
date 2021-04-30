@@ -11,7 +11,13 @@ public class RegisterScreen extends Screen{
 
 
     public void render() {
+        System.out.println("Register for a new account!");
+        System.out.println("+-------------------------+");
+        promptAccountDetails();
+    }
 
+
+    public void promptAccountDetails(){
         String firstName;
         String lastName;
         String email;
@@ -19,15 +25,11 @@ public class RegisterScreen extends Screen{
         String password;
         int age;
 
-        // ok but a little verbose
-//        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-//        BufferedReader consoleReader = new BufferedReader(inputStreamReader);
 
         try {
             // risky code that might through an exception
 
-            System.out.println("Register for a new account!");
-            System.out.println("+-------------------------+");
+
 
             firstName = promptIn("First name: ");
             lastName = promptIn("Last name: ");
@@ -48,8 +50,6 @@ public class RegisterScreen extends Screen{
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
         }
-
-
 
     }
 
