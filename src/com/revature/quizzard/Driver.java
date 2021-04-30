@@ -1,8 +1,10 @@
 package com.revature.quizzard;
 
+import com.revature.quizzard.IO.ConsoleReader;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
+import com.revature.quizzard.screens.Screen;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,8 +23,9 @@ public class Driver {
 //        System.out.printf("Test char with digit specifier: %d", 'a');
 
         // try () {} == try-with-resources
-        try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            LoginScreen loginScreen = new LoginScreen(consoleReader);
+        try (ConsoleReader consoleReader = new ConsoleReader(new InputStreamReader(System.in))) {
+            Screen.setReader(consoleReader);
+            LoginScreen loginScreen = new LoginScreen();
             loginScreen.render();
         } catch (Exception e) {
             e.printStackTrace();

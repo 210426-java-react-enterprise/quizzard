@@ -10,7 +10,7 @@ public class RegisterScreen {
     private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
     private BufferedReader consoleReader;
 
-    public RegisterScreen(BufferedReader consoleReader) {
+    public RegisterScreen() {
         this.consoleReader = consoleReader;
     }
 

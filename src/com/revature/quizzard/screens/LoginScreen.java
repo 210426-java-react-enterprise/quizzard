@@ -1,27 +1,22 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.IO.ConsoleReader;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
 import java.util.Map;
 
-public class LoginScreen {
+public class LoginScreen extends Screen{
 
     private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
-    private BufferedReader consoleReader;
 
-    public LoginScreen(BufferedReader consoleReader) {
-        this.consoleReader = consoleReader;
-    }
 
     public void render() {
         try {
-            System.out.print("UserName: ");
-            String userName = consoleReader.readLine(); // throws Exception here
 
-            System.out.print("Password: ");
-            String password = consoleReader.readLine();
+            String userName = consoleReader.promptIn("Username: ");
+            String password = consoleReader.promptIn("Password: ");
 
             Map<String, AppUser> appUsers = UserDAO.getUsers();
 
