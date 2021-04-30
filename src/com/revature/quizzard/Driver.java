@@ -43,6 +43,8 @@ public class Driver {
                         LoginScreen loginScreen = new LoginScreen(consoleReader);
                         // Present login screen
                         loginScreen.render();
+                        // Allow time for user to read result before closing
+                        Thread.sleep(10000);
                         // No break exit program instead
                         System.exit(0);
                     case 2:
