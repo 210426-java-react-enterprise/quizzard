@@ -31,10 +31,14 @@ public class LoginScreen{
             if(user == null){
                 System.out.println("Login Failed");
             }
-            else{
+            else if(user.getUsername() == userName){
                 System.out.println("Login Success");
 
             }
+            else{
+                System.out.println("Login Failed");
+            }
+
         }
         catch(Exception e){}
     }
