@@ -23,7 +23,7 @@ public class LoginScreen {
             System.out.println("+---------------------+");
 
             System.out.print("Username: ");
-            username = consoleReader.readLine(); // throws Exception here
+            username = consoleReader.readLine();
 
             System.out.print("Password: ");
             password = consoleReader.readLine();
@@ -36,7 +36,7 @@ public class LoginScreen {
                     System.out.println("Login failed!");
                 }
             } else {
-                System.out.println("It looks ike you didn't provide any credentials!");
+                System.out.println("It looks like you didn't provide any credentials!");
             }
 
         } catch (Exception e) {
