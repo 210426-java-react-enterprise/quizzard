@@ -1,6 +1,5 @@
 package com.revature.quizzard.screens;
 
-import com.revature.quizzard.IO.ConsoleReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
