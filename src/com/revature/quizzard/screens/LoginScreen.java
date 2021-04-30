@@ -9,14 +9,12 @@ import java.util.Map;
 
 public class LoginScreen extends Screen{
 
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
-
-
+    @Override
     public void render() {
         try {
 
-            String userName = promptIn("Username: ");
-            String password = promptIn("Password: ");
+            String userName = promptStr("Username: ");
+            String password = promptStr("Password: ");
 
             Map<String, AppUser> appUsers = UserDAO.getUsers();
 

@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 
 public abstract class Screen{
     protected static BufferedReader consoleReader;
+    protected static final String AppName = "Quizzard";
+
+    public abstract void render();
 
     public Screen(){
         if(consoleReader == null) {
@@ -16,11 +19,16 @@ public abstract class Screen{
 
     }
 
-    public String promptIn(String prompText) throws IOException {
+    public char promptChar(String prompText) throws IOException {
+        System.out.print(prompText);
+        return consoleReader.readLine().charAt(0);
+    }
+
+
+    public String promptStr(String prompText) throws IOException {
 
         System.out.print(prompText);
-        String in = consoleReader.readLine(); // throws Exception here
-        return  in;
+        return consoleReader.readLine();
     }
 
     public static void setReader(BufferedReader cr){

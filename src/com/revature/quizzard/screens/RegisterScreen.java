@@ -7,9 +7,7 @@ import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen{
 
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
-
-
+    @Override
     public void render() {
         System.out.println("Register for a new account!");
         System.out.println("+-------------------------+");
@@ -18,29 +16,19 @@ public class RegisterScreen extends Screen{
 
 
     public void promptAccountDetails(){
-        String firstName;
-        String lastName;
-        String email;
-        String username;
-        String password;
-        int age;
+        AppUser newUser = new AppUser();
 
 
         try {
-            // risky code that might through an exception
 
+            newUser.setFirstName(promptStr("First name: "));
+            newUser.setLastName(promptStr("Last name: "));
+            newUser.setEmail(promptStr("Email: "));
+            newUser.setUsername(promptStr("Username: "));
+            newUser.setPassword(promptStr("Password: "));
+            newUser.setAge(Integer.parseInt(promptStr("Age: ")));
 
-
-            firstName = promptIn("First name: ");
-            lastName = promptIn("Last name: ");
-            email = promptIn("Email: ");
-            username = promptIn("Username: ");
-            password = promptIn("Password: ");
-            age =  Integer.parseInt(promptIn("Age: "));
-
-
-            AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
-            userDao.saveUserToFile(newUser);
+            UserDAO.saveUserToFile(newUser);
 
         } catch (NumberFormatException nfe) {
             // do something about these!
