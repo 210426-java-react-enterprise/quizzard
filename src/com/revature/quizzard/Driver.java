@@ -1,6 +1,7 @@
 package com.revature.quizzard;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
@@ -21,11 +22,13 @@ public class Driver {
 
         // try () {} == try-with-resources
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-            registerScreen.render();
+//            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+            LoginScreen loginScreen = new LoginScreen(consoleReader);
+            loginScreen.render();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         // what we used to have to do prior to Java 7's try-with-resources
 //        finally {
