@@ -5,6 +5,12 @@ public class LoginUser {
     private String username;
     private String password;
 
+    public LoginUser(String username, String password) {
+
+        this.username=username;
+        this.password=password;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -21,13 +27,7 @@ public class LoginUser {
         this.password = password;
     }
 
-    public LoginUser(String username, String password) {
-
-        this.username=username;
-        this.password=password;
-    }
-
     public String loginString(){
-        return String.format("%s\n%s",username, password);
+        return String.format("%s;%s",username, password);
     }
 }

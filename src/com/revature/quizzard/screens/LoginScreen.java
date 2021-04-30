@@ -29,8 +29,6 @@ public class LoginScreen {
             password = consoleReader.readLine();
 
             LoginUser login = new LoginUser(username, password);
-            System.out.println("login creds " + login);
-
             userDAO.checkForUser(login);
 
         } catch (Exception e) {
