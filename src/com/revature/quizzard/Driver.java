@@ -1,7 +1,7 @@
 package com.revature.quizzard;
 
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.screens.Login;
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
@@ -26,7 +26,7 @@ public class Driver {
             System.out.println("Would you like to login? (y/n): " );
             String s = consoleReader.readLine();
             if (s.equals("y")) {
-                Login login = new Login();
+                LoginScreen login = new LoginScreen();
                 if (login.prompt(consoleReader)) {
                     System.out.println("You've logged in!");
                 } else {

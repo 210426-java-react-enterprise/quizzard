@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Login {
+public class LoginScreen {
 
 	public boolean prompt(BufferedReader consoleReader) {
 		String username;
