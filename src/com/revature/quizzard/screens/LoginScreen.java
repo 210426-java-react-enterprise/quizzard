@@ -15,9 +15,9 @@ public class LoginScreen<username> {
         String username;
         String password;
         try {
-            System.out.println("Username: ");
+            System.out.print("Username: ");
             username = consoleReader.readLine();
-            System.out.println("Password: ");
+            System.out.print("Password: ");
             password = consoleReader.readLine();
             File file = new File(("resources/users.txt"));
             BufferedReader br = new BufferedReader(new FileReader(file));
