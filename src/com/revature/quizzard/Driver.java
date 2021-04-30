@@ -1,14 +1,21 @@
 package com.revature.quizzard;
 
+import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 public class Driver {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+        LoginScreen.render("resources/users.txt");
+
+        //AppUser user0 = UserDAO.readUserFromFile();
+
         AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
                                       "wezley.singleton@revature.com",
                                       "Wezley", "Singleton", 30);

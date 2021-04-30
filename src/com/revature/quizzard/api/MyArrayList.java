@@ -1,2 +1,4 @@
-package com.revature.quizzard.api;public class MyArrayList {
+package com.revature.quizzard.api;
+
+public class MyArrayList {
 }

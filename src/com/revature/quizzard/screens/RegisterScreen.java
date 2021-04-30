@@ -14,6 +14,7 @@ public class RegisterScreen {
         this.consoleReader = consoleReader;
     }
 
+
     public void render() {
 
         String firstName;
