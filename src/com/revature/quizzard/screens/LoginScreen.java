@@ -13,7 +13,6 @@ public class LoginScreen {
 
     public LoginScreen(BufferedReader consoleReader) {
         this.consoleReader = consoleReader;
-
     }
 
     public void render() {
@@ -27,7 +26,9 @@ public class LoginScreen {
             Map<String, AppUser> appUsers = UserDAO.getUsers();
 
             AppUser user = appUsers.get(userName);
-            
+
+            //validate user exists
+            //then validate there's a password
             if (user == null) {
                 System.out.println("Login Failed");
             } else if (user.getPassword().equals(password)) {

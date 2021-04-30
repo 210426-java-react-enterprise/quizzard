@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class UserDAO {
     public static String UserFilePath = "resources/users.txt";
 
-    public void saveUserToFile(AppUser newUser) {
+    public static void saveUserToFile(AppUser newUser) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(UserFilePath, true))) {
             writer.write(newUser.toFileString() + "\n");
         } catch (IOException e) {
@@ -38,12 +38,7 @@ public class UserDAO {
             e.printStackTrace();
         }
 
-
         return map;
     }
 
-    // TODO implement me!
-    public AppUser findUserByUsername(String username) {
-        return null;
-    }
 }
