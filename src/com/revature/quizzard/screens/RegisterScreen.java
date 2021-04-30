@@ -16,12 +16,14 @@ public class RegisterScreen {
 
     public void render() {
 
-        String firstName;
-        String lastName;
-        String email;
-        String username;
-        String password;
+        String firstName = "";
+        String lastName = "";
+        String email = "";
+        String username = "";
+        String password = "";
         int age;
+        boolean unique = false; // Form validation
+        boolean safeString = false; // Manual sanitization
 
         // ok but a little verbose
 //        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -33,20 +35,73 @@ public class RegisterScreen {
             System.out.println("Register for a new account!");
             System.out.println("+-------------------------+");
 
-            System.out.print("First name: ");
-            firstName = consoleReader.readLine(); // throws Exception here
+            while (safeString == false) {
+                System.out.print("First name: ");
+                firstName = consoleReader.readLine(); // throws Exception here
 
-            System.out.print("Last name: ");
-            lastName = consoleReader.readLine();
+                safeString = scCheck(firstName);
 
-            System.out.print("Email: ");
-            email = consoleReader.readLine();
+                if (safeString == false) {
+                    System.out.println("No semi-colons (;) allowed.");
+                }
+            }
 
-            System.out.print("Username: ");
-            username = consoleReader.readLine();
+            safeString = false;
 
-            System.out.print("Password: ");
-            password = consoleReader.readLine();
+            while (safeString == false) {
+                System.out.print("Last name: ");
+                lastName = consoleReader.readLine();
+
+                safeString = scCheck(lastName);
+
+                if (safeString == false) {
+                    System.out.println("No semi-colons (;) allowed.");
+                }
+            }
+
+            safeString = false;
+
+            while (safeString == false) {
+                System.out.print("Email: ");
+                email = consoleReader.readLine();
+
+                safeString = scCheck(email);
+
+                if (safeString == false) {
+                    System.out.println("No semi-colons (;) allowed.");
+                }
+            }
+
+            while (!unique) {
+
+                System.out.print("Username: ");
+                username = consoleReader.readLine();
+
+                safeString = scCheck(username);
+
+                if (safeString == true) {
+                    unique = uniqueCheck(username);
+
+                    if (unique == false) {
+                        System.out.printf("%s is already take, try again.\n", username);
+                    }
+                } else {
+                    System.out.println("No semi-colons (;) allowed.");
+                }
+            }
+
+            safeString = false;
+
+            while (safeString == false) {
+                System.out.print("Password: ");
+                password = consoleReader.readLine();
+
+                safeString = scCheck(password);
+
+                if (safeString == false) {
+                    System.out.println("No semi-colons (;) allowed.");
+                }
+            }
 
             System.out.print("Age: ");
             age = Integer.parseInt(consoleReader.readLine());
@@ -65,6 +120,32 @@ public class RegisterScreen {
 
 
 
+    }
+
+    // Checks a string for a semicolon which would break our save file royally
+    private boolean scCheck(String stringToCheck) {
+        boolean returnVal = true;
+
+        if (stringToCheck.contains(";")) {
+            returnVal = false;
+        }
+
+        return returnVal;
+    }
+
+    // Makes sure username isn't already taken
+    private boolean uniqueCheck(String username) {
+        boolean returnVal = true;
+
+        try {
+            if (userDao.findUserByUsername(username) != null) {
+                returnVal = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return returnVal;
     }
 
 }
