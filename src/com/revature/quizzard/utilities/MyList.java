@@ -1,8 +1,10 @@
 package com.revature.quizzard.utilities;
 
-import java.util.*;
 
-public class MyList<T> implements List<T> {
+import java.util.Arrays;
+import java.util.Iterator;
+
+public class MyList<T> implements List<T>, Iterable<T> {
 
     private T[] array;
     private int numberOfElements;
@@ -42,22 +44,17 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return null;
+    public MyIterator<T> iterator() {
+        return new MyIterator<T>(array);
     }
 
     @Override
-    public Object[] toArray() {
+    public T[] toArray() {
         T[] tempArray = (T[]) new Object[numberOfElements];
         for (int i = 0; i < numberOfElements; i++) {
             tempArray[i] = array[i];
         }
-        return (T[]) tempArray;
-    }
-
-    @Override
-    public <T1> T1[] toArray(T1[] a) {
-        return null;
+        return tempArray;
     }
 
     @Override
@@ -67,33 +64,6 @@ public class MyList<T> implements List<T> {
         array[numberOfElements] = element;
         numberOfElements++;
         return true;
-    }
-
-
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends T> c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends T> c) {
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return false;
     }
 
     @Override
@@ -137,9 +107,9 @@ public class MyList<T> implements List<T> {
 
     //fix the remove function
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(T element) {
         for (int i = 0; i < numberOfElements; i++) {
-            if(o.equals(array[i]))
+            if(element.equals(array[i]))
             {
                 remove(i);
                 return true;
@@ -170,25 +140,6 @@ public class MyList<T> implements List<T> {
     }
 
     @Override
-    public int lastIndexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public ListIterator<T> listIterator() {
-        return null;
-    }
-
-    @Override
-    public ListIterator<T> listIterator(int index) {
-        return null;
-    }
-
-    @Override
-    public List<T> subList(int fromIndex, int toIndex) {
-        return null;
-    }
-
     public T at(int index)
     {
         if(index >= 0 && index < numberOfElements)

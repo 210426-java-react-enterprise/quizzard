@@ -47,11 +47,9 @@ public class UserDAO {
 
         MyList<AppUser> users = loadUserProfile();
 
-        for (int i = 0; i < users.size(); i++) {
-            if(users.at(i).getUsername().equals(username)) {
-                return users.at(i);
-            }
-//            System.out.println(user);
+        for (AppUser user : users) {
+            if(user != null && user.getUsername().equals(username))
+                return user;
         }
         return null;
     }
