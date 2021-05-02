@@ -5,9 +5,11 @@ import com.revature.quizzard.models.Prompt;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.PromptScreen;
 import com.revature.quizzard.screens.RegisterScreen;
+import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 
 public class Driver {
 
@@ -18,6 +20,9 @@ public class Driver {
     }
 
     public static void main(String[] args) {
+//        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
+//                                      "wezley.singleton@revature.com",
+//                                      "Wezley", "Singleton", 30);
 
 //        try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
 //
@@ -29,21 +34,8 @@ public class Driver {
 
 
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-//            System.out.print("Would you like to Register? (y/n)");
-//            response = consoleReader.readLine();
-//
-////            System.out.println("response "+ response.getClass().getSimpleName());
-//
-//            if(response == "y") {
-//                System.out.println("in iff");
-//
-//                RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-//                registerScreen.render();
-//                LoginScreen loginScreen = new LoginScreen(consoleReader);
-//                loginScreen.render();
-//            }
 
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+//            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
 //            registerScreen.render();
             LoginScreen loginScreen = new LoginScreen(consoleReader);
             loginScreen.render();
