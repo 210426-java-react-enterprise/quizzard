@@ -44,7 +44,7 @@ public class Driver {
 //            }
 
             RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-            registerScreen.render();
+//            registerScreen.render();
             LoginScreen loginScreen = new LoginScreen(consoleReader);
             loginScreen.render();
         } catch (Exception e) {

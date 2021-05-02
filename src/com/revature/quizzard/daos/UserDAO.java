@@ -25,6 +25,7 @@ public class UserDAO {
             for (int i = 0; i < arrOfLogin.length; i++) {
                 BufferedReader br = new BufferedReader(new FileReader("resources/users.txt"));
                 while ((line = br.readLine()) != null) {
+                    System.out.println("line " + br.readLine());
                     if (line.contains(arrOfLogin[i])) {
                         appearances++;
                         break;
