@@ -25,3 +25,7 @@ hs_err_pid*
 # IDE-specific files
 .idea/
 *.iml
+
+#Build folders
+#Target folders is what Maven makes for you
+target/
