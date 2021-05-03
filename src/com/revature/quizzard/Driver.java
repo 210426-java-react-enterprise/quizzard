@@ -6,13 +6,22 @@ import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class Driver {
 
     public static void main(String[] args) {
-        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
+        //AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
                                       "wezley.singleton@revature.com",
                                       "Wezley", "Singleton", 30);
+
+        //Welcome to the app, two selection 1) register 2) login
+        System.out.print("Welcome to Quizzard! ");
+        System.out.print("Please make a selection:");
+        System.out.print("1) Register \n 2)Login");
+        int selectionUser = 0;
+        Scanner selScan = new Scanner(System.in);
+        selectionUser = selScan.nextInt();
 
 //        newUser.toString()
 //        System.out.printf("Hello and welcome, %s! I see that you are %d years old, nice!", newUser.getUsername(), newUser.getAge());
