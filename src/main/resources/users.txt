@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-asdadasd;adadasd;dasdasdasd@dasdasd.com;adadsad;asdasdas;23
-ocastillo;p4ssw0rd;oswaldo.castillo@revature.net;Oswaldo;Castillo;39
-=======
 wsingleton;password;wezley.singleton@revature.com;Wezley;Singleton;30
 aanderson;p4ssw0rd;aanderson@revature.com;Alice;Anderson;23
->>>>>>> 170f214281d83505b04604c70b1aa32d338daf10

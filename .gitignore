@@ -26,5 +26,9 @@ hs_err_pid*
 .idea/
 *.iml
 
+<<<<<<< HEAD
 #Build folder
+=======
+# Build folders
+>>>>>>> 70794dc98f577cbba900c8c8a528ecdaf1b78c37
 target/
