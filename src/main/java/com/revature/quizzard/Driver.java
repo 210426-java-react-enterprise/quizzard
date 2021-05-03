@@ -22,6 +22,7 @@ public class Driver {
             key = consoleReader.readLine();
             switch(key){
                 case "1":
+                    //makes a new
                     RegisterScreen registerScreen = new RegisterScreen(consoleReader);
                     registerScreen.render();
                     break;
