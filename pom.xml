@@ -2,29 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-<<<<<<< HEAD
     <modelVersion>4.0.0</modelVersion>
-=======
->>>>>>> 85905ac93f677d192de3fa04dbe7dba20cab23ff
-
     <!--
-        XML = eXtensible Markup Language
-
-<<<<<<< HEAD
-            Well-formed: syntactically valid; did you open and close the tags validly
-
-                The below example is not well formed
-                <note>
-                    <to>Sean</to>
-                    <from>Wezley
-                    <heading>Example</heading></from> < because of this
-                </note>
-            Valid: well-formed and compliant with the declared schema definitions
-                + basically, you can't use tag names that the XML file is not aware of
-                +
-    -->
-
-=======
             Well-formed: syntactically valid
 
                 The below example is not well formed!
@@ -40,10 +19,6 @@
                   is compliant with the schema definition
 
     -->
-
-    <modelVersion>4.0.0</modelVersion>
-
->>>>>>> 85905ac93f677d192de3fa04dbe7dba20cab23ff
     <groupId>com.revature</groupId>
     <artifactId>quizzard</artifactId>
     <version>1.0-SNAPSHOT</version>
