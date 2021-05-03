@@ -5,7 +5,7 @@ import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
 
-public class LoginScreen {
+public class LoginScreen extends Screen {
 
 
     private UserDAO userDao = new UserDAO();
