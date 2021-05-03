@@ -1,89 +1,96 @@
 package com.revature.quizzard.util;
 
 /**
- * A simple implementation of a doubly linked-list structure that does not accept null data.
+ * A simple implementation of a doubly linked-list structure that
+ * does not accept null data.
  *
  * @param <T>
  */
+public class LinkedList<T> implements List<T> {
 
-public class LinkedList<T> implements List<T>{
+    private int size;
+    private Node<T> head;
+    private Node<T> tail;
 
-	private int size;
-	private Node<T> head;
-	private Node<T> tail;
+    @Override
+    public void add(T data) throws IllegalArgumentException {
 
-	@Override
-	public void add(T data) throws IllegalArgumentException {
+        if (data == null) {
+            throw new IllegalArgumentException("This linked list does not accept null values");
+        }
 
-		if (data == null) {
-			throw new IllegalArgumentException("This linked list does not accept null values");
-		}
+        Node<T> newNode = new Node<T>(data);
+        if (head == null) {
+            tail = head = newNode; // sets both the head and tail equal to the new node
+        } else {
+            tail.nextNode = newNode;
+            newNode.prevNode = tail;
+            tail = newNode;
+        }
 
-		Node<T> newNode = new Node<T>(data);
-		if(head == null) {
-			tail = head = newNode; // this is perfectly legal and acceptable
-		} else {
-			tail.nextNode = newNode;
-			newNode.prevNode = tail;
-			tail = newNode;
-		}
+        size++;
 
-		size++;
-	}
+    }
 
-	/**
-	 * Returns and removes the head node's data or else returns null.
-	 *
-	 * @return
-	 */
-	@Override
-	public T pop() {
-		if (head == null) {
-			return null;
-		}
+    /**
+     * Returns and removes the head node's data or else returns null.
+     *
+     * @return
+     */
+    @Override
+    public T pop() {
 
-		T soughtData = head.data;
-		head = head.nextNode;
+        if (head == null) {
+            return null;
+        }
 
-		if (head != null) {
-			head.prevNode = null;
-		} else {
-			tail = null;
-		}
+        T soughtData = head.data;
+        head = head.nextNode;
 
-		size--;
+        if (head != null) {
+            head.prevNode = null;
+        } else {
+            tail = null;
+        }
 
-		return soughtData;
-	}
+        size--;
 
-	public T get(int index) {
-		return null;
-	}
+        return soughtData;
 
-	@Override
-	public boolean contains(T data) {
-		return false;
-	}
+    }
 
-	@Override
-	public int size() {
-		return size;
-	}
+    @Override
+    public T get(int index) {
+        return null;
+    }
 
-	private static class  Node<T> {
+    @Override
+    public boolean contains(T data) {
+        return false;
+    }
 
-		T data;
-		Node<T> nextNode;
-		Node<T> prevNode;
+    @Override
+    public int size() {
+        return size;
+    }
 
-		Node(T data) {
-			this.data = data;
-		}
+    private static class Node<T> {
 
-		Node(T data, Node<T> nextNode, Node<T> prevNode) {
-			this.data = data;
-			this.nextNode = nextNode;
-			this.prevNode = prevNode;
-		}
-	}
+        T data;
+        Node<T> nextNode; // defaults to null
+        Node<T> prevNode; // defaults to null
+
+        Node(T data) {
+            this.data = data;
+        }
+
+        Node(T data, Node<T> nextNode, Node<T> prevNode) {
+            this.data = data;
+            this.nextNode = nextNode;
+            this.prevNode = prevNode;
+        }
+
+    }
+
+
 }
