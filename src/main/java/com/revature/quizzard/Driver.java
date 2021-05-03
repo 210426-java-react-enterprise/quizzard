@@ -3,16 +3,18 @@ package com.revature.quizzard;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
+import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 
 public class Driver {
 
     public static void main(String[] args) {
-        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
-                                      "wezley.singleton@revature.com",
-                                      "Wezley", "Singleton", 30);
+//        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
+//                                      "wezley.singleton@revature.com",
+//                                      "Wezley", "Singleton", 30);
 
 //        newUser.toString()
 //        System.out.printf("Hello and welcome, %s! I see that you are %d years old, nice!", newUser.getUsername(), newUser.getAge());
@@ -21,9 +23,17 @@ public class Driver {
 //        System.out.printf("Test char with digit specifier: %d", 'a');
 
         // try () {} == try-with-resources
+<<<<<<< HEAD
  /*       try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
             RegisterScreen registerScreen = new RegisterScreen(consoleReader);
             registerScreen.render();
+=======
+        try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+//            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+//            registerScreen.render();
+            LoginScreen loginScreen = new LoginScreen(consoleReader);
+            loginScreen.render();
+>>>>>>> 170f214281d83505b04604c70b1aa32d338daf10
         } catch (Exception e) {
             e.printStackTrace();
         }
