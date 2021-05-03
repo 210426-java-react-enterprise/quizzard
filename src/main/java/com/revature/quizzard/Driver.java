@@ -1,8 +1,6 @@
 package com.revature.quizzard;
 
-import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
-import com.revature.quizzard.screens.RegisterScreen;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,9 +9,10 @@ import java.util.Scanner;
 public class Driver {
 
     public static void main(String[] args) {
-        //AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
-                                      "wezley.singleton@revature.com",
-                                      "Wezley", "Singleton", 30);
+
+//        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
+//                                      "wezley.singleton@revature.com",
+//                                      "Wezley", "Singleton", 30);
 
         //Welcome to the app, two selection 1) register 2) login
         System.out.print("Welcome to Quizzard! ");
@@ -31,8 +30,11 @@ public class Driver {
 
         // try () {} == try-with-resources
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+
+//            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
+//            registerScreen.render();
             LoginScreen loginScreen = new LoginScreen(consoleReader);
-            LoginScreen.render();
+            loginScreen.render();
         } catch (Exception e) {
             e.printStackTrace();
         }
