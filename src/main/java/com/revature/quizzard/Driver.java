@@ -19,21 +19,17 @@ public class Driver {
 //        System.out.printf("Test char with digit specifier: %d", 'a');
 
         // try () {} == try-with-resources
-<<<<<<< HEAD
- /*       try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
-            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
-            registerScreen.render();
-=======
+
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
 //            RegisterScreen registerScreen = new RegisterScreen(consoleReader);
 //            registerScreen.render();
             LoginScreen loginScreen = new LoginScreen(consoleReader);
             loginScreen.render();
->>>>>>> 170f214281d83505b04604c70b1aa32d338daf10
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-*/
+
         // what we used to have to do prior to Java 7's try-with-resources
 //        finally {
 //            // this block will execute regardless of whether or not the try block code throws an
