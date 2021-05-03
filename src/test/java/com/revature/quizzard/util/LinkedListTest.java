@@ -1,8 +1,12 @@
 package com.revature.quizzard.util;
 
+import com.revature.quizzard.screens.Screen;
+
 public class LinkedListTest {
 
     private LinkedList<String> sut;
+    private LinkedList<? extends Screen> ex1; // generics with subtyping
+    private LinkedList<?> ex2; // the ? denotes wildcard
 
     public void test_add_withNull() {
 
