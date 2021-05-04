@@ -1,6 +1,8 @@
 package com.revature.quizzard.util;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class ConnectionFactory {
 
@@ -22,7 +24,17 @@ public class ConnectionFactory {
 
     public Connection getConnection() {
 
-        return null;
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(
+                    props.getProperty("host-url"),
+                    props.getProperty("username"),
+                    props.getProperty("password");
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
     }
 
 }
