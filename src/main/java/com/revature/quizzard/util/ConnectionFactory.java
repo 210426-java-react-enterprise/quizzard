@@ -1,6 +1,7 @@
 package com.revature.quizzard.util;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ConnectionFactory {
 
@@ -19,7 +20,18 @@ public class ConnectionFactory {
     }
 
     public Connection getConnection() {
-        return null;
+
+        Connection conn = null;
+
+        try{
+
+            conn = DriverManger.getConnection("afsddsa");
+
+        } catch (SQLException e) {
+
+        }
+
+        return conn;
     }
 
 }
