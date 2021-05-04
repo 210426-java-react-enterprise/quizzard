@@ -12,6 +12,11 @@ package com.revature.quizzard.models;
  */
 public class AppUser {
 
+    public AppUser() {
+        super();
+    }
+
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -109,5 +114,12 @@ public class AppUser {
         sb.append('}');
         return sb.toString();
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
