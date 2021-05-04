@@ -1,9 +1,6 @@
 package com.revature.quizzard;
 
-import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
-import com.revature.quizzard.screens.RegisterScreen;
-import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
