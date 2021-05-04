@@ -1,6 +1,7 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.util.ScreenRouter;
+import static com.revature.quizzard.Driver.app;
 
 import java.io.BufferedReader;
 
@@ -40,7 +41,7 @@ public class WelcomeScreen extends Screen {
                     System.out.println("Exiting application!");
                     // we need to figure out how to tell the app the shutdown
 //                    System.exit(0); // very bad practice; force closes the JVM
-
+                    app().setAppRunning(false);
                     break;
                 default:
                     System.out.println("Invalid selection!");
