@@ -29,5 +29,6 @@ hs_err_pid*
 # Build folders
 target/
 
-# properties files
+# Properties files
+>>>>>>> main
 *.properties
