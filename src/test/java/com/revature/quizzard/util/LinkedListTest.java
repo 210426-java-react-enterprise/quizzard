@@ -1,45 +1,72 @@
 package com.revature.quizzard.util;
 
-import com.revature.quizzard.screens.Screen;
+import org.junit.*;
 
 public class LinkedListTest {
 
-    private LinkedList<String> sut;
-    private LinkedList<? extends Screen> ex1; // generics with subtyping
-    private LinkedList<?> ex2; // the ? denotes wildcard
+	private LinkedList<String> sut;
 
-    public void test_add_withNull() {
+	@Before
+	public void setUpTest() {
+		sut = new LinkedList<>();
+	}
 
-        // Arrange test
-        sut = new LinkedList<>();
+	@After
+	public void tearDownTest() {
+		sut = null;
+	}
 
-        // Act (perform the action to be tested)
-        try {
-            sut.add(null);
-            System.err.println("Test: test_add_withNull did not pass!");
-        } catch (IllegalArgumentException e) {
-            // Assert
-            System.out.println("Test: test_add_withNull passed!");
-        }
+	@Test
+	public void test_addWithNonNullValue() {
+		// Arrange (prepare the test)
+		int expectedSize = 1;
 
-    }
+		//Act (perform the test)
+		sut.add("data");
 
-    public void test_add_withNonNullValue() {
+		//Assert (ensure results)
+		int actualSize = sut.size();
+		Assert.assertEquals(expectedSize, actualSize);
+	}
 
-        // Arrange (set up the test)
-        sut = new LinkedList<>();
+	@Test(expected = IllegalArgumentException.class)
+	public void test_addWithNullValue() {
+		// Arrange
+		// sometimes blank if there's nothing in particular to do
 
-        // Act (do the test)
-        sut.add("not null!!");
+		// Act
+		sut.add(null);
 
-        // Assert (verify outcomes)
-        if (sut.size() == 2) {
-            System.out.println("Test: test_add_withNonNullValue passed!");
-        } else {
-            System.out.println("Test: test_add_withNonNullValue did not pass!");
-        }
+		// Assert
+		// sometimes blank, especially if you expect an exception to be thrown
+	}
 
-        assert sut.size() == 2;
+	@Test
+	public void test_popWithEmptyList() {
+		// Arrange
+		// Nothing to do here...
 
-    }
+		// Act
+		String actualResult = sut.pop();
+
+		// Assert
+		Assert.assertNull(actualResult);
+	}
+
+	@Test
+	public void test_popWithPopulatedList() {
+		// Arrange
+		sut.add("test data 1");
+		sut.add("test data 2");
+		String expectedResult = "test data 1";
+		int expectedSize = 1;
+
+		// Act
+		String actualResult = sut.pop();
+		int actualSize = sut.size();
+
+		// Assert
+		Assert.assertEquals(expectedResult, actualResult);
+		Assert.assertEquals(expectedSize, actualSize);
+	}
 }
