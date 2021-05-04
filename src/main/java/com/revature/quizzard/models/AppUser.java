@@ -18,6 +18,11 @@ public class AppUser {
     private String firstName; // variables should be in camelCase
     private String lastName;
     private int age;
+    private int id;
+
+    public AppUser(){
+        super();
+    }
 
     public AppUser(String username, String password, String email, String firstName, String lastName, int age) {
         System.out.println("AppUser constructor invoked!");
@@ -27,6 +32,7 @@ public class AppUser {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -109,5 +115,11 @@ public class AppUser {
         sb.append('}');
         return sb.toString();
     }
-    
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
+    }
 }
