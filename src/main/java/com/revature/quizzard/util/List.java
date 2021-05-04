@@ -1,23 +1,34 @@
 package com.revature.quizzard.util;
 
-public interface List<T> extends Collection<T> {
+public interface List<T> {
 
+    // interfaces do not have constructors!
+
+    // all fields declared within interfaces are implicitly
+    // public, static, and final
+
+    // all method stubs declared within interfaces are implicitly
+    // public and abstract
+    void add(T data);
+    T pop();
     T get(int index);
+    boolean contains(T data);
+    int size();
 
-    /*
-        Interfaces
-            - act as a contract for implementing classes (all concrete implementations must
-              implement all abstract methods!)
+    // interfaces can have methods with implementations
+    // in the form of either static or default methods
 
-            - do no have constructors
+    // static methods cannot be overridden (but you can shadow it)
+    static void staticMethod() {
+        System.out.println("This is a static method declared within an interface");
+    }
 
-            - all fields declared within are implicitly public, static, and final
+    // since Java 8 you can declare default methods
+    // which provide a, well, default implementation
+    // but can be overridden by lower level classes
+    default void defaultMethod() {
+        System.out.println("This is a default method, it can be overridden!");
+    }
 
-            - all method stubs declared within are implicitly public and abstract
-
-            - methods with implementations are permitted in two ways: static and default methods
-                + static methods cannot be overridden by implementing classes (but can be redeclared/shadowed)
-                + default methods can be overridden by implementing classes (introduced in Java 8)
-     */
 
 }
