@@ -1,5 +1,7 @@
 package com.revature.quizzard.util;
 
+import java.util.ArrayList;
+
 /**
  * A simple implementation of a doubly linked-list structure that
  * does not accept null data.
@@ -25,17 +27,6 @@ public class LinkedList<T> implements List<T> {
         } else {
             tail.nextNode = newNode;
             newNode.prevNode = tail;
-            tail = newNode;
-        }
-
-        size++;
-
-    }
-
-    /**
-     * Returns and removes the head node's data or else returns null.
-     *
-     * @return
      */
     @Override
     public T pop() {
@@ -75,7 +66,7 @@ public class LinkedList<T> implements List<T> {
     }
 
     private static class Node<T> {
-
+        ArrayList array= new ArrayList();
         T data;
         Node<T> nextNode; // defaults to null
         Node<T> prevNode; // defaults to null
@@ -93,3 +84,4 @@ public class LinkedList<T> implements List<T> {
     }
 
 }
+
