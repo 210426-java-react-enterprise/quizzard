@@ -9,7 +9,7 @@ public class UserDAO {
     String userDataFile;
 
     public UserDAO() {
-        userDataFile = "resources/users.txt";
+        userDataFile = "src/main/resources/users.txt";
     }
 
     public void saveUserToFile(AppUser newUser) {

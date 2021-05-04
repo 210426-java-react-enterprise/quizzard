@@ -67,7 +67,9 @@ public class LinkedList<T> implements List<T> {
         }
 
         Node<T> runner = head;
-        for (int i = 0; i <= size; i++) {
+
+        for (int i = 0; i < size; i++) {
+
             if (i == index) {
                 return runner.data;
             }

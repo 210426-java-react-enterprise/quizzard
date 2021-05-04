@@ -4,7 +4,9 @@ import java.sql.Connection;
 
 public class ConnectionFactory {
 
-    private static ConnectionFactory connectionFactory = new ConnectionFactory();
+
+    private static ConnectionFactory connectionFactory;
+
 
     private ConnectionFactory() {
 
@@ -22,4 +24,5 @@ public class ConnectionFactory {
 
         return null;
     }
+
 }
