@@ -12,12 +12,17 @@ package com.revature.quizzard.models;
  */
 public class AppUser {
 
+    private int id;
     private String username;
     private String password;
     private String email;
     private String firstName; // variables should be in camelCase
     private String lastName;
     private int age;
+
+    public AppUser() {
+        super();
+    }
 
     public AppUser(String username, String password, String email, String firstName, String lastName, int age) {
         System.out.println("AppUser constructor invoked!");
@@ -27,6 +32,14 @@ public class AppUser {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
