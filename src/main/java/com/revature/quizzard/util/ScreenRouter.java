@@ -10,7 +10,7 @@ public class ScreenRouter {
         screens.add(screen);
         return this;
     }
-//This is a test.
+
     public void navigate(String route) {
         for (int i = 0; i < screens.size(); i++) {
             Screen screen = screens.get(i);
