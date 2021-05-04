@@ -7,7 +7,7 @@ import java.io.*;
 public class UserDAO {
     String userData;
     public UserDAO(){
-        userData = "resources/users.txt";
+        userData = "src/main/resources/users.txt";
     }
 
     public void saveUserToFile(AppUser newUser) {

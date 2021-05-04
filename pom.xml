@@ -14,10 +14,10 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artiffact/junit/junit-->
+        <!-- https://mvnrepository.com/artiffact/junit/junit -->
         <dependency>
-            <groupId>junit-doclet</groupId>
-            <artifactId>junit-doclet</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>

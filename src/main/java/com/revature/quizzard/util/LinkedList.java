@@ -33,17 +33,19 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        T soughtData;
-        if (index == 0){
-            return soughtData = head.data;
-        }else if(index == size-1){
-            return soughtData = tail.data;
+        if (index < 0 || index > size){
+            throw new IllegalArgumentException("Index is out of bounds");
         }
-        for (int i = 0; i < index ; i++) {
-            head = head.nextNode;
+        Node<T> runner = head;
+        for (int i = 0; i < size; i++) {
+            if (i == index){
+                return runner.data;
+            }
+            runner = runner.nextNode;
         }
-        return soughtData = head.data;
+        return null;
     }
+
     public T pop(){
         if (head == null){
             return null;
