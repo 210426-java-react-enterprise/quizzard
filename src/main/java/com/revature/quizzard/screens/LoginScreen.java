@@ -5,14 +5,15 @@ import com.revature.quizzard.models.AppUser;
 import java.io.BufferedReader;
 import com.revature.quizzard.models.AppUser;
 
-public class LoginScreen {
+public class LoginScreen extends Screen{
 
     private BufferedReader consoleReader;
     public LoginScreen(BufferedReader consoleReader) {
+        super("RegisterScreen", "/register");
         this.consoleReader = consoleReader;
     }
 
-    public AppUser render() {
+    public /*AppUser*/void render() {//with void return, will need to change this later
         String username;
         String password;
 
@@ -28,7 +29,7 @@ public class LoginScreen {
             password = consoleReader.readLine();
 
             AppUser loginUser = new AppUser(username, password);
-            return loginUser;
+            //return loginUser;
 
             
         } catch (Exception e) {
@@ -36,6 +37,6 @@ public class LoginScreen {
             // should be logged to a file in a production environment
         }
 
-        return null;
+        //return null;
     }
 }

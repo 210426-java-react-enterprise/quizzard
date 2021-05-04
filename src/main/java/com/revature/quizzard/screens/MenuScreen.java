@@ -20,7 +20,7 @@ public class MenuScreen {
             while(true) {
                 String menuChoice;
                 Integer intChoice = null;
-                System.out.print("1 to register.\n2 to log in.\n");
+                System.out.print("1 to register.\n2 to log in.\n3 to connect to DB.\n");
                 menuChoice = consoleReader.readLine();
                 try {
                     intChoice = Integer.parseInt(menuChoice);

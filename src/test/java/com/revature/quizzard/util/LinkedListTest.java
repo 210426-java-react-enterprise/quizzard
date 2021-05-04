@@ -1,28 +1,42 @@
 package com.revature.quizzard.util;
 
-public class LinkedListTest {
+import org.junit.*;
 
+public class LinkedListTest {
     private LinkedList<String> sut;
 
-    //to test:
-    //arrange (set up test)
-    //act (do the test)
-    //assert (verify outcome)
-
-    public void test_add_withNull () {
-        //arrange
-        //act
-        //assert
+    @Before
+    public void setUpTest() {
+        sut = new LinkedList<String>();
     }
 
-    public void test_add_withValue () {
+    @After
+    public void tearDownTest() {
+        sut = null;
+    }
+
+    @Test
+    public void test_addWithNonNullValue() {
+        //arrange (prepare the test)
+        int expectedSize = 1;
+
+        //act (do the test)
+        sut.add("Something");
+
+        //assert (ensue the results)
+        int actualSize = sut.size();
+        Assert.assertEquals(expectedSize, actualSize);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_addWithNullValue() {
         //arrange
-        sut = new LinkedList<>();
+        //nothing to do here
 
         //act
-        sut.add("test");
+        sut.add(null);
 
         //assert
-
+        //blank here too, we are testing the thrown exception.
     }
 }

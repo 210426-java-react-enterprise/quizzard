@@ -26,7 +26,21 @@ public class LinkedList<T> implements List<T>{
 
     @Override
     public T get(int index) {
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("Index out of bounds");
+        }
 
+//        if (index == 0) {
+//            return head.data;
+//        }
+//
+        Node<T> runner = head;
+        for (int i = 0; i < size; i++) {
+            if (i == index) {
+                return runner.data;
+            }
+            runner = runner.next;
+        }
         return null;
     }
 
