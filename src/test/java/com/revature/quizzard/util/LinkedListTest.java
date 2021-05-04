@@ -42,19 +42,19 @@ public class LinkedListTest {
     }
 
     @Test
-    public void test_popWithEmptyList() {
+    public void test_pollWithEmptyList() {
         // Arrange
         // nothing to do here...
 
         // Act
-        String actualResult = sut.pop();
+        String actualResult = sut.poll();
 
         // Assert
         Assert.assertNull(actualResult);
     }
 
     @Test
-    public void test_popWithPopulatedList() {
+    public void test_pollWithPopulatedList() {
         // Arrange
         sut.add("test data 1");
         sut.add("test data 2");
@@ -62,12 +62,36 @@ public class LinkedListTest {
         int expectedSize = 1;
 
         // Act
-        String actualResult = sut.pop();
+        String actualResult = sut.poll();
 
         // Assert
         int actualSize = sut.size();
         Assert.assertEquals(expectedResult, actualResult);
         Assert.assertEquals(expectedSize, actualSize);
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_peekWithEmptyList() {
+
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_peekWithPopulatedList() {
+
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_containsWithEmptyList() {
+
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_containsWithPopulatedList() {
+
     }
 
 
