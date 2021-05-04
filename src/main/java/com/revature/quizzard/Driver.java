@@ -3,6 +3,7 @@ package com.revature.quizzard;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
+import com.revature.quizzard.util.AppState;
 import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
@@ -10,7 +11,14 @@ import java.io.InputStreamReader;
 
 public class Driver {
 
+    private static AppState app = new AppState();
+
     public static void main(String[] args) {
+
+        while(app.isAppRunning()){
+            app.getRouter().navigate("/welcome");
+        }
+        /*
 //        AppUser newUser = new AppUser("wsingleton", "p4ssw0rd",
 //                                      "wezley.singleton@revature.com",
 //                                      "Wezley", "Singleton", 30);
@@ -42,7 +50,13 @@ public class Driver {
 //            }
 //        }
 
+         */
 
+
+    }
+
+    public static AppState app(){
+        return app;
     }
 
 }

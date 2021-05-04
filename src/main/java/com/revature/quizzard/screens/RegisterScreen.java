@@ -5,13 +5,16 @@ import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
 
-public class RegisterScreen {
+public class RegisterScreen extends Screen {
 
     private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
     private BufferedReader consoleReader;
 
     public RegisterScreen(BufferedReader consoleReader) {
+
+        super("RegisterScreen", "/register");
         this.consoleReader = consoleReader;
+
     }
 
     public void render() {
