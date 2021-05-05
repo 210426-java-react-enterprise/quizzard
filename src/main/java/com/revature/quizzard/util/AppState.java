@@ -10,24 +10,32 @@ import java.io.InputStreamReader;
 
 public class AppState {
 
-    private BufferedReader consoleReader;
-    private ScreenRouter router;
+    private MyBufferedReader consoleReader = MyBufferedReader.getInstance();
+    private ScreenRouter router = ScreenRouter.getInstance();
     private boolean appRunning;
+    private static AppState instance;
+    private WelcomeScreen welcomeScreen = WelcomeScreen.getInstance();
+    private LoginScreen loginScreen = LoginScreen.getInstance();
+    private RegisterScreen registerScreen = RegisterScreen.getInstance();
 
-    public AppState() {
+    private AppState() {
         System.out.println("Initializing application...");
-
         appRunning = true;
-        consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        final UserDAO userDao = new UserDAO();
-
-        router = new ScreenRouter();
-        router.addScreen(new WelcomeScreen(consoleReader, router))
-              .addScreen(new LoginScreen(consoleReader))
-              .addScreen(new RegisterScreen(consoleReader));
+        router.addScreen(welcomeScreen);
+        router.addScreen(loginScreen);
+        router.addScreen(registerScreen);
 
         System.out.println("Application initialized!");
+    }
+
+    public static AppState getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new AppState();
+        }
+        return instance;
     }
 
     public ScreenRouter getRouter() {

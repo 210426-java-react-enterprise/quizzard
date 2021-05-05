@@ -4,11 +4,24 @@ import com.revature.quizzard.screens.Screen;
 
 public class ScreenRouter {
 
-    private LinkedList<Screen> screens = new LinkedList<>();
+    private LinkedList<Screen> screens;
+    private static ScreenRouter instance;
 
-    public ScreenRouter addScreen(Screen screen) {
+    private ScreenRouter()
+    {
+        screens = new LinkedList<>();
+    }
+    public void addScreen(Screen screen) {
         screens.add(screen);
-        return this;
+    }
+
+    public static ScreenRouter getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new ScreenRouter();
+        }
+        return instance;
     }
 
     public void navigate(String route) {

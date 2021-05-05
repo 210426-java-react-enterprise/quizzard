@@ -2,17 +2,29 @@ package com.revature.quizzard.screens;
 
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.util.MyBufferedReader;
 
 import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen {
 
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
-    private BufferedReader consoleReader;
+    private UserDAO userDao;
+    private MyBufferedReader consoleReader;
+    private static RegisterScreen instance;
 
-    public RegisterScreen(BufferedReader consoleReader) {
+    private RegisterScreen() {
         super("RegisterScreen", "/register");
-        this.consoleReader = consoleReader;
+        this.consoleReader = MyBufferedReader.getInstance();
+        this.userDao = UserDAO.getInstance();
+    }
+
+    public static RegisterScreen getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new RegisterScreen();
+        }
+        return instance;
     }
 
     public void render() {

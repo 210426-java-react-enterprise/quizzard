@@ -4,8 +4,9 @@ public abstract class Screen {
 
     protected String name;
     protected String route;
+    private static Screen screen;
 
-    public Screen(String name, String route) {
+    protected Screen(String name, String route) {
         this.name = name;
         this.route = route;
     }

@@ -1,19 +1,33 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.util.AppState;
+import com.revature.quizzard.util.MyBufferedReader;
 import com.revature.quizzard.util.ScreenRouter;
-import static com.revature.quizzard.Driver.app;
+//import static com.revature.quizzard.Driver.app;
 
 import java.io.BufferedReader;
 
 public class WelcomeScreen extends Screen {
 
-    private BufferedReader consoleReader;
+    private MyBufferedReader consoleReader;
     private ScreenRouter router;
+    private static WelcomeScreen instance;
+    //private AppState app;
 
-    public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) {
+    private WelcomeScreen() {
         super("WelcomeScreen", "/welcome");
-        this.consoleReader = consoleReader;
-        this.router = router;
+        this.consoleReader = MyBufferedReader.getInstance();
+        this.router = ScreenRouter.getInstance();
+        //this.app = AppState.getInstance();
+    }
+
+    public static WelcomeScreen getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new WelcomeScreen();
+        }
+        return instance;
     }
 
     @Override
@@ -41,7 +55,7 @@ public class WelcomeScreen extends Screen {
                     System.out.println("Exiting application!");
                     // we need to figure out how to tell the app the shutdown
 //                    System.exit(0); // very bad practice; force closes the JVM
-                    app().setAppRunning(false);
+                    AppState.getInstance().setAppRunning(false);
                     break;
                 default:
                     System.out.println("Invalid selection!");
