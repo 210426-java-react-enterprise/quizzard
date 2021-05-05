@@ -12,6 +12,7 @@ package com.revature.quizzard.models;
  */
 public class AppUser {
 
+    private int Id;
     private String username;
     private String password;
     private String email;
@@ -19,6 +20,9 @@ public class AppUser {
     private String lastName;
     private int age;
 
+    public AppUser(){
+
+    }
     public AppUser(String username, String password, String email, String firstName, String lastName, int age) {
         System.out.println("AppUser constructor invoked!");
         this.username = username;
@@ -84,7 +88,15 @@ public class AppUser {
         return String.format("%s;%s;%s;%s;%s;%d", username, password, email, firstName, lastName, age);
     }
 
-//    @Override
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "AppUser{" +
 //                "username='" + username + '\'' +
