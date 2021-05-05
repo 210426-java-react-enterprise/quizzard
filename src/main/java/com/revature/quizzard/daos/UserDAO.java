@@ -23,16 +23,33 @@ public class UserDAO {
         if (instance == null)
         {
             instance = new UserDAO();
-            return instance;
-        } else
-        {
-            return instance;
         }
+        return instance;
     }
 
     // TODO (Associate task) Implement me!
     public void save(AppUser newUser) {
 
+        try(Connection connection = ConnectionFactory.getInstance().getConnection())
+        {
+            String sql =    "insert into quizzard.users (username, password, first_name, last_name, email, age) " +
+                                                "values (?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, newUser.getUsername());
+            preparedStatement.setString(2, newUser.getPassword());
+            preparedStatement.setString(3, newUser.getFirstName());
+            preparedStatement.setString(4, newUser.getLastName());
+            preparedStatement.setString(5, newUser.getEmail());
+            preparedStatement.setInt(6, newUser.getAge());
+
+            int serverUpdate = preparedStatement.executeUpdate();
+            if (serverUpdate == 0) throw new SQLException("UserDAO.save(AppUser), preparedStatement.executeUpdate() returned 0 rows affected!");
+            System.out.println("Rows effected: " + serverUpdate);
+
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public AppUser findUserByUsernameAndPassword(String username, String password) {

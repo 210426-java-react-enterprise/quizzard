@@ -1,12 +1,8 @@
 package com.revature.quizzard.util;
 
-import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 public class AppState {
 

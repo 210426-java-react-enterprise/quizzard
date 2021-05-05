@@ -4,8 +4,6 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.MyBufferedReader;
 
-import java.io.BufferedReader;
-
 public class RegisterScreen extends Screen {
 
     private UserDAO userDao;
