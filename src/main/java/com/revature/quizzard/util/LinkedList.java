@@ -6,7 +6,7 @@ package com.revature.quizzard.util;
  *
  * @param <T>
  */
-public class LinkedList<T> implements List<T> {
+public class LinkedList<T> implements List<T>, Queue<T> {
 
     private int size;
     private Node<T> head;
@@ -38,7 +38,7 @@ public class LinkedList<T> implements List<T> {
      * @return
      */
     @Override
-    public T pop() {
+    public T poll() {
 
         if (head == null) {
             return null;
@@ -59,29 +59,37 @@ public class LinkedList<T> implements List<T> {
 
     }
 
+    // TODO: (Associate task) implement this method!
+    @Override
+    public T peek() {
+        return null;
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Override
+    public T remove(T data) {
+        return null;
+    }
+
     @Override
     public T get(int index) {
 
-        if (index > 0 || index > size) {
-            throw new IllegalArgumentException("The provided index would be out of bounds");
+        if (index < 0 || index > size) {
+            throw new IllegalArgumentException("The provided index would be out of bounds.");
         }
 
-        if (index == 0) {
-            return head.data;
-        }
-
-        Node<T> counter = head;
+        Node<T> runner = head;
         for (int i = 0; i < size; i++) {
             if (i == index) {
-                return counter.data;
-            } else {
-                counter = counter.nextNode;
+                return runner.data;
             }
+            runner = runner.nextNode;
         }
 
         return null;
     }
 
+    // TODO: (Associate task) implement this method!
     @Override
     public boolean contains(T data) {
         return false;

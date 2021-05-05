@@ -10,39 +10,36 @@ import java.io.InputStreamReader;
 
 public class AppState {
 
-	private BufferedReader consoleReader;
-	private ScreenRouter router;
-	private boolean appRunning;
+    private BufferedReader consoleReader;
+    private ScreenRouter router;
+    private boolean appRunning;
 
-	public AppState() {
-		System.out.println("Initializing application...");
+    public AppState() {
+        System.out.println("Initializing application...");
 
-		this.appRunning = true;
-		this.consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        appRunning = true;
+        consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-		final UserDAO userDao = new UserDAO();
+        final UserDAO userDao = new UserDAO();
 
-		router = new ScreenRouter();
-		router.addScreen(new WelcomeScreen(consoleReader, router))
-			  .addScreen(new LoginScreen(consoleReader))
-			  .addScreen(new RegisterScreen(consoleReader));
+        router = new ScreenRouter();
+        router.addScreen(new WelcomeScreen(consoleReader, router))
+              .addScreen(new LoginScreen(consoleReader))
+              .addScreen(new RegisterScreen(consoleReader));
 
-		System.out.println("Application initialized!");
-	}
+        System.out.println("Application initialized!");
+    }
 
-	public BufferedReader getConsoleReader() {
-		return consoleReader;
-	}
+    public ScreenRouter getRouter() {
+        return router;
+    }
 
-	public ScreenRouter getRouter() {
-		return router;
-	}
+    public boolean isAppRunning() {
+        return appRunning;
+    }
 
-	public boolean isAppRunning() {
-		return appRunning;
-	}
+    public void setAppRunning(boolean appRunning) {
+        this.appRunning = appRunning;
+    }
 
-	public void setAppRunning(boolean isAppRunning) {
-		appRunning = isAppRunning;
-	}
 }

@@ -11,7 +11,8 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    // TODO
+    // TODO (Associate task) Implement me!
+
     public void save(AppUser newUser) {
 
     }
@@ -20,9 +21,10 @@ public class UserDAO {
 
         AppUser user = null;
 
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            String sql = "SELECT * FROM users WHERE username = ? and password = ?";
+            String sql = "select * from quizzard.users where username = ? and password = ?";
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -38,10 +40,12 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setAge(rs.getInt("age"));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return user;
 
     }
 
