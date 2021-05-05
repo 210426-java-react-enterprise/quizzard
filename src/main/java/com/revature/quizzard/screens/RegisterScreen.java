@@ -11,6 +11,7 @@ public class RegisterScreen extends Screen {
     private BufferedReader consoleReader;
 
     public RegisterScreen(BufferedReader consoleReader) {
+        super("RegisterScreen", "/register");
         this.consoleReader = consoleReader;
     }
 
@@ -52,7 +53,7 @@ public class RegisterScreen extends Screen {
             age = Integer.parseInt(consoleReader.readLine());
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
-            userDao.saveUserToFile(newUser);
+            userDao.save(newUser);
 
         } catch (NumberFormatException nfe) {
             // do something about these!

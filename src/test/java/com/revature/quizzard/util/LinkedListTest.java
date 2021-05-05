@@ -1,6 +1,7 @@
 package com.revature.quizzard.util;
 
 import com.revature.quizzard.util.LinkedList;
+import org.junit.Test;
 
 public class LinkedListTest {
 
@@ -22,22 +23,59 @@ public class LinkedListTest {
 
     }
 
-    public void test_add_withNonNullValue() {
 
-        // Arrange (set up the test)
-        sut = new LinkedList<>();
+    @Test
+    public void test_pollWithEmptyList() {
+        // Arrange
+        // nothing to do here...
+
+        // Act
+        String actualResult = sut.poll();
+
 
         // Act (do the test)
         sut.add("not null!!");
 
-        // Assert (verify outcomes)
-        if (sut.size() == 2) {
-            System.out.println("Test: test_add_withNonNullValue passed!");
-        } else {
-            System.out.println("Test: test_add_withNonNullValue did not pass!");
-        }
+    /*
+    @Test
+    public void test_pollWithPopulatedList(){
+        // Arrange
+        sut.add("test data 1");
+        sut.add("test data 2");
+        String expectedResult = "test data 1";
+        int expectedSize = 1;
 
-        assert sut.size() == 2;
+        // Act
+        String actualResult = sut.poll();
 
+        //Asert
+    }
+
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_peekWithEmptyList() {
+
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_peekWithPopulatedList() {
+
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_containsWithEmptyList() {
+
+    }
+
+    // TODO: (Associate task) implement this method!
+    @Test
+    public void test_containsWithPopulatedList() {
+
+    }
+
+*/
     }
 }

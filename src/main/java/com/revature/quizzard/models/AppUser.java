@@ -12,6 +12,7 @@ package com.revature.quizzard.models;
  */
 public class AppUser {
 
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -20,7 +21,8 @@ public class AppUser {
     private int age;
 
 
-    public AppUser(){
+    public AppUser() {
+        super();
 
     }
 
@@ -32,6 +34,14 @@ public class AppUser {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
