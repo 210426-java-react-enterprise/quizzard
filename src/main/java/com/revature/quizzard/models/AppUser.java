@@ -113,7 +113,8 @@ public class AppUser {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("AppUser{");
-        sb.append("username='").append(username).append('\'');
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
@@ -122,5 +123,4 @@ public class AppUser {
         sb.append('}');
         return sb.toString();
     }
-    
 }

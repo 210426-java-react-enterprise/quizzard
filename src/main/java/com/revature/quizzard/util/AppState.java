@@ -4,6 +4,7 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
+import com.revature.quizzard.services.UserService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,11 +22,12 @@ public class AppState {
         consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
         final UserDAO userDao = new UserDAO();
+        final UserService userService = new UserService(userDao);
 
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(consoleReader, router))
-              .addScreen(new LoginScreen(consoleReader))
-              .addScreen(new RegisterScreen(consoleReader));
+              .addScreen(new LoginScreen(consoleReader, router))
+              .addScreen(new RegisterScreen(consoleReader, userService));
 
         System.out.println("Application initialized!");
     }

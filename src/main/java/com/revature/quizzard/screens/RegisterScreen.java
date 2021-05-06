@@ -1,18 +1,22 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.services.UserService;
 
 import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen {
 
-    private UserDAO userDao = new UserDAO(); // ok for now, but actually gross -- fix later
+    private UserService userService;
     private BufferedReader consoleReader;
 
-    public RegisterScreen(BufferedReader consoleReader) {
+    public RegisterScreen(BufferedReader consoleReader, UserService userService) {
         super("RegisterScreen", "/register");
         this.consoleReader = consoleReader;
+        this.userService = userService;
     }
 
     public void render() {
@@ -53,12 +57,14 @@ public class RegisterScreen extends Screen {
             age = Integer.parseInt(consoleReader.readLine());
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
-            userDao.save(newUser);
+            userService.register(newUser);
 
         } catch (NumberFormatException nfe) {
             // do something about these!
             System.err.println("You provided an incorrect value for your age! Please try again!");
             this.render(); // this breaks some stuff! we will need to fix this
+        } catch (InvalidRequestException | ResourcePersistenceException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
