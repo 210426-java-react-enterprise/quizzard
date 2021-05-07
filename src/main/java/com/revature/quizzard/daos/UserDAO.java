@@ -27,7 +27,7 @@ public class UserDAO {
         return instance;
     }
 
-    // TODO (Associate task) Implement me!
+
     public void save(AppUser newUser) {
 
         try(Connection connection = ConnectionFactory.getInstance().getConnection())

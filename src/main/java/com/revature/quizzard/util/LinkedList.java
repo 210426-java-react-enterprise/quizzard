@@ -11,6 +11,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
     private int size;
     private Node<T> head;
     private Node<T> tail;
+    private Node<T> current;
 
     @Override
     public void add(T data) throws IllegalArgumentException {
@@ -21,15 +22,13 @@ public class LinkedList<T> implements List<T>, Queue<T> {
 
         Node<T> newNode = new Node<T>(data);
         if (head == null) {
-            tail = head = newNode; // sets both the head and tail equal to the new node
+            tail = head = current = newNode; // sets both the head and tail equal to the new node
         } else {
             tail.nextNode = newNode;
             newNode.prevNode = tail;
-            tail = newNode;
+            tail = current = newNode;
         }
-
         size++;
-
     }
 
     /**
@@ -52,7 +51,6 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         } else {
             tail = null;
         }
-
         size--;
 
         return soughtData;
@@ -62,12 +60,13 @@ public class LinkedList<T> implements List<T>, Queue<T> {
     // TODO: (Associate task) implement this method!
     @Override
     public T peek() {
-        return null;
+        return current.data;
     }
 
     // TODO: (Associate task) implement this method!
     @Override
     public T remove(T data) {
+
         return null;
     }
 
@@ -81,6 +80,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         Node<T> runner = head;
         for (int i = 0; i < size; i++) {
             if (i == index) {
+                current = runner;
                 return runner.data;
             }
             runner = runner.nextNode;
