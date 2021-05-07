@@ -13,7 +13,7 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public void register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
+    public AppUser register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
 
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Invalid new user data provided!");
@@ -27,7 +27,7 @@ public class UserService {
             throw new ResourcePersistenceException("The provided email is already taken!");
         }
 
-        userDao.save(newUser);
+        return userDao.save(newUser);
 
     }
 

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class UserDAO {
 
     // TODO (Associate task) Implement me!
-    public void save(AppUser newUser) {
+    public AppUser save(AppUser newUser) {
 
         try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -36,6 +36,8 @@ public class UserDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        return newUser;
     }
 
     public boolean isUsernameAvailable(String username) {

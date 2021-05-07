@@ -34,6 +34,11 @@ public class AppUser {
         this.age = age;
     }
 
+    public AppUser(int id, String username, String password, String email, String firstName, String lastName, int age) {
+        this(username, password, email, firstName, lastName, age);
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
