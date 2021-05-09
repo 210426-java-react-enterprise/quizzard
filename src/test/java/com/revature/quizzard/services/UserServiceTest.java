@@ -7,7 +7,6 @@ import com.revature.quizzard.models.AppUser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -34,17 +33,13 @@ public class UserServiceTest {
     public void test_registerWithValidUserAndAvailableUsernameAndPassword() {
 
         // Arrange
-        AppUser validUser = new AppUser(0, "un", "pw", "email", "fn", "ln", 18);
-        AppUser expectedResult = new AppUser(1, "un", "pw", "email", "fn", "ln", 18);
         when(mockUserDao.isUsernameAvailable(anyString())).thenReturn(true);
         when(mockUserDao.isEmailAvailable(anyString())).thenReturn(true);
-        when(mockUserDao.save(validUser)).thenReturn(expectedResult);
 
         // Act
-        AppUser actualResult = sut.register(validUser);
+        sut.register(new AppUser(0, "un", "pw", "email", "fn", "ln", 18));
 
         // Assert
-        assertEquals(expectedResult, actualResult);
         verify(mockUserDao, times(1)).isUsernameAvailable(anyString());
         verify(mockUserDao, times(1)).isEmailAvailable(anyString());
         verify(mockUserDao, times(1)).save(any());

@@ -1,5 +1,6 @@
 package com.revature.quizzard.util;
 
+import com.revature.quizzard.util.structures.LinkedList;
 import org.junit.*;
 
 public class LinkedListTest {

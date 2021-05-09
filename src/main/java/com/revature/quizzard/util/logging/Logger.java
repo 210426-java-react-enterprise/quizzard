@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static com.revature.quizzard.Driver.app;
+
 public class Logger {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -19,9 +21,16 @@ public class Logger {
         this.printToConsole = printToConsole;
     }
 
-    public static Logger getLogger(boolean printToConsole) {
+    public static Logger getLogger() {
         if (logger == null) {
-            logger = new Logger(printToConsole);
+            logger = new Logger(app().loggingToConsole());
+        }
+        return logger;
+    }
+
+    public static Logger getLogger(boolean loggingToConsole) {
+        if (logger == null) {
+            logger = new Logger(loggingToConsole);
         }
         return logger;
     }

@@ -5,43 +5,51 @@ import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class AppState {
 
-    private BufferedReader consoleReader;
-    private ScreenRouter router;
+    private final Logger logger;
+    private final ScreenRouter router;
     private boolean appRunning;
+    private final boolean loggingToConsole;
 
-    public AppState() {
-        System.out.println("Initializing application...");
+    public AppState(boolean loggingToConsole) {
+        logger = Logger.getLogger(loggingToConsole);
+        logger.info("Initializing application");
 
+        this.loggingToConsole = loggingToConsole;
         appRunning = true;
-        consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
+        final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
         final UserDAO userDao = new UserDAO();
         final UserService userService = new UserService(userDao);
 
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(consoleReader, router))
-              .addScreen(new LoginScreen(consoleReader, router))
+              .addScreen(new LoginScreen(consoleReader, router, userService))
               .addScreen(new RegisterScreen(consoleReader, userService));
 
-        System.out.println("Application initialized!");
+        logger.info("Application initialized");
     }
 
-    public ScreenRouter getRouter() {
-        return router;
+    public boolean loggingToConsole() {
+        return loggingToConsole;
     }
 
-    public boolean isAppRunning() {
-        return appRunning;
+    public void startup() {
+        while (appRunning) {
+            logger.info("Navigating to welcome screen");
+            router.navigate("/welcome");
+        }
     }
 
-    public void setAppRunning(boolean appRunning) {
-        this.appRunning = appRunning;
+    public void shutdown() {
+        logger.info("Shutting down application");
+        this.appRunning = false;
     }
 
 }

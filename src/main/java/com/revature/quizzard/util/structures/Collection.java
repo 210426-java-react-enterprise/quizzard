@@ -1,4 +1,4 @@
-package com.revature.quizzard.util;
+package com.revature.quizzard.util.structures;
 
 public interface Collection<T> {
 
