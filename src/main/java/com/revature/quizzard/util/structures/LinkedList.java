@@ -1,4 +1,4 @@
-package com.revature.quizzard.util;
+package com.revature.quizzard.util.structures;
 
 /**
  * A simple implementation of a doubly linked-list structure that

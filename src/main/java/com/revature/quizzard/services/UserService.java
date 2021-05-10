@@ -1,6 +1,7 @@
 package com.revature.quizzard.services;
 
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
@@ -13,7 +14,20 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public AppUser register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
+    public AppUser authenticate(String username, String password) {
+
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            throw new InvalidRequestException("Invalid credential values provided!");
+        }
+
+        AppUser user = userDao.findUserByUsernameAndPassword(username, password);
+        if (user == null) {
+            throw new AuthenticationException();
+        }
+        return user;
+    }
+
+    public void register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
 
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Invalid new user data provided!");
@@ -27,7 +41,7 @@ public class UserService {
             throw new ResourcePersistenceException("The provided email is already taken!");
         }
 
-        return userDao.save(newUser);
+        userDao.save(newUser);
 
     }
 
@@ -38,9 +52,7 @@ public class UserService {
         if (user.getEmail() == null || user.getEmail().trim().isEmpty() || user.getEmail().length() > 255) return false;
         if (user.getFirstName() == null || user.getFirstName().trim().isEmpty() || user.getFirstName().length() > 25) return false;
         if (user.getLastName() == null || user.getLastName().trim().isEmpty() || user.getLastName().length() > 25) return false;
-        if (user.getAge() < 0) return false;
-
-        return true;
+        return user.getAge() >= 0;
     }
 
 }

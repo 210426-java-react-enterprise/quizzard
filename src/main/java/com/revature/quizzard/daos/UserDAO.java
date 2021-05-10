@@ -1,9 +1,8 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.util.ConnectionFactory;
+import com.revature.quizzard.util.datasource.ConnectionFactory;
 
-import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,8 +10,7 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    // TODO (Associate task) Implement me!
-    public AppUser save(AppUser newUser) {
+    public void save(AppUser newUser) {
 
         try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -37,7 +35,6 @@ public class UserDAO {
             throwables.printStackTrace();
         }
 
-        return newUser;
     }
 
     public boolean isUsernameAvailable(String username) {
