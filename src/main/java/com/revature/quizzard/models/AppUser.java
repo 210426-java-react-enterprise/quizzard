@@ -34,6 +34,19 @@ public class AppUser {
         this.age = age;
     }
 
+    public AppUser(int id, String username, String password, String email, String firstName, String lastName, int age) {
+        this(username, password, email, firstName, lastName, age);
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         // you do not have to include "this." here because there is no other variable
         // with the same name in this scope
@@ -83,14 +96,6 @@ public class AppUser {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String toFileString() {
