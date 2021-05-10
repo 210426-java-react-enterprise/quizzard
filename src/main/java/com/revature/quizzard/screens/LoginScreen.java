@@ -1,21 +1,30 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.Driver;
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.exceptions.AuthenticationException;
+import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.ScreenRouter;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.io.BufferedReader;
 
+import static com.revature.quizzard.Driver.app;
+
 public class LoginScreen extends Screen {
 
-    private UserDAO userDao = new UserDAO();
+    private Logger logger = Logger.getLogger();
     private BufferedReader consoleReader;
     private ScreenRouter router;
+    private UserService userService;
 
-    public LoginScreen(BufferedReader consoleReader, ScreenRouter router) {
+    public LoginScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("LoginScreen", "/login");
         this.consoleReader = consoleReader;
         this.router = router;
+        this.userService = userService;
     }
 
     public void render() {
@@ -33,27 +42,16 @@ public class LoginScreen extends Screen {
             System.out.print("Password: ");
             password = consoleReader.readLine();
 
-            if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-                AppUser authenticatedUser = userDao.findUserByUsernameAndPassword(username, password);
-                if (authenticatedUser != null) {
-                    System.out.println("Login successful!");
-                    router.navigate("/dashboard");
-
-                } else {
-                    System.out.println("Login failed!");
-
-                    /*
-                        The below code is not necessary, because if the login fails, we will fall
-                        out of this method
-                     */
-                    router.navigate("/welcome");
-                }
-            } else {
-                System.out.println("It looks like you didn't provide any credentials!");
+            AppUser authenticatedUser = userService.authenticate(username, password);
+            if (authenticatedUser != null) {
+                router.navigate("/dashboard");
             }
 
+        } catch (InvalidRequestException | AuthenticationException e) {
+            logger.warn(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.fatal(e.getMessage());
+            app().shutdown();
         }
     }
 }
