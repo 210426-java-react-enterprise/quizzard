@@ -120,6 +120,7 @@ public class LinkedList<T> implements List<T>, Queue<T>, Iterable<T> {
         return size;
     }
 
+    // TODO fix broken logic
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
@@ -140,10 +141,8 @@ public class LinkedList<T> implements List<T>, Queue<T>, Iterable<T> {
                     throw new NoSuchElementException();
                 }
 
-                while(current != null) {
-                    data = current.data;
-                    current = current.nextNode;
-                }
+                data = current.data;
+                current = current.nextNode;
 
                 return data;
             }

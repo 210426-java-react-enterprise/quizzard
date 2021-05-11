@@ -20,11 +20,13 @@ public class UserService {
             throw new InvalidRequestException("Invalid credential values provided!");
         }
 
-        AppUser user = userDao.findUserByUsernameAndPassword(username, password);
-        if (user == null) {
-            throw new AuthenticationException();
-        }
-        return user;
+//        AppUser user = userDao.findUserByUsernameAndPassword(username, password);
+//        if (user == null) {
+//            throw new AuthenticationException();
+//        }
+
+        return userDao.findUserByUsernameAndPassword(username, password)
+                      .orElseThrow(AuthenticationException::new);
     }
 
     public void register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {

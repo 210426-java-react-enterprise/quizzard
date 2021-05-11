@@ -38,6 +38,7 @@ public class HashSet<T> implements Set<T> {
         return this.map.containsKey(data);
     }
 
+    // TODO implement me!
     @Override
     public boolean remove(T data) {
         return false;
@@ -48,6 +49,7 @@ public class HashSet<T> implements Set<T> {
         return this.map.size();
     }
 
+    // TODO implement me!
     @Override
     public T[] toArray() {
         return null;

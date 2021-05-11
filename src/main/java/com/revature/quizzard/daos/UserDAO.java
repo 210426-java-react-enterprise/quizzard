@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class UserDAO {
 
@@ -76,9 +77,9 @@ public class UserDAO {
         return true;
     }
 
-    public AppUser findUserByUsernameAndPassword(String username, String password) {
+    public Optional<AppUser> findUserByUsernameAndPassword(String username, String password) {
 
-        AppUser user = null;
+        Optional<AppUser> _user = Optional.empty();
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -89,7 +90,7 @@ public class UserDAO {
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                user = new AppUser();
+                AppUser user = new AppUser();
                 user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
@@ -97,13 +98,14 @@ public class UserDAO {
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
                 user.setAge(rs.getInt("age"));
+                _user = Optional.of(user);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return user;
+        return _user;
 
     }
 
