@@ -41,9 +41,11 @@ public class AppState {
     }
 
     public void startup() {
+        logger.info("Navigating to welcome screen");
+        router.navigate("/welcome");
         while (appRunning) {
-            logger.info("Navigating to welcome screen");
-            router.navigate("/welcome");
+            router.getCurrentScreen().render();
+
         }
     }
 

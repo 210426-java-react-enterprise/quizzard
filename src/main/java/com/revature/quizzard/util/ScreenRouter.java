@@ -6,6 +6,7 @@ import com.revature.quizzard.util.structures.LinkedList;
 public class ScreenRouter {
 
     private LinkedList<Screen> screens = new LinkedList<>();
+    private Screen currentScreen;
 
     public ScreenRouter addScreen(Screen screen) {
         screens.add(screen);
@@ -16,9 +17,15 @@ public class ScreenRouter {
         for (int i = 0; i < screens.size(); i++) {
             Screen screen = screens.get(i);
             if (screen.getRoute().equals(route)) {
-                screen.render();
+                //screen.render();
+                this.currentScreen = screen;
+
             }
         }
+    }
+
+    public Screen getCurrentScreen() {
+        return currentScreen;
     }
 
 }
