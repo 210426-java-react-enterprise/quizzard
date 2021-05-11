@@ -31,7 +31,7 @@ public class AppState {
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(consoleReader, router))
               .addScreen(new LoginScreen(consoleReader, router, userService))
-              .addScreen(new RegisterScreen(consoleReader, userService));
+              .addScreen(new RegisterScreen(consoleReader, userService, router));
 
         logger.info("Application initialized");
     }
