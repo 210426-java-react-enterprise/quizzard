@@ -17,6 +17,7 @@ public class Logger {
 
     private static Logger logger;
     private final boolean printToConsole;
+
     private Logger(boolean printToConsole) {
         this.printToConsole = printToConsole;
     }
@@ -92,6 +93,7 @@ public class Logger {
         String fileName = LocalDate.now().format(DateTimeFormatter.ofPattern("d-MM-uuuu"));
         return logDirectoryPath + "/" + fileName + ".log";
     }
+
     private String getCallerName() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         return stackTraceElements[4].toString();
