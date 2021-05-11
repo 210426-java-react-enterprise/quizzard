@@ -1,27 +1,30 @@
 package com.revature.quizzard.util.structures;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * A simple implementation of a doubly linked-list structure that
  * does not accept null data.
  *
  * @param <T>
  */
-public class LinkedList<T> implements List<T>, Queue<T> {
+public class LinkedList<T> implements List<T>, Queue<T>, Iterable<T> {
 
     private int size;
     private Node<T> head;
     private Node<T> tail;
 
     @Override
-    public void add(T data) throws IllegalArgumentException {
+    public boolean add(T data) throws IllegalArgumentException {
 
         if (data == null) {
             throw new IllegalArgumentException("This linked list does not accept null values");
         }
 
-        Node<T> newNode = new Node<T>(data);
+        Node<T> newNode = new Node<>(data);
         if (head == null) {
-            tail = head = newNode; // sets both the head and tail equal to the new node
+            tail = head = newNode;
         } else {
             tail.nextNode = newNode;
             newNode.prevNode = tail;
@@ -30,13 +33,46 @@ public class LinkedList<T> implements List<T>, Queue<T> {
 
         size++;
 
+        return true;
+
     }
 
-    /**
-     * Returns and removes the head node's data or else returns null.
-     *
-     * @return
-     */
+    @Override
+    public boolean contains(T data) {
+        Node<T> runner = head;
+        for (int i = 0; i < size; i++) {
+            if (runner.data == data) {
+                return true;
+            }
+            runner = runner.nextNode;
+        }
+
+        return false;
+    }
+
+    @Override
+    public T get(int index) {
+
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("The provided index is out of bounds.");
+        }
+
+        Node<T> runner = head;
+        for (int i = 0; i < size; i++) {
+            if (i == index) {
+                return runner.data;
+            }
+            runner = runner.nextNode;
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     @Override
     public T poll() {
 
@@ -59,39 +95,23 @@ public class LinkedList<T> implements List<T>, Queue<T> {
 
     }
 
-    // TODO: (Associate task) implement this method!
     @Override
     public T peek() {
-        return null;
-    }
-
-    // TODO: (Associate task) implement this method!
-    @Override
-    public T remove(T data) {
-        return null;
+        return head.data;
     }
 
     @Override
-    public T get(int index) {
-
-        if (index < 0 || index > size) {
-            throw new IllegalArgumentException("The provided index would be out of bounds.");
-        }
-
+    public boolean remove(T data) {
         Node<T> runner = head;
         for (int i = 0; i < size; i++) {
-            if (i == index) {
-                return runner.data;
+            if (runner.data == data) {
+                runner.prevNode = runner.nextNode;
+                runner.nextNode.prevNode = runner.prevNode;
+                return true;
             }
             runner = runner.nextNode;
         }
 
-        return null;
-    }
-
-    // TODO: (Associate task) implement this method!
-    @Override
-    public boolean contains(T data) {
         return false;
     }
 
@@ -100,22 +120,44 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         return size;
     }
 
-    private static class Node<T> {
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
 
+            Node<T> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+
+                T data = null;
+
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                while(current != null) {
+                    data = current.data;
+                    current = current.nextNode;
+                }
+
+                return data;
+            }
+        };
+    }
+
+    private static class Node<T> {
         T data;
-        Node<T> nextNode; // defaults to null
-        Node<T> prevNode; // defaults to null
+        Node<T> nextNode;
+        Node<T> prevNode;
 
         Node(T data) {
             this.data = data;
         }
-
-        Node(T data, Node<T> nextNode, Node<T> prevNode) {
-            this.data = data;
-            this.nextNode = nextNode;
-            this.prevNode = prevNode;
-        }
-
     }
 
 
