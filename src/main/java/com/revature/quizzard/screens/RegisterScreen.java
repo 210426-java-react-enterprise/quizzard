@@ -6,23 +6,19 @@ import com.revature.quizzard.exceptions.UserInputException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.RegEx;
 import com.revature.quizzard.util.ScreenRouter;
-import com.revature.quizzard.util.logging.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import static com.revature.quizzard.Driver.app;
 
 public class RegisterScreen extends Screen {
 
-    private final Logger logger = Logger.getLogger();
     private final UserService userService;
-    private final BufferedReader consoleReader;
 
-    public RegisterScreen(BufferedReader consoleReader, UserService userService, ScreenRouter router) {
-        super("RegisterScreen", "/register", router);
-        this.consoleReader = consoleReader;
+    public RegisterScreen(InputValidator inputValidator, UserService userService, ScreenRouter router) {
+        super("RegisterScreen", "/register", inputValidator, router);
         this.userService = userService;
     }
 
@@ -33,17 +29,12 @@ public class RegisterScreen extends Screen {
             System.out.println("+-------------------------+");
 
 
-            String firstName = InputValidator.promptUser("First name: ", "Invalid input.", 3, "^[a-zA-Z]{1,25}$", consoleReader);
-
-            String lastName = InputValidator.promptUser("Last name: ", "Invalid input.", 3, "^[a-zA-Z]{1,25}$", consoleReader);
-
-            String email = InputValidator.promptUser("Email: ", "Invalid input.", 3, "^([0-9a-zA-Z.]+@[0-9a-zA-Z]+[.][a-zA-Z]+){1,255}$", consoleReader);
-
-            String username = InputValidator.promptUser("Username: ", "Invalid input.", 3, "^[a-zA-Z0-9]{1,20}$", consoleReader);
-
-            String password = InputValidator.promptUser("Password: ", "Invalid input.", 3, "^(?=.*?[#?!@$%^&*-])[a-zA-Z0-9].{8,255}$", consoleReader);
-
-            int age = Integer.parseInt(InputValidator.promptUser("Age:  ", "Invalid input.", 3, "^[0-9]{1,3}$", consoleReader));
+            String firstName = inputValidator.promptUser("First name: ", "Invalid input.", 3, RegEx.VALID_FIRST_NAME);
+            String lastName = inputValidator.promptUser("Last name: ", "Invalid input.", 3, RegEx.VALID_LAST_NAME);
+            String email = inputValidator.promptUser("Email: ", "Invalid input.", 3, RegEx.VALID_EMAIL);
+            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.VALID_USERNAME);
+            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.VALID_PASSWORD);
+            int age = Integer.parseInt(inputValidator.promptUser("Age:  ", "Invalid input.", 3, RegEx.VALID_AGE));
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
             userService.register(newUser);

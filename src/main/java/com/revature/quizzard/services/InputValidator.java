@@ -1,22 +1,30 @@
 package com.revature.quizzard.services;
 
 import com.revature.quizzard.exceptions.UserInputException;
+import com.revature.quizzard.util.RegEx;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
-public abstract class InputValidator {
+public class InputValidator {
 
-    public static String promptUser(String prompt, String error, int maxAttempts, String pattern, BufferedReader consoleReader) throws UserInputException, IOException {
+    private BufferedReader consoleReader;
+
+    public InputValidator() {
+        this.consoleReader = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    public String promptUser(String prompt, String error, int maxAttempts, RegEx pattern) throws UserInputException, IOException {
         boolean inputFlag = false;
         int attempts = 1;
-        String input = new String();
+        String input;
 
         do {
-            System.out.printf(prompt);
+            System.out.print(prompt);
             input = consoleReader.readLine();
-            if (!(inputFlag = Pattern.compile(pattern).matcher(input).find())) {
+            if (!(inputFlag = Pattern.compile(pattern.getValue()).matcher(input).find())) {
                 System.out.println(error);
                 attempts++;
             }

@@ -1,19 +1,14 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.services.InputValidator;
+import com.revature.quizzard.util.RegEx;
 import com.revature.quizzard.util.ScreenRouter;
 import static com.revature.quizzard.Driver.app;
 
-import java.io.BufferedReader;
-
 public class WelcomeScreen extends Screen {
 
-    private BufferedReader consoleReader;
-    //private ScreenRouter router;
-
-    public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) {
-        super("WelcomeScreen", "/welcome", router);
-        this.consoleReader = consoleReader;
-        //this.router = router;
+    public WelcomeScreen(InputValidator inputValidator, ScreenRouter router) {
+        super("WelcomeScreen", "/welcome", inputValidator, router);
     }
 
     @Override
@@ -26,7 +21,7 @@ public class WelcomeScreen extends Screen {
 
         try {
             System.out.print("> ");
-            String userSelection = consoleReader.readLine();
+            String userSelection = inputValidator.promptUser("> ", "Invalid input.", 100, RegEx.VALID_WELCOME_SCREEN_INPUT);
 
             switch (userSelection) {
                 case "1":
@@ -37,13 +32,11 @@ public class WelcomeScreen extends Screen {
                     break;
                 case "3":
                     app().shutdown();
-                    break;
-                default:
-                    System.err.println("Invalid selection!");
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.fatal(e.getMessage());
+            app().shutdown();
         }
 
     }

@@ -4,6 +4,7 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
+import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.logging.Logger;
 
@@ -24,14 +25,14 @@ public class AppState {
         this.loggingToConsole = loggingToConsole;
         appRunning = true;
 
-        final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        final InputValidator inputValidator = new InputValidator();
         final UserDAO userDao = new UserDAO();
         final UserService userService = new UserService(userDao);
 
         router = new ScreenRouter();
-        router.addScreen(new WelcomeScreen(consoleReader, router))
-              .addScreen(new LoginScreen(consoleReader, router, userService))
-              .addScreen(new RegisterScreen(consoleReader, userService, router));
+        router.addScreen(new WelcomeScreen(inputValidator, router))
+              .addScreen(new LoginScreen(inputValidator, router, userService))
+              .addScreen(new RegisterScreen(inputValidator, userService, router));
 
         logger.info("Application initialized");
     }
@@ -45,7 +46,6 @@ public class AppState {
         router.navigate("/welcome");
         while (appRunning) {
             router.getCurrentScreen().render();
-
         }
     }
 
