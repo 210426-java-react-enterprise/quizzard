@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class ScreenRouter {
 
-    private LinkedList<Screen> screens = new LinkedList<>();
+    private final LinkedList<Screen> screens = new LinkedList<>();
     private Screen currentScreen;
 
     public ScreenRouter addScreen(Screen screen) {
