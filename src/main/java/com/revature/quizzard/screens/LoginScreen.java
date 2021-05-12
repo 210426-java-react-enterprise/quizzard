@@ -19,25 +19,25 @@ public class LoginScreen extends Screen {
         this.userService = userService;
     }
 
-    public void render() {
+    public void render() throws Exception {
 
         try {
-            System.out.println("Log into your account!");
+            System.out.println("\nLog into your account!");
             System.out.println("+---------------------+");
 
-            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.VALID_USERNAME);
-            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.VALID_PASSWORD);
+            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.ALPHANUMERIC_20);
+            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.PASSWORD);
 
             AppUser authenticatedUser = userService.authenticate(username, password);
             if (authenticatedUser != null) {
+                logger.info("Log in successful!");
                 router.navigate("/dashboard");
+            } else {
+                logger.warn("Log in unsuccessful!");
             }
 
         } catch (InvalidRequestException | AuthenticationException e) {
             logger.warn(e.getMessage());
-        } catch (Exception e) {
-            logger.fatal(e.getMessage());
-            app().shutdown();
         }
     }
 }

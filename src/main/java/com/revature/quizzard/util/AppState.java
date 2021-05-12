@@ -1,6 +1,7 @@
 package com.revature.quizzard.util;
 
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.screens.DashboardScreen;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
@@ -8,15 +9,14 @@ import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.logging.Logger;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import static com.revature.quizzard.Driver.app;
 
 public class AppState {
 
     private final Logger logger;
     private final ScreenRouter router;
     private boolean appRunning;
-    private final boolean loggingToConsole;
+    private boolean loggingToConsole;
 
     public AppState(boolean loggingToConsole) {
         logger = Logger.getLogger(loggingToConsole);
@@ -32,7 +32,8 @@ public class AppState {
         router = new ScreenRouter();
         router.addScreen(new WelcomeScreen(inputValidator, router))
               .addScreen(new LoginScreen(inputValidator, router, userService))
-              .addScreen(new RegisterScreen(inputValidator, userService, router));
+              .addScreen(new RegisterScreen(inputValidator, userService, router))
+              .addScreen(new DashboardScreen(inputValidator, router));
 
         logger.info("Application initialized");
     }
@@ -41,11 +42,20 @@ public class AppState {
         return loggingToConsole;
     }
 
+    public void setLoggingToConsole(boolean loggingToConsole) {
+        this.loggingToConsole = loggingToConsole;
+    }
+
     public void startup() {
         logger.info("Navigating to welcome screen");
         router.navigate("/welcome");
         while (appRunning) {
-            router.getCurrentScreen().render();
+            try {
+                router.getCurrentScreen().render();
+            } catch (Exception e) {
+                logger.fatal(e.getMessage());
+                app().shutdown();
+            }
         }
     }
 

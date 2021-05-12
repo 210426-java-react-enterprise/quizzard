@@ -31,6 +31,6 @@ public abstract class Screen {
         return route;
     }
 
-    public abstract void render();
+    public abstract void render() throws Exception;
 
 }

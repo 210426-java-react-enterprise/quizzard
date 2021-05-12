@@ -1,5 +1,10 @@
 package com.revature.quizzard.util.structures;
 
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 public interface Collection<T> extends Iterable<T> {
 
     boolean add(T data);
@@ -7,5 +12,13 @@ public interface Collection<T> extends Iterable<T> {
     boolean isEmpty();
     boolean remove(T data);
     int size();
+
+    default Stream<T> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
+    }
+
+    default Stream<T> parallelStream() {
+        return StreamSupport.stream(this.spliterator(), true);
+    }
 
 }

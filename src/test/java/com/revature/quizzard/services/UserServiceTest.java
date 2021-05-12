@@ -1,12 +1,19 @@
 package com.revature.quizzard.services;
 
+import com.revature.quizzard.Driver;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -15,10 +22,23 @@ public class UserServiceTest {
 
     private UserService sut;
     private UserDAO mockUserDao;
+    private Connection mockConnection;
+    private ConnectionFactory mockConnectionFactory;
+    private MockedStatic<ConnectionFactory> staticMockConnectionFactory;
+    private Logger mockLogger;
+    private MockedStatic<Logger> staticMockLogger;
 
     @Before
     public void setUp() {
+        Driver.app().setLoggingToConsole(false);
         mockUserDao = mock(UserDAO.class);
+        mockConnection = mock(Connection.class);
+        mockConnectionFactory = mock(ConnectionFactory.class);
+        staticMockConnectionFactory = mockStatic(ConnectionFactory.class);
+
+        when(ConnectionFactory.getInstance()).thenReturn(mockConnectionFactory);
+        when(mockConnectionFactory.getConnection()).thenReturn(mockConnection);
+
         sut = new UserService(mockUserDao);
     }
 
@@ -26,29 +46,34 @@ public class UserServiceTest {
     public void tearDown() {
         sut = null;
         mockUserDao = null;
-
+        staticMockConnectionFactory.close();
+        staticMockConnectionFactory = null;
+        mockConnectionFactory = null;
+        mockConnection = null;
     }
 
     @Test
-    public void test_registerWithValidUserAndAvailableUsernameAndPassword() {
+    public void test_registerWithValidUserAndAvailableUsernameAndPassword() throws SQLException {
 
         // Arrange
-        when(mockUserDao.isUsernameAvailable(anyString())).thenReturn(true);
-        when(mockUserDao.isEmailAvailable(anyString())).thenReturn(true);
+        when(mockUserDao.isUsernameAvailable(any(), anyString())).thenReturn(true);
+        when(mockUserDao.isEmailAvailable(any(), anyString())).thenReturn(true);
 
         // Act
         sut.register(new AppUser(0, "un", "pw", "email", "fn", "ln", 18));
 
         // Assert
-        verify(mockUserDao, times(1)).isUsernameAvailable(anyString());
-        verify(mockUserDao, times(1)).isEmailAvailable(anyString());
-        verify(mockUserDao, times(1)).save(any());
+        verify(mockConnectionFactory, times(1)).getConnection();
+        verify(mockUserDao, times(1)).isUsernameAvailable(any(), anyString());
+        verify(mockUserDao, times(1)).isEmailAvailable(any(), anyString());
+        verify(mockUserDao, times(1)).save(any(), any());
+        verify(mockConnection, times(1)).commit();
     }
 
     @Test
     public void test_registerWithValidUserAndTakenUsername() {
         // Arrange
-        when(mockUserDao.isUsernameAvailable(anyString())).thenReturn(false);
+        when(mockUserDao.isUsernameAvailable(any(), anyString())).thenReturn(false);
 
         // Act
         try {
@@ -56,8 +81,9 @@ public class UserServiceTest {
         } catch (Exception e) {
             assertTrue(e instanceof ResourcePersistenceException);
         } finally {
-            verify(mockUserDao, times(0)).isEmailAvailable(anyString());
-            verify(mockUserDao, times(0)).save(any());
+            verify(mockConnectionFactory, times(1)).getConnection();
+            verify(mockUserDao, times(0)).isEmailAvailable(any(), anyString());
+            verify(mockUserDao, times(0)).save(any(), any());
         }
 
 
@@ -66,8 +92,8 @@ public class UserServiceTest {
     @Test
     public void test_registerWithValidUserAndTakenEmail() {
         // Arrange
-        when(mockUserDao.isUsernameAvailable(anyString())).thenReturn(true);
-        when(mockUserDao.isEmailAvailable(anyString())).thenReturn(false);
+        when(mockUserDao.isUsernameAvailable(any(), anyString())).thenReturn(true);
+        when(mockUserDao.isEmailAvailable(any(), anyString())).thenReturn(false);
 
         // Act
         try {
@@ -75,9 +101,10 @@ public class UserServiceTest {
         } catch (Exception e) {
             assertTrue(e instanceof ResourcePersistenceException);
         } finally {
-            verify(mockUserDao, times(1)).isUsernameAvailable(anyString());
-            verify(mockUserDao, times(1)).isEmailAvailable(anyString());
-            verify(mockUserDao, times(0)).save(any());
+            verify(mockConnectionFactory, times(1)).getConnection();
+            verify(mockUserDao, times(1)).isUsernameAvailable(any(), anyString());
+            verify(mockUserDao, times(1)).isEmailAvailable(any(), anyString());
+            verify(mockUserDao, times(0)).save(any(), any());
         }
 
 
@@ -92,36 +119,13 @@ public class UserServiceTest {
         sut.register(invalidUser);
 
         // Assert
-        verify(mockUserDao.isUsernameAvailable(anyString()), times(1));
-        verify(mockUserDao.isEmailAvailable(anyString()), times(0));
+        verify(mockConnectionFactory, times(0)).getConnection();
+        verify(mockUserDao, times(0)).isUsernameAvailable(any(), anyString());
+        verify(mockUserDao, times(0)).isEmailAvailable(any(), anyString());
+        verify(mockUserDao, times(0)).save(any(), any());
 
 
     }
 
 
 }
-
-// Stubbing
-//class UserDAOStub extends UserDAO {
-//    @Override
-//    public void save(AppUser newUser) {
-//        newUser.setId(1);
-//    }
-//
-//    @Override
-//    public boolean isUsernameAvailable(String username) {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEmailAvailable(String email) {
-//        return true;
-//    }
-//
-//    @Override
-//    public AppUser findUserByUsernameAndPassword(String username, String password) {
-//        AppUser fakeUser = new AppUser(username, password, "fake", "fake", "fake", 18);
-//        fakeUser.setId(1);
-//        return fakeUser;
-//    }
-//}

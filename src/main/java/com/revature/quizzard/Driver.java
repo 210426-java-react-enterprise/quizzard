@@ -4,7 +4,7 @@ import com.revature.quizzard.util.AppState;
 
 public class Driver {
 
-    private static AppState app = new AppState(true);
+    private static AppState app = new AppState(false);
 
     public static void main(String[] args) {
         app.startup();
