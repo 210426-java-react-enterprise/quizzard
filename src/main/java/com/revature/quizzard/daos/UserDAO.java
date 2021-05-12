@@ -2,6 +2,8 @@ package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.structures.LinkedList;
+import com.revature.quizzard.util.structures.List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +13,9 @@ import java.util.Optional;
 
 public class UserDAO {
 
-    public void save(AppUser newUser) {
+    public void save(Connection conn, AppUser newUser) {
 
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
 
             String sqlInsertUser = "insert into quizzard.users (username , password , email , first_name , last_name , age ) values (?,?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser, new String[] { "user_id" });
@@ -38,8 +40,8 @@ public class UserDAO {
 
     }
 
-    public boolean isUsernameAvailable(String username) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+    public boolean isUsernameAvailable(Connection conn, String username) {
+        try {
 
             String sql = "select * from quizzard.users where username = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -58,8 +60,8 @@ public class UserDAO {
 
     }
 
-    public boolean isEmailAvailable(String email) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+    public boolean isEmailAvailable(Connection conn, String email) {
+        try {
 
             String sql = "select * from quizzard.users where email = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -77,11 +79,11 @@ public class UserDAO {
         return true;
     }
 
-    public Optional<AppUser> findUserByUsernameAndPassword(String username, String password) {
+    public Optional<AppUser> findUserByUsernameAndPassword(Connection conn, String username, String password) {
 
         Optional<AppUser> _user = Optional.empty();
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
 
             String sql = "select * from quizzard.users where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -89,17 +91,7 @@ public class UserDAO {
             pstmt.setString(2, password);
 
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                AppUser user = new AppUser();
-                user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setAge(rs.getInt("age"));
-                _user = Optional.of(user);
-            }
+            _user = Optional.of(getOne(rs, true));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,5 +100,31 @@ public class UserDAO {
         return _user;
 
     }
+
+    private AppUser getOne(ResultSet rs, boolean moveCursor) throws SQLException {
+
+        if (moveCursor) {
+            rs.next();
+        }
+
+        AppUser user = new AppUser();
+        user.setId(rs.getInt("user_id"));
+        user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
+        user.setFirstName(rs.getString("first_name"));
+        user.setLastName(rs.getString("last_name"));
+        user.setEmail(rs.getString("email"));
+        user.setAge(rs.getInt("age"));
+        return user;
+    }
+
+    private List<AppUser> getAll(ResultSet rs) throws SQLException {
+        List<AppUser> users = new LinkedList<>();
+        while (rs.next()) {
+            users.add(getOne(rs, false));
+        }
+        return users;
+    }
+
 
 }

@@ -25,19 +25,20 @@ public class RegisterScreen extends Screen {
     public void render() {
 
         try {
-            System.out.println("Register for a new account!");
+            System.out.println("\nRegister for a new account!");
             System.out.println("+-------------------------+");
 
 
-            String firstName = inputValidator.promptUser("First name: ", "Invalid input.", 3, RegEx.VALID_FIRST_NAME);
-            String lastName = inputValidator.promptUser("Last name: ", "Invalid input.", 3, RegEx.VALID_LAST_NAME);
-            String email = inputValidator.promptUser("Email: ", "Invalid input.", 3, RegEx.VALID_EMAIL);
-            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.VALID_USERNAME);
-            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.VALID_PASSWORD);
-            int age = Integer.parseInt(inputValidator.promptUser("Age:  ", "Invalid input.", 3, RegEx.VALID_AGE));
+            String firstName = inputValidator.promptUser("First name: ", "Invalid input.", 3, RegEx.ALPHABETIC_25);
+            String lastName = inputValidator.promptUser("Last name: ", "Invalid input.", 3, RegEx.ALPHABETIC_25);
+            String email = inputValidator.promptUser("Email: ", "Invalid input.", 3, RegEx.EMAIL);
+            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.ALPHANUMERIC_20);
+            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.PASSWORD);
+            int age = Integer.parseInt(inputValidator.promptUser("Age:  ", "Invalid input.", 3, RegEx.AGE_RANGE));
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
             userService.register(newUser);
+            router.navigate("/login");
 
         } catch (NumberFormatException | InvalidRequestException | ResourcePersistenceException e) {
             logger.warn(e.getMessage());
@@ -48,8 +49,6 @@ public class RegisterScreen extends Screen {
             logger.fatal(e.getMessage());
             app().shutdown();
         }
-
-
 
     }
 

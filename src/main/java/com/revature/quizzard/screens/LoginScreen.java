@@ -8,6 +8,8 @@ import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.RegEx;
 import com.revature.quizzard.util.ScreenRouter;
 
+import java.io.Console;
+
 import static com.revature.quizzard.Driver.app;
 
 public class LoginScreen extends Screen {
@@ -22,15 +24,18 @@ public class LoginScreen extends Screen {
     public void render() {
 
         try {
-            System.out.println("Log into your account!");
+            System.out.println("\nLog into your account!");
             System.out.println("+---------------------+");
 
-            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.VALID_USERNAME);
-            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.VALID_PASSWORD);
+            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.ALPHANUMERIC_20);
+            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.PASSWORD);
 
             AppUser authenticatedUser = userService.authenticate(username, password);
             if (authenticatedUser != null) {
+                logger.info("Log in successful!");
                 router.navigate("/dashboard");
+            } else {
+                logger.warn("Log in unsuccessful!");
             }
 
         } catch (InvalidRequestException | AuthenticationException e) {
