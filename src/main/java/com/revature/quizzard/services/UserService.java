@@ -20,7 +20,7 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public AppUser authenticate(String username, String password) {
+    public AppUser authenticate(String username, String password) throws AuthenticationException {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
@@ -56,6 +56,9 @@ public class UserService {
         } catch (SQLException e) {
             logger.warn(e.getMessage());
             throw new ResourcePersistenceException();
+        } catch (UsernameUnavailableException | EmailUnavailableException e) {
+            logger.warn(e.getMessage());
+            throw new ResourcePersistenceException(e.getMessage());
         }
 
 
