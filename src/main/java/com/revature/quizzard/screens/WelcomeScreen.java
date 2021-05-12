@@ -14,12 +14,13 @@ public class WelcomeScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        System.out.println("\nWelcome to Quizzard!");
-        System.out.println("1) Login");
-        System.out.println("2) Register");
-        System.out.println("3) Exit application");
+        String menu = "\nWelcome to Quizzard!\n" +
+                      "1) Login\n" +
+                      "2) Register\n" +
+                      "3) Exit application\n" +
+                      "> ";
 
-        String userSelection = inputValidator.promptUser("> ", "Invalid input.", 100, RegEx.VALID_WELCOME_SCREEN_INPUT);
+        String userSelection = inputValidator.promptUser(menu, "Invalid selection.", 100, RegEx.VALID_WELCOME_SCREEN_INPUT);
 
         switch (userSelection) {
             case "1":

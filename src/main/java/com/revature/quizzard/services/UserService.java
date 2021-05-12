@@ -4,6 +4,7 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.datasource.Session;
 import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;
@@ -15,19 +16,23 @@ public class UserService {
 
     private Logger logger = Logger.getLogger();
     private UserDAO userDao;
+    private Session session;
 
-    public UserService(UserDAO userDao) {
+    public UserService(UserDAO userDao, Session session) {
         this.userDao = userDao;
+        this.session = session;
     }
 
-    public AppUser authenticate(String username, String password) {
+    public void authenticate(String username, String password) throws AuthenticationException {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            return userDao.findUserByUsernameAndPassword(conn, username, password)
-                          .orElseThrow(AuthenticationException::new);
+            AppUser authUser = userDao.findUserByUsernameAndPassword(conn, username, password)
+                                      .orElseThrow(AuthenticationException::new);
 
-        } catch (SQLException e) {
+            session.setUser(authUser);
+
+        } catch (SQLException | DataSourceException e) {
             logger.warn(e.getMessage());
             throw new AuthenticationException();
         }
@@ -56,6 +61,9 @@ public class UserService {
         } catch (SQLException e) {
             logger.warn(e.getMessage());
             throw new ResourcePersistenceException();
+        } catch (UsernameUnavailableException | EmailUnavailableException e) {
+            logger.warn(e.getMessage());
+            throw new ResourcePersistenceException(e.getMessage());
         }
 
 

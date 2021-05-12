@@ -12,8 +12,8 @@ public class InputValidator {
 
     private BufferedReader consoleReader;
 
-    public InputValidator() {
-        this.consoleReader = new BufferedReader(new InputStreamReader(System.in));
+    public InputValidator(BufferedReader consoleReader) {
+        this.consoleReader = consoleReader;
     }
 
     public String promptUser(String prompt, String error, int maxAttempts, RegEx pattern) throws UserInputException, IOException {

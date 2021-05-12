@@ -9,10 +9,6 @@ import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.RegEx;
 import com.revature.quizzard.util.ScreenRouter;
 
-import java.io.IOException;
-
-import static com.revature.quizzard.Driver.app;
-
 public class RegisterScreen extends Screen {
 
     private final UserService userService;

@@ -1,9 +1,8 @@
 package com.revature.quizzard.daos;
 
+import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.structures.LinkedList;
-import com.revature.quizzard.util.structures.List;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +11,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserDAO {
+
+    private final Logger logger = Logger.getLogger();
 
     public void save(Connection conn, AppUser newUser) {
 
@@ -34,8 +35,9 @@ public class UserDAO {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
     }
@@ -53,7 +55,8 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
         return true;
@@ -73,7 +76,8 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
         return true;
@@ -91,39 +95,34 @@ public class UserDAO {
             pstmt.setString(2, password);
 
             ResultSet rs = pstmt.executeQuery();
-            _user = Optional.of(getOne(rs, true));
+            _user = getOne(rs);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
         return _user;
 
     }
 
-    private AppUser getOne(ResultSet rs, boolean moveCursor) throws SQLException {
+    private Optional<AppUser> getOne(ResultSet rs) throws SQLException {
 
-        if (moveCursor) {
-            rs.next();
+        AppUser user = null;
+
+        if (rs.next()) {
+            user = new AppUser();
+            user.setId(rs.getInt("user_id"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
+            user.setEmail(rs.getString("email"));
+            user.setAge(rs.getInt("age"));
         }
 
-        AppUser user = new AppUser();
-        user.setId(rs.getInt("user_id"));
-        user.setUsername(rs.getString("username"));
-        user.setPassword(rs.getString("password"));
-        user.setFirstName(rs.getString("first_name"));
-        user.setLastName(rs.getString("last_name"));
-        user.setEmail(rs.getString("email"));
-        user.setAge(rs.getInt("age"));
-        return user;
-    }
-
-    private List<AppUser> getAll(ResultSet rs) throws SQLException {
-        List<AppUser> users = new LinkedList<>();
-        while (rs.next()) {
-            users.add(getOne(rs, false));
-        }
-        return users;
+        return Optional.ofNullable(user);
+    
     }
 
 
