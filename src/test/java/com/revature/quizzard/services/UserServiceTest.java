@@ -6,6 +6,7 @@ import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.datasource.Session;
 import com.revature.quizzard.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +28,7 @@ public class UserServiceTest {
     private MockedStatic<ConnectionFactory> staticMockConnectionFactory;
     private Logger mockLogger;
     private MockedStatic<Logger> staticMockLogger;
+    private Session mockSession;
 
     @Before
     public void setUp() {
@@ -39,7 +41,7 @@ public class UserServiceTest {
         when(ConnectionFactory.getInstance()).thenReturn(mockConnectionFactory);
         when(mockConnectionFactory.getConnection()).thenReturn(mockConnection);
 
-        sut = new UserService(mockUserDao);
+        sut = new UserService(mockUserDao, mockSession);
     }
 
     @After
@@ -50,6 +52,7 @@ public class UserServiceTest {
         staticMockConnectionFactory = null;
         mockConnectionFactory = null;
         mockConnection = null;
+        mockSession = null;
     }
 
     @Test
