@@ -9,6 +9,9 @@ import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.logging.Logger;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class AppState {
 
     private final Logger logger;
@@ -23,7 +26,8 @@ public class AppState {
         this.loggingToConsole = loggingToConsole;
         appRunning = true;
 
-        final InputValidator inputValidator = new InputValidator();
+        final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        final InputValidator inputValidator = new InputValidator(consoleReader);
         final UserDAO userDao = new UserDAO();
         final UserService userService = new UserService(userDao);
 
