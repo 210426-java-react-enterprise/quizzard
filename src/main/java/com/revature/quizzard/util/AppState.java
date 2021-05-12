@@ -9,8 +9,6 @@ import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.logging.Logger;
 
-import static com.revature.quizzard.Driver.app;
-
 public class AppState {
 
     private final Logger logger;
@@ -54,7 +52,7 @@ public class AppState {
                 router.getCurrentScreen().render();
             } catch (Exception e) {
                 logger.fatal(e.getMessage());
-                app().shutdown();
+                shutdown();
             }
         }
     }

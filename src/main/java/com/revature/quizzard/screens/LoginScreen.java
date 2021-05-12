@@ -8,8 +8,6 @@ import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.RegEx;
 import com.revature.quizzard.util.ScreenRouter;
 
-import static com.revature.quizzard.Driver.app;
-
 public class LoginScreen extends Screen {
 
     private final UserService userService;

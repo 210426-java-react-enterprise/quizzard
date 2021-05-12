@@ -5,8 +5,6 @@ import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.util.ScreenRouter;
 import com.revature.quizzard.util.logging.Logger;
 
-import static com.revature.quizzard.Driver.app;
-
 public abstract class Screen {
 
     protected Logger logger = Logger.getLogger();
