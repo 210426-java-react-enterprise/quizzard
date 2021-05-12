@@ -33,6 +33,8 @@ public class LoginScreen extends Screen {
             if (session.getSessionUser().isPresent()) {
                 logger.info("Log in successful!");
                 router.navigate("/dashboard");
+            } else {
+                logger.warn("Log in unsuccessful!");
             }
 
         } catch (InvalidRequestException e) {

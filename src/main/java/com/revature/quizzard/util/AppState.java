@@ -10,8 +10,7 @@ import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.datasource.Session;
 import com.revature.quizzard.util.logging.Logger;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import static com.revature.quizzard.Driver.app;
 
 public class AppState {
 

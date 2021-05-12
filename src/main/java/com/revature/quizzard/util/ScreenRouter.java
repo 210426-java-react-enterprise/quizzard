@@ -4,6 +4,8 @@ import com.revature.quizzard.exceptions.InvalidRouteException;
 import com.revature.quizzard.screens.Screen;
 import com.revature.quizzard.util.structures.LinkedList;
 
+import java.util.Collection;
+
 public class ScreenRouter {
 
     private LinkedList<Screen> screens = new LinkedList<>();
