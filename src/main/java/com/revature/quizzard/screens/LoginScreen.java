@@ -8,8 +8,6 @@ import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.RegEx;
 import com.revature.quizzard.util.ScreenRouter;
 
-import java.io.Console;
-
 import static com.revature.quizzard.Driver.app;
 
 public class LoginScreen extends Screen {
@@ -21,7 +19,7 @@ public class LoginScreen extends Screen {
         this.userService = userService;
     }
 
-    public void render() {
+    public void render() throws Exception {
 
         try {
             System.out.println("\nLog into your account!");
@@ -40,9 +38,6 @@ public class LoginScreen extends Screen {
 
         } catch (InvalidRequestException | AuthenticationException e) {
             logger.warn(e.getMessage());
-        } catch (Exception e) {
-            logger.fatal(e.getMessage());
-            app().shutdown();
         }
     }
 }

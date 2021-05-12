@@ -8,9 +8,7 @@ import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.function.BiPredicate;
-import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 
 public class UserService {

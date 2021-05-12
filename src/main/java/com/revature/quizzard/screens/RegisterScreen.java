@@ -22,7 +22,7 @@ public class RegisterScreen extends Screen {
         this.userService = userService;
     }
 
-    public void render() {
+    public void render() throws Exception {
 
         try {
             System.out.println("\nRegister for a new account!");
@@ -45,9 +45,6 @@ public class RegisterScreen extends Screen {
         } catch(UserInputException e) {
             logger.warn(e.getMessage());
             router.navigate("/welcome");
-        } catch (IOException e) {
-            logger.fatal(e.getMessage());
-            app().shutdown();
         }
 
     }
