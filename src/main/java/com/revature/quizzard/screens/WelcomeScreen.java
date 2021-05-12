@@ -8,12 +8,12 @@ import java.io.BufferedReader;
 public class WelcomeScreen extends Screen {
 
     private BufferedReader consoleReader;
-    private ScreenRouter router;
+    //private ScreenRouter router;
 
     public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) {
-        super("WelcomeScreen", "/welcome");
+        super("WelcomeScreen", "/welcome", router);
         this.consoleReader = consoleReader;
-        this.router = router;
+        //this.router = router;
     }
 
     @Override
