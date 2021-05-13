@@ -26,8 +26,6 @@ public class UserServiceTest {
     private Connection mockConnection;
     private ConnectionFactory mockConnectionFactory;
     private MockedStatic<ConnectionFactory> staticMockConnectionFactory;
-    private Logger mockLogger;
-    private MockedStatic<Logger> staticMockLogger;
     private Session mockSession;
 
     @Before
