@@ -40,6 +40,7 @@ public class UserServiceTest {
         when(mockConnectionFactory.getConnection()).thenReturn(mockConnection);
 
         sut = new UserService(mockUserDao, mockSession);
+
     }
 
     @After
@@ -51,6 +52,7 @@ public class UserServiceTest {
         mockConnectionFactory = null;
         mockConnection = null;
         mockSession = null;
+
     }
 
     @Test
