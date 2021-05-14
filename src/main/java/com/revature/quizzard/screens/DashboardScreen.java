@@ -19,37 +19,40 @@ public class DashboardScreen extends Screen {
 
     @Override
     public void render() throws Exception {
-        try {
 
-            AppUser sessionUser = session.getSessionUser().orElseThrow(AuthenticationException::new);
-            System.out.printf("\n%s's Dashboard\n", sessionUser.getFirstName());
-            System.out.println("+---------------------+");
+        if (!session.getSessionUser().isPresent()) {
+            String msg = "No session user found, navigating to welcome screen.";
+            logger.warn(msg);
+            System.err.println(msg);
+            router.navigate("/welcome");
+        }
 
-            String menu = "1) View/edit my profile information\n" +
-                          "2) View/create study sets\n" +
-                          "3) View/create flashcards\n" +
-                          "4) Logout\n" +
-                          "> ";
+        AppUser sessionUser = session.getSessionUser().get();
 
-            String menuSelection = inputValidator.promptUser(menu, "Invalid input.", 3, RegEx.VALID_DASHBOARD_SCREEN_INPUT);
+        System.out.printf("\n%s's Dashboard\n", sessionUser.getFirstName());
+        System.out.println("+---------------------+");
 
-            switch (menuSelection) {
-                case "1":
-                    router.navigate("/profile");
-                    break;
-                case "2":
-                    router.navigate("/study-sets");
-                    break;
-                case "3":
-                    router.navigate("/flashcards");
-                    break;
-                case "4":
-                    session.setUser(null);
-                    router.navigate("/welcome");
-            }
+        String menu = "1) View/edit my profile information\n" +
+                      "2) View/create study sets\n" +
+                      "3) View/create flashcards\n" +
+                      "4) Logout\n" +
+                      "> ";
 
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
+        String menuSelection = inputValidator.promptUser(menu, "Invalid input.", 3, RegEx.VALID_DASHBOARD_SCREEN_INPUT);
+
+        switch (menuSelection) {
+            case "1":
+                router.navigate("/user-profile");
+                break;
+            case "2":
+                router.navigate("/study-sets");
+                break;
+            case "3":
+                router.navigate("/flashcards");
+                break;
+            case "4":
+                session.setUser(null);
+                router.navigate("/welcome");
         }
     }
 }

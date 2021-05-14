@@ -1,6 +1,6 @@
 package com.revature.quizzard.exceptions;
 
-public class UserInputException extends Exception {
+public class UserInputException extends RuntimeException {
     public UserInputException (String message) {
         super(message);
     }

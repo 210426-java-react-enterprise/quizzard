@@ -1,10 +1,7 @@
 package com.revature.quizzard.util;
 
 import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.screens.DashboardScreen;
-import com.revature.quizzard.screens.LoginScreen;
-import com.revature.quizzard.screens.RegisterScreen;
-import com.revature.quizzard.screens.WelcomeScreen;
+import com.revature.quizzard.screens.*;
 import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.datasource.Session;
@@ -27,16 +24,19 @@ public class AppState {
         appRunning = true;
 
         final Session session = new Session(null);
-        final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
-        final InputValidator inputValidator = new InputValidator(consoleReader);
         final UserDAO userDao = new UserDAO();
         final UserService userService = new UserService(userDao, session);
 
         router = new ScreenRouter();
+        final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        final InputValidator inputValidator = new InputValidator(consoleReader, router);
+
         router.addScreen(new WelcomeScreen(inputValidator, router))
               .addScreen(new RegisterScreen(inputValidator, userService, router))
               .addScreen(new LoginScreen(inputValidator, userService, router, session))
-              .addScreen(new DashboardScreen(inputValidator, router, session));
+              .addScreen(new DashboardScreen(inputValidator, router, session))
+              .addScreen(new UserProfileScreen(inputValidator, router, session));
+
 
         logger.info("Application initialized");
     }
@@ -50,7 +50,6 @@ public class AppState {
     }
 
     public void startup() {
-        logger.info("Navigating to welcome screen");
         router.navigate("/welcome");
         while (appRunning) {
             try {
