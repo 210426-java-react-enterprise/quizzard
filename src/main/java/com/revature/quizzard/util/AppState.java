@@ -37,6 +37,7 @@ public class AppState {
               .addScreen(new DashboardScreen(inputValidator, router, session))
               .addScreen(new UserProfileScreen(inputValidator, router, session));
 
+
         logger.info("Application initialized");
     }
 

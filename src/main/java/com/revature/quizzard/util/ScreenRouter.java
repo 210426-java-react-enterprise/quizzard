@@ -24,7 +24,9 @@ public class ScreenRouter {
                                .filter(screen -> screen.getRoute().equals(route))
                                .findFirst()
                                .orElseThrow(() -> new InvalidRouteException(route));
+      
         screenHistory.add(currentScreen);
+
     }
 
     public Screen getCurrentScreen() {
