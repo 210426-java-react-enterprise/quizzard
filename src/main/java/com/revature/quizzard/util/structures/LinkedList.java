@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  *
  * @param <T>
  */
-public class LinkedList<T> implements List<T>, Queue<T>, Iterable<T> {
+public class LinkedList<T> implements List<T>, Iterable<T> {
 
     private int size;
     private Node<T> head;

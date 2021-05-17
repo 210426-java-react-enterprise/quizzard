@@ -1,18 +1,22 @@
 package com.revature.quizzard.daos;
 
+import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class UserDAO {
 
-    public void save(AppUser newUser) {
+    private final Logger logger = Logger.getLogger();
 
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
+    public void save(Connection conn, AppUser newUser) {
+
+        try {
 
             String sqlInsertUser = "insert into quizzard.users (username , password , email , first_name , last_name , age ) values (?,?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser, new String[] { "user_id" });
@@ -31,14 +35,15 @@ public class UserDAO {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
     }
 
-    public boolean isUsernameAvailable(String username) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+    public boolean isUsernameAvailable(Connection conn, String username) {
+        try {
 
             String sql = "select * from quizzard.users where username = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -50,15 +55,16 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
         return true;
 
     }
 
-    public boolean isEmailAvailable(String email) {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+    public boolean isEmailAvailable(Connection conn, String email) {
+        try {
 
             String sql = "select * from quizzard.users where email = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -70,17 +76,18 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
         return true;
     }
 
-    public AppUser findUserByUsernameAndPassword(String username, String password) {
+    public Optional<AppUser> findUserByUsernameAndPassword(Connection conn, String username, String password) {
 
-        AppUser user = null;
+        Optional<AppUser> _user = Optional.empty();
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
 
             String sql = "select * from quizzard.users where username = ? and password = ?";
 
@@ -89,23 +96,35 @@ public class UserDAO {
             pstmt.setString(2, password);
 
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                user = new AppUser();
-                user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setAge(rs.getInt("age"));
-            }
+            _user = getOne(rs);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
         }
 
-        return user;
+        return _user;
 
     }
+
+    private Optional<AppUser> getOne(ResultSet rs) throws SQLException {
+
+        AppUser user = null;
+
+        if (rs.next()) {
+            user = new AppUser();
+            user.setId(rs.getInt("user_id"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
+            user.setEmail(rs.getString("email"));
+            user.setAge(rs.getInt("age"));
+        }
+
+        return Optional.ofNullable(user);
+    
+    }
+
 
 }
