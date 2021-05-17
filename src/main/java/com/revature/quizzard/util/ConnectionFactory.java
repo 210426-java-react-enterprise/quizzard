@@ -40,7 +40,7 @@ public class ConnectionFactory {
     //this function loads our properties file (which holds our database credentionals)
     private ConnectionFactory(){
         try {
-            props.load(new FileReader("src/main/resources/application.properties"));
+            props.load(new FileReader("/src/main/webapp/WEB-INF/application.properties"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

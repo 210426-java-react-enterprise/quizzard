@@ -1,8 +1,6 @@
 package com.revature.quizzard.screens;
-
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
-
 import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen{
@@ -63,8 +61,6 @@ public class RegisterScreen extends Screen{
             e.printStackTrace(); // include this line while developing/debugging the app!
             // should be logged to a file in a production environment
         }
-
-
 
     }
 
