@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -43,9 +44,9 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {
         try {
-            props.load(new FileReader("/src/main/webapp/WEB-INF/application.properties"));
+            props.load(new FileReader("WEB-INF/application.properties"));
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -63,10 +64,19 @@ public class ConnectionFactory {
 
         try {
 
+            // sorry wezley, had to change some things to get it to work on
+            //      my computer. Should have taught docker week 1 hehehehe
+
+//            conn = DriverManager.getConnection(
+//                    props.getProperty("host-url"),
+//                    props.getProperty("username"),
+//                    props.getProperty("password"));
             conn = DriverManager.getConnection(
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password"));
+                    System.getenv("host-url"),
+                    System.getenv("username"),
+                    System.getenv("password")
+            );
+            conn.setAutoCommit(false);
 
         } catch (SQLException e) {
             e.printStackTrace();

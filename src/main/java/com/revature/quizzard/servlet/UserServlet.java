@@ -27,6 +27,15 @@ public class UserServlet extends HttpServlet {
 
     private UserService service = new UserService(new UserDAO(), new Session((null)));
 
+    /*
+    http verbs
+        - actions taken on a resource
+            get
+            post
+            put
+            delete
+            patch
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // need to register a user
@@ -69,6 +78,16 @@ public class UserServlet extends HttpServlet {
         // This will get the PrintWriter associated with the Response. This PrintWriter will... write
         //      to the body of the response
         resp.getWriter().print("hello out there! Your user has been created!!!");
+
+        /*
+        tomcat >
+            webapps >
+                quizzard >
+                    WEB-INF
+                    META-INF
+                    war_file
+         */
+
 
     }
 
