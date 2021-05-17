@@ -34,13 +34,13 @@ public class ConnectionFactory {
     private static ConnectionFactory connectionFactory;
     private Properties props = new Properties();
 
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private ConnectionFactory() {
         try {
