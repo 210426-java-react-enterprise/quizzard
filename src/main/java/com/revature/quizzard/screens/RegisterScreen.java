@@ -1,76 +1,47 @@
 package com.revature.quizzard.screens;
 
-import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
+import com.revature.quizzard.exceptions.UserInputException;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.services.InputValidator;
 import com.revature.quizzard.services.UserService;
-
-import java.io.BufferedReader;
+import com.revature.quizzard.util.RegEx;
+import com.revature.quizzard.util.ScreenRouter;
 
 public class RegisterScreen extends Screen {
 
-    private UserService userService;
-    private BufferedReader consoleReader;
+    private final UserService userService;
 
-    public RegisterScreen(BufferedReader consoleReader, UserService userService) {
-        super("RegisterScreen", "/register");
-        this.consoleReader = consoleReader;
+    public RegisterScreen(InputValidator inputValidator, UserService userService, ScreenRouter router) {
+        super("RegisterScreen", "/register", inputValidator, router);
         this.userService = userService;
     }
 
-    public void render() {
-
-        String firstName;
-        String lastName;
-        String email;
-        String username;
-        String password;
-        int age;
-
-        // ok but a little verbose
-//        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-//        BufferedReader consoleReader = new BufferedReader(inputStreamReader);
+    public void render() throws Exception {
 
         try {
-            // risky code that might through an exception
-
-            System.out.println("Register for a new account!");
+            System.out.println("\nRegister for a new account!");
             System.out.println("+-------------------------+");
 
-            System.out.print("First name: ");
-            firstName = consoleReader.readLine(); // throws Exception here
 
-            System.out.print("Last name: ");
-            lastName = consoleReader.readLine();
-
-            System.out.print("Email: ");
-            email = consoleReader.readLine();
-
-            System.out.print("Username: ");
-            username = consoleReader.readLine();
-
-            System.out.print("Password: ");
-            password = consoleReader.readLine();
-
-            System.out.print("Age: ");
-            age = Integer.parseInt(consoleReader.readLine());
+            String firstName = inputValidator.promptUser("First name: ", "Invalid input.", 3, RegEx.ALPHABETIC_25);
+            String lastName = inputValidator.promptUser("Last name: ", "Invalid input.", 3, RegEx.ALPHABETIC_25);
+            String email = inputValidator.promptUser("Email: ", "Invalid input.", 3, RegEx.EMAIL);
+            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.ALPHANUMERIC_20);
+            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.PASSWORD);
+            int age = Integer.parseInt(inputValidator.promptUser("Age:  ", "Invalid input.", 3, RegEx.AGE_RANGE));
 
             AppUser newUser = new AppUser(username, password, email, firstName, lastName, age);
             userService.register(newUser);
+            router.navigate("/login");
 
-        } catch (NumberFormatException nfe) {
-            // do something about these!
-            System.err.println("You provided an incorrect value for your age! Please try again!");
-            this.render(); // this breaks some stuff! we will need to fix this
-        } catch (InvalidRequestException | ResourcePersistenceException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace(); // include this line while developing/debugging the app!
-            // should be logged to a file in a production environment
+        } catch (NumberFormatException | InvalidRequestException | ResourcePersistenceException e) {
+            logger.warn(e.getMessage());
+        } catch(UserInputException e) {
+            logger.warn(e.getMessage());
+            router.navigate("/welcome");
         }
-
-
 
     }
 

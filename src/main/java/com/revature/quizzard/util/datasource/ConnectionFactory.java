@@ -1,9 +1,10 @@
-package com.revature.quizzard.util;
+package com.revature.quizzard.util.datasource;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -29,10 +30,6 @@ import java.util.Properties;
  */
 public class ConnectionFactory {
 
-    // Eager singleton
-//    private static ConnectionFactory connectionFactory = new ConnectionFactory();
-
-    // Lazy singleton
     private static ConnectionFactory connectionFactory;
     private Properties props = new Properties();
 
@@ -46,7 +43,7 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {
         try {
-            props.load(new FileReader("src/main/resources/application.properties"));
+            props.load(new FileReader("/src/main/webapp/WEB-INF/application.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

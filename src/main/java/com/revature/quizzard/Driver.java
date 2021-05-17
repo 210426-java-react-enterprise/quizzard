@@ -4,12 +4,10 @@ import com.revature.quizzard.util.AppState;
 
 public class Driver {
 
-    private static AppState app = new AppState();
+    private static AppState app = new AppState(true);
 
     public static void main(String[] args) {
-        while (app.isAppRunning()) {
-            app.getRouter().navigate("/welcome");
-        }
+        app.startup();
     }
 
     public static AppState app() {
