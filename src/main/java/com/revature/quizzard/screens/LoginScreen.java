@@ -1,48 +1,48 @@
 package com.revature.quizzard.screens;
 
-import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.models.AppUser;
-
-import java.io.BufferedReader;
+import com.revature.quizzard.exceptions.AuthenticationException;
+import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.services.InputValidator;
+import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.RegEx;
+import com.revature.quizzard.util.ScreenRouter;
+import com.revature.quizzard.util.datasource.Session;
 
 public class LoginScreen extends Screen {
 
-    private UserDAO userDao = new UserDAO();
-    private BufferedReader consoleReader;
+    private final UserService userService;
+    private final Session session;
 
-    public LoginScreen(BufferedReader consoleReader) {
-        super("LoginScreen", "/login");
-        this.consoleReader = consoleReader;
+    public LoginScreen(InputValidator inputValidator, UserService userService, ScreenRouter router, Session session) {
+        super("LoginScreen", "/login", inputValidator, router);
+        this.userService = userService;
+        this.session = session;
     }
 
-    public void render() {
+    public void render() throws Exception {
 
         try {
-            String username;
-            String password;
-
-            System.out.println("Log into your account!");
+            System.out.println("\nLog into your account!");
             System.out.println("+---------------------+");
 
-            System.out.print("Username: ");
-            username = consoleReader.readLine();
+            String username = inputValidator.promptUser("Username: ", "Invalid input.", 3, RegEx.ALPHANUMERIC_20);
+            String password = inputValidator.promptUser("Password: ", "Invalid input.", 3, RegEx.PASSWORD);
 
-            System.out.print("Password: ");
-            password = consoleReader.readLine();
+            userService.authenticate(username, password);
 
-            if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-                AppUser authenticatedUser = userDao.findUserByUsernameAndPassword(username, password);
-                if (authenticatedUser != null) {
-                    System.out.println("Login successful!");
-                } else {
-                    System.out.println("Login failed!");
-                }
+            if (session.getSessionUser().isPresent()) {
+                logger.info("Log in successful!");
+                router.navigate("/dashboard");
             } else {
-                System.out.println("It looks like you didn't provide any credentials!");
+                logger.warn("Log in unsuccessful!");
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InvalidRequestException e) {
+            logger.warn(e.getMessage());
+        } catch (AuthenticationException e) {
+            String msg = "Unable to login using provided credentials. Please try again.\n";
+            System.err.println(msg);
+            logger.info(msg);
         }
     }
 }
