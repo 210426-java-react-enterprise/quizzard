@@ -1,6 +1,6 @@
 package com.revature.quizzard.util.structures;
 
-public interface List<T> extends Collection<T> {
+public interface List<T> {
 
     T get(int index);
 

@@ -1,6 +1,7 @@
 package com.revature.quizzard.util.structures;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 /**
@@ -15,7 +16,6 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
     private Node<T> head;
     private Node<T> tail;
 
-    @Override
     public boolean add(T data) throws IllegalArgumentException {
 
         if (data == null) {
@@ -37,7 +37,6 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     }
 
-    @Override
     public boolean contains(T data) {
         Node<T> runner = head;
         for (int i = 0; i < size; i++) {
@@ -68,12 +67,10 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
         return null;
     }
 
-    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
-    @Override
     public T poll() {
 
         if (head == null) {
@@ -95,12 +92,10 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     }
 
-    @Override
     public T peek() {
         return head.data;
     }
 
-    @Override
     public boolean remove(T data) {
         Node<T> runner = head;
         for (int i = 0; i < size; i++) {
@@ -115,7 +110,6 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
         return false;
     }
 
-    @Override
     public int size() {
         return size;
     }
@@ -148,6 +142,9 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
                 return data;
             }
         };
+    }
+
+    public void stream() {
     }
 
     private static class Node<T> {
