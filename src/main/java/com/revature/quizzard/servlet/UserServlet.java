@@ -1,6 +1,7 @@
 package com.revature.quizzard.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.quizzard.controller.UserController;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
@@ -28,8 +29,7 @@ import java.util.Map;
  */
 public class UserServlet extends HttpServlet {
 
-
-    private UserService service = new UserService(new UserDAO(), new Session((null)));
+    private Dispatcher dispatcher = new Dispatcher();
 
     /*
     http verbs
@@ -42,82 +42,36 @@ public class UserServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // need to register a user
 
+        // security logic
 
-        // 1. gather information out of the request send by the form
-        /*
-            post /uri http/1.1
-            <headers>
-            content-type:
+        // handling headers
 
-            username=joe
-            password=swanson
-            email=something@guy.com
-            ...
-         */
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        String email = req.getParameter("email");
-        String fn = req.getParameter("firstname");
-        String ln = req.getParameter("lastname");
-        int age = Integer.parseInt(req.getParameter("age"));
+        // filtering content
 
-        // 2. construct an AppUser with that information
-        AppUser user = new AppUser(username, password, email, fn, ln, age);
+        // logging user data
 
-        // 3. save the user in the db with the register method from the service
-        service.register(user);
+        // extract this into dispatcher class
 
-
-        // 4. optional: create method for sending actual information back to the client
-        //status code levels
-        // 100 - Information
-        // 200 - OK
-        // 300 - Redirect
-        // 400 - Client side error
-        // 500 - Server side error
-        resp.setStatus(202);
-
-        // This will get the PrintWriter associated with the Response. This PrintWriter will... write
-        //      to the body of the response
-        resp.getWriter().print("hello out there! Your user has been created!!!");
-
-        /*
-        tomcat >
-            webapps >
-                quizzard >
-                    WEB-INF
-                    META-INF
-                    war_file
-         */
-
-
-
-
+        dispatcher.dataDispatch(req, resp);
     }
 
-    // here we are going to authenticate a user taken from a json in the request body
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // redirect, will send client to other servers
+        resp.sendRedirect("https://www.google.com");
+        // forward, will send client to other resources without them knowing.
+//        req.getRequestDispatcher("/someOtherResource").forward(req, resp);
+    }
+
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        dispatcher.dataDispatch(req, resp);
+    }
 
-        // json stands for javascript object notation
-
-        // read body of the request
-        // parse json
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(req.getInputStream(), HashMap.class);
-
-        // call #authenticate with username and password from json
-        service.authenticate(jsonMap.get("username").toString(), jsonMap.get("password").toString());
-
-        // return appropriate response
-        AppUser user = service.getUser();
-        if(user == null){
-            resp.getWriter().println("The user never showed up, so here we are");
-        } else {
-            resp.getWriter().println("here is the user you ordered! \n"+user.toString());
-        }
-
-
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        dispatcher.dataDispatch(req, resp);
     }
 }
