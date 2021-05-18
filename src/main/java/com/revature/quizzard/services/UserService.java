@@ -60,6 +60,7 @@ public class UserService {
 
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            e.printStackTrace();
             throw new ResourcePersistenceException();
         } catch (UsernameUnavailableException | EmailUnavailableException e) {
             logger.warn(e.getMessage());
