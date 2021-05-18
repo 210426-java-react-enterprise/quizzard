@@ -83,4 +83,8 @@ public class UserService {
         return user.getAge() >= 0;
     }
 
+    public AppUser getUser(){
+        return session.getSessionUser().get();
+    }
+
 }

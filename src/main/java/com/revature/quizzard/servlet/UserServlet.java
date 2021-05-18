@@ -1,5 +1,6 @@
 package com.revature.quizzard.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
@@ -9,7 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Servlet hierarchy
@@ -30,11 +34,11 @@ public class UserServlet extends HttpServlet {
     /*
     http verbs
         - actions taken on a resource
-            get
-            post
-            put
-            delete
-            patch
+            get         READ
+            post        CREATE
+            put         UPDATE
+            delete      DELETE
+            patch       UPDATE
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -89,8 +93,31 @@ public class UserServlet extends HttpServlet {
          */
 
 
+
+
     }
 
+    // here we are going to authenticate a user taken from a json in the request body
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        // json stands for javascript object notation
+
+        // read body of the request
+        // parse json
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(req.getInputStream(), HashMap.class);
+
+        // call #authenticate with username and password from json
+        service.authenticate(jsonMap.get("username").toString(), jsonMap.get("password").toString());
+
+        // return appropriate response
+        AppUser user = service.getUser();
+        if(user == null){
+            resp.getWriter().println("The user never showed up, so here we are");
+        } else {
+            resp.getWriter().println("here is the user you ordered! \n"+user.toString());
+        }
 
 
+    }
 }
