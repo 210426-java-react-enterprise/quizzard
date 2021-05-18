@@ -1,4 +1,4 @@
-package com.revature.quizzard.servlets;
+package com.revature.quizzard.servlet;
 
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;

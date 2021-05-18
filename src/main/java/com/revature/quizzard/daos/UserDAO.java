@@ -89,7 +89,7 @@ public class UserDAO {
        return true;
     }
     public Boolean isUsernameAvailible(String username){
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+       try(Connection conn = ConnectionFactory.getInstance().getConnection()){
             String sql = "select * from quizzard.users where username = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,username);

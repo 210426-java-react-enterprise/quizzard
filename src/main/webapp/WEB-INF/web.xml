@@ -23,6 +23,8 @@
         <servlet-name>userServlet</servlet-name>
         <url-pattern>/user</url-pattern>
     </servlet-mapping>
-
+    <listener>
+        <listener-class>com.revature.quizzard.servlet.DependencyLoaderListener</listener-class>
+    </listener>
 
 </web-app>
