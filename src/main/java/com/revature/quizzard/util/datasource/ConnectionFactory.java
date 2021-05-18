@@ -42,11 +42,14 @@ public class ConnectionFactory {
     }
 
     private ConnectionFactory() {
+        /*
         try {
-            props.load(new FileReader("/src/main/webapp/WEB-INF/application.properties"));
+            props.load(new FileReader("webapp/WEB-INF/application.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
     }
 
     public static ConnectionFactory getInstance() {
@@ -63,10 +66,16 @@ public class ConnectionFactory {
 
         try {
 
-            conn = DriverManager.getConnection(
+            conn = DriverManager.getConnection("jdbc:postgresql://rev-postgresql.csduntui8sfv.us-east-2.rds.amazonaws.com/postgres?schemaName=quizzard",
+                                                   "ocastillo",
+                                                    "P4ssw0rd$$$");
+
+                    /*
                     props.getProperty("host-url"),
                     props.getProperty("username"),
                     props.getProperty("password"));
+                    */
+
 
         } catch (SQLException e) {
             e.printStackTrace();
