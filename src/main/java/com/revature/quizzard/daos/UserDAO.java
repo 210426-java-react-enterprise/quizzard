@@ -90,6 +90,7 @@ public class UserDAO {
         try {
 
             String sql = "select * from quizzard.users where username = ? and password = ?";
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);

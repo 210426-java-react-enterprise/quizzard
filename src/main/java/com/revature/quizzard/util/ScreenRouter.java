@@ -7,6 +7,7 @@ import com.revature.quizzard.util.logging.Logger;
 import java.util.LinkedList;
 //import com.revature.structures.LinkedList;
 
+
 public class ScreenRouter {
 
     private Logger logger = Logger.getLogger();
