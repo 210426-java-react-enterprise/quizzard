@@ -26,6 +26,10 @@
 
     <groupId>com.revature</groupId>
     <artifactId>quizzard</artifactId>
+    <version>1.0</version>
+    <build>
+        <finalName>${artifactId}</finalName>
+    </build>
     <packaging>war</packaging>
 
     <properties>
