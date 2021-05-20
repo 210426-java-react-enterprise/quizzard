@@ -76,7 +76,6 @@ public class ConnectionFactory {
                     System.getenv("db_username"),
                     System.getenv("db_password")
             );
-            System.out.println(System.getenv("host_url"));
             conn.setAutoCommit(false);
 
         } catch (SQLException e) {

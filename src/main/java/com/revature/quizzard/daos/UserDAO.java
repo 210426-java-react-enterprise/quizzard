@@ -90,6 +90,9 @@ public class UserDAO {
         try {
 
             String sql = "select * from quizzard.users where username = ? and password = ?";
+            if(conn == null) {
+                throw new NullPointerException(System.getenv("host_url") + " is what has been given as the host url from environment variables");
+            }
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
