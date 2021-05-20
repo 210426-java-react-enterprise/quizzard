@@ -28,7 +28,7 @@
     <artifactId>quizzard</artifactId>
     <version>1.0</version>
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
     </build>
     <packaging>war</packaging>
 
