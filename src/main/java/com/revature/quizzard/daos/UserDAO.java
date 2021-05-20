@@ -98,10 +98,8 @@ public class UserDAO {
             _user = getOne(rs);
 
         } catch (SQLException e) {
-//            logger.warn(e.getMessage());
-            e.printStackTrace();
+            logger.warn(e.getMessage());
             throw new DataSourceException();
-
         }
 
         return _user;
