@@ -72,9 +72,9 @@ public class ConnectionFactory {
 //                    props.getProperty("username"),
 //                    props.getProperty("password"));
             conn = DriverManager.getConnection(
-                    System.getenv("host_url"),
-                    System.getenv("db_username"),
-                    System.getenv("db_password")
+                    System.getProperty("host_url"),
+                    System.getProperty("db_username"),
+                    System.getProperty("db_password")
             );
             conn.setAutoCommit(false);
 
