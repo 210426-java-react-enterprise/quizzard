@@ -9,4 +9,4 @@ ENV db_password=revature
 # copy from local system into image
 COPY target/quizzard.war webapps/quizzard.war
 # The entrypoint for the container, remember containers only have 1 process
-ENTRYPOINT bin/startup.sh
+# ENTRYPOINT bin/startup.sh
