@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Properties;
 
 /*
@@ -61,6 +62,16 @@ public class ConnectionFactory {
     public Connection getConnection() {
 
         Connection conn = null;
+        String str = "beta";
+        char[] s = "alpha".toCharArray();
+
+        for (char c:s) {
+
+        }
+
+        String input  = "the quick brown fox";
+        String[] arrayOfStrings = input.split(" ");
+        System.out.println(Arrays.toString(arrayOfStrings));
 
         try {
 
@@ -72,9 +83,9 @@ public class ConnectionFactory {
 //                    props.getProperty("username"),
 //                    props.getProperty("password"));
             conn = DriverManager.getConnection(
-                    System.getenv("host-url"),
-                    System.getenv("username"),
-                    System.getenv("password")
+                    System.getenv("host_url"),
+                    System.getenv("db_username"),
+                    System.getenv("db_password")
             );
             conn.setAutoCommit(false);
 

@@ -11,10 +11,10 @@ public class Dispatcher {
 
     public void dataDispatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         switch (req.getRequestURI()) {
-            case "quizzard/user.data":
+            case "/quizzard/user.data":
                 controller.register(req, resp);
                 break;
-            case "quizzard/auth.data":
+            case "/quizzard/auth.data":
                 // here we are going to authenticate a user taken from a json in the request body
                 controller.authenticate(req, resp);
                 break;
