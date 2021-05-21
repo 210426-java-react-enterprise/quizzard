@@ -21,7 +21,7 @@ public class Dispatcher {
             default:
                 // some default handler
                 resp.setStatus(400);
-                resp.getWriter().println("The request uri was not recognized");
+                resp.getWriter().println(req.getRequestURI());
 
         }
     }
