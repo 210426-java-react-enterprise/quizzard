@@ -60,6 +60,7 @@ public class UserService {
 
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            e.printStackTrace();
             throw new ResourcePersistenceException();
         } catch (UsernameUnavailableException | EmailUnavailableException e) {
             logger.warn(e.getMessage());
@@ -80,6 +81,10 @@ public class UserService {
         if (isNullOrEmpty.test(user.getFirstName()) || lengthIsInvalid.test(user.getFirstName(), 25)) return false;
         if (isNullOrEmpty.test(user.getLastName()) || lengthIsInvalid.test(user.getLastName(), 25)) return false;
         return user.getAge() >= 0;
+    }
+
+    public AppUser getUser(){
+        return session.getSessionUser().get();
     }
 
 }

@@ -2,7 +2,10 @@ package com.revature.quizzard.util.datasource;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -31,19 +34,19 @@ public class ConnectionFactory {
     private static ConnectionFactory connectionFactory;
     private Properties props = new Properties();
 
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private ConnectionFactory() {
         try {
-            props.load(new FileReader("src/main/resources/application.properties"));
+            props.load(new FileReader("WEB-INF/application.properties"));
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -61,10 +64,19 @@ public class ConnectionFactory {
 
         try {
 
+            // sorry wezley, had to change some things to get it to work on
+            //      my computer. Should have taught docker week 1 hehehehe
+
+//            conn = DriverManager.getConnection(
+//                    props.getProperty("host-url"),
+//                    props.getProperty("username"),
+//                    props.getProperty("password"));
             conn = DriverManager.getConnection(
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password"));
+                    System.getenv("host_url"),
+                    System.getenv("db_username"),
+                    System.getenv("db_password")
+            );
+            conn.setAutoCommit(false);
 
         } catch (SQLException e) {
             e.printStackTrace();

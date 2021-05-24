@@ -3,7 +3,9 @@ package com.revature.quizzard.util;
 import com.revature.quizzard.exceptions.InvalidRouteException;
 import com.revature.quizzard.screens.Screen;
 import com.revature.quizzard.util.logging.Logger;
-import com.revature.structures.LinkedList;
+
+import java.util.LinkedList;
+//import com.revature.structures.LinkedList;
 
 public class ScreenRouter {
 

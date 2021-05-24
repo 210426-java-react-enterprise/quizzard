@@ -26,7 +26,11 @@
 
     <groupId>com.revature</groupId>
     <artifactId>quizzard</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -63,10 +67,21 @@
             <version>42.2.12</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.revature</groupId>-->
+<!--            <artifactId>wezleys-collections</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>com.revature</groupId>
-            <artifactId>wezleys-collections</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.3</version>
         </dependency>
 
     </dependencies>
