@@ -2,6 +2,7 @@ package com.revature.quizzard.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.dtos.Credentials;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.datasource.Session;
@@ -14,9 +15,11 @@ import java.util.Map;
 
 public class UserController {
 
-    private UserService service = new UserService(new UserDAO(), new Session((null)));
+    private UserService service = new UserService(new UserDAO());
 
+    public void authenticate(Credentials creds) {
 
+    }
     public void authenticate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         // json stands for javascript object notation
@@ -26,10 +29,8 @@ public class UserController {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(req.getInputStream(), HashMap.class);
 
         // call #authenticate with username and password from json
-        service.authenticate(jsonMap.get("username").toString(), jsonMap.get("password").toString());
+        AppUser user = service.authenticate(jsonMap.get("username").toString(), jsonMap.get("password").toString());
 
-        // return appropriate response
-        AppUser user = service.getUser();
         if(user == null){
             resp.getWriter().println("The user never showed up, so here we are");
         } else {

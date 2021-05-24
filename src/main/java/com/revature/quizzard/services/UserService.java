@@ -9,6 +9,7 @@ import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -16,21 +17,27 @@ public class UserService {
 
     private Logger logger = Logger.getLogger();
     private UserDAO userDao;
-    private Session session;
 
-    public UserService(UserDAO userDao, Session session) {
+    public UserService(UserDAO userDao) {
         this.userDao = userDao;
-        this.session = session;
     }
 
-    public void authenticate(String username, String password) throws AuthenticationException {
+    public List<AppUser> getAllUsers() {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            return userDao.findAllUsers(conn);
+        }  catch (SQLException | DataSourceException e) {
+            logger.warn(e.getMessage());
+            throw new AuthenticationException();
+        }
+
+    }
+
+    public AppUser authenticate(String username, String password) throws AuthenticationException {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            AppUser authUser = userDao.findUserByUsernameAndPassword(conn, username, password)
+            return userDao.findUserByUsernameAndPassword(conn, username, password)
                                       .orElseThrow(AuthenticationException::new);
-
-            session.setUser(authUser);
 
         } catch (SQLException | DataSourceException e) {
             logger.warn(e.getMessage());
@@ -81,10 +88,6 @@ public class UserService {
         if (isNullOrEmpty.test(user.getFirstName()) || lengthIsInvalid.test(user.getFirstName(), 25)) return false;
         if (isNullOrEmpty.test(user.getLastName()) || lengthIsInvalid.test(user.getLastName(), 25)) return false;
         return user.getAge() >= 0;
-    }
-
-    public AppUser getUser(){
-        return session.getSessionUser().get();
     }
 
 }

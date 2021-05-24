@@ -28,7 +28,7 @@ public class AppState {
 
         final Session session = new Session(null);
         final UserDAO userDao = new UserDAO();
-        final UserService userService = new UserService(userDao, session);
+        final UserService userService = new UserService(userDao);
 
         router = new ScreenRouter();
         final BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));

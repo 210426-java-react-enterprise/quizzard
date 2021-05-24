@@ -2,10 +2,12 @@ package com.revature.quizzard.servlet;
 
 import com.revature.quizzard.controller.UserController;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/*")
 public class Dispatcher {
     private UserController controller = new UserController();
 

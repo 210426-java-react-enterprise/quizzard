@@ -2,6 +2,7 @@ package com.revature.quizzard.util.datasource;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -44,7 +45,9 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {
         try {
-            props.load(new FileReader("WEB-INF/application.properties"));
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            InputStream input = loader.getResourceAsStream("application.properties");
+            props.load(input);
         } catch (IOException e) {
 //            e.printStackTrace();
         }
@@ -64,18 +67,11 @@ public class ConnectionFactory {
 
         try {
 
-            // sorry wezley, had to change some things to get it to work on
-            //      my computer. Should have taught docker week 1 hehehehe
-
-//            conn = DriverManager.getConnection(
-//                    props.getProperty("host-url"),
-//                    props.getProperty("username"),
-//                    props.getProperty("password"));
             conn = DriverManager.getConnection(
-                    System.getenv("host_url"),
-                    System.getenv("db_username"),
-                    System.getenv("db_password")
-            );
+                    props.getProperty("host-url"),
+                    props.getProperty("username"),
+                    props.getProperty("password"));
+
             conn.setAutoCommit(false);
 
         } catch (SQLException e) {

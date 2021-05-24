@@ -11,9 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +33,7 @@ import java.util.Map;
 public class UserServlet extends HttpServlet {
 
     private Dispatcher dispatcher = new Dispatcher();
+    private UserService userService = new UserService(new UserDAO());
 
     /*
     http verbs
@@ -59,10 +63,29 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // redirect, will send client to other servers
-        resp.sendRedirect("https://www.google.com");
-        // forward, will send client to other resources without them knowing.
-//        req.getRequestDispatcher("/someOtherResource").forward(req, resp);
+        ObjectMapper mapper = new ObjectMapper();
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+
+        HttpSession session = req.getSession(false);
+        AppUser requestingUser = (session == null) ? null : (AppUser) session.getAttribute("this-user");
+
+        if (requestingUser == null) {
+            resp.setStatus(401);
+            return;
+
+            /*
+            resp.sendRedirect("http://localhost:8080/auth"); // really, this should go to a web page for login
+            */
+
+        } else if (!requestingUser.getUsername().equals("wsingleton")) {
+            resp.setStatus(403);
+            return;
+        }
+
+        List<AppUser> users = userService.getAllUsers();
+        writer.write(mapper.writeValueAsString(users));
+
     }
 
     @Override

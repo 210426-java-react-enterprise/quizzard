@@ -26,7 +26,6 @@ public class UserServiceTest {
     private Connection mockConnection;
     private ConnectionFactory mockConnectionFactory;
     private MockedStatic<ConnectionFactory> staticMockConnectionFactory;
-    private Session mockSession;
 
     @Before
     public void setUp() {
@@ -39,7 +38,7 @@ public class UserServiceTest {
         when(ConnectionFactory.getInstance()).thenReturn(mockConnectionFactory);
         when(mockConnectionFactory.getConnection()).thenReturn(mockConnection);
 
-        sut = new UserService(mockUserDao, mockSession);
+        sut = new UserService(mockUserDao);
 
     }
 
@@ -51,7 +50,6 @@ public class UserServiceTest {
         staticMockConnectionFactory = null;
         mockConnectionFactory = null;
         mockConnection = null;
-        mockSession = null;
 
     }
 

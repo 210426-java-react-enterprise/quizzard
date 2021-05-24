@@ -4,15 +4,44 @@ import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.logging.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserDAO {
 
     private final Logger logger = Logger.getLogger();
+
+    public List<AppUser> findAllUsers(Connection conn) {
+
+        List<AppUser> users = new ArrayList<>();
+
+        try {
+
+            String sql = "SELECT * FROM quizzard.users";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                AppUser temp = new AppUser();
+                temp.setId(rs.getInt("user_id"));
+                temp.setUsername(rs.getString("username"));
+                temp.setPassword(rs.getString("password"));
+                temp.setFirstName(rs.getString("first_name"));
+                temp.setLastName(rs.getString("last_name"));
+                temp.setEmail(rs.getString("email"));
+                temp.setAge(rs.getInt("age"));
+                users.add(temp);
+            }
+
+
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
+        }
+
+        return users;
+    }
 
     public void save(Connection conn, AppUser newUser) {
 
