@@ -1,6 +1,5 @@
 package com.revature.quizzard.util;
 
-import com.revature.quizzard.util.Collection;
 
 import java.util.Collection;
 

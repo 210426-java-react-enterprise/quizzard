@@ -71,18 +71,12 @@ public class ConnectionFactory {
 
         try {
 
-<<<<<<< HEAD
+
             conn = DriverManager.getConnection("jdbc:postgresql://rev-postgresql.csduntui8sfv.us-east-2.rds.amazonaws.com/postgres?schemaName=quizzard",
                                                    "ocastillo",
                                                     "P4ssw0rd$$$");
 
-                    /*
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password"));
-                    */
 
-=======
             // sorry wezley, had to change some things to get it to work on
             //      my computer. Should have taught docker week 1 hehehehe
 
@@ -90,14 +84,8 @@ public class ConnectionFactory {
 //                    props.getProperty("host-url"),
 //                    props.getProperty("username"),
 //                    props.getProperty("password"));
-            conn = DriverManager.getConnection(
-                    System.getenv("host-url"),
-                    System.getenv("username"),
-                    System.getenv("password")
-            );
-            conn.setAutoCommit(false);
->>>>>>> b7c34ed9c0190a060aef49c9060ae726de3717b1
 
+            conn.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
         }

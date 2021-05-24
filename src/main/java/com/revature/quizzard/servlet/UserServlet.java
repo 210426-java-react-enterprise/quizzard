@@ -1,7 +1,9 @@
 package com.revature.quizzard.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.services.HtmlBuilder;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.datasource.Session;
 
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Servlet hierarchy
@@ -88,9 +92,35 @@ public class UserServlet extends HttpServlet {
                     war_file
          */
 
-
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // json stands for javascript object notation
 
+        // read body of the request
+        // parse json
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(req.getInputStream(), HashMap.class);
 
+        // call #authenticate with username and password from json
+        service.authenticate(jsonMap.get("username").toString(), jsonMap.get("password").toString());
+
+        // return appropriate response
+        AppUser user = service.getUser();
+        Map<String,String> tableTest = new HashMap<>();
+        tableTest.put("Username","jane.doe");
+        tableTest.put("Password","password");
+        String htmlBody = HtmlBuilder.buildHtmlTable("Login",tableTest);
+        if (user == null) {
+            resp.getWriter().println("The user never showed up, so here we are");
+
+        } else {
+            //resp.getWriter().println("here is the user you ordered! \n" + user.toString());
+            resp.getWriter().println(htmlBody);
+
+        }
+    }
 }
+
+
+
