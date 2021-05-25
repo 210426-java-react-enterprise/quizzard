@@ -25,3 +25,9 @@ hs_err_pid*
 # IDE-specific files
 .idea/
 *.iml
+
+# Build folders
+target/
+
+# App properties
+*.properties
