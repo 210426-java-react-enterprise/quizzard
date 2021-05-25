@@ -29,5 +29,11 @@ hs_err_pid*
 # Build folders
 target/
 
+
 # App properties
 *.properties
+
+# Properties files
+*.properties
+setenv.sh
+
