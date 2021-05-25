@@ -4,7 +4,6 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.datasource.Session;
 import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;

@@ -1,13 +1,10 @@
 package com.revature.quizzard.services;
 
-import com.revature.quizzard.Driver;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.datasource.Session;
-import com.revature.quizzard.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +26,6 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
-        Driver.app().setLoggingToConsole(false);
         mockUserDao = mock(UserDAO.class);
         mockConnection = mock(Connection.class);
         mockConnectionFactory = mock(ConnectionFactory.class);
