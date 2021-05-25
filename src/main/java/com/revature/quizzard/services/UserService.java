@@ -26,9 +26,26 @@ public class UserService {
             return userDao.findAllUsers(conn);
         }  catch (SQLException | DataSourceException e) {
             logger.warn(e.getMessage());
-            throw new AuthenticationException();
+            throw new ResourceNotFoundException();
         }
 
+    }
+
+    public AppUser getUserById(String idStr) {
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+            int id = Integer.parseInt(idStr);
+
+            return userDao.findUserById(conn, id)
+                          .orElseThrow(ResourceNotFoundException::new);
+
+        }  catch (SQLException | DataSourceException e) {
+            logger.warn(e.getMessage());
+            throw new ResourceNotFoundException();
+        } catch (NumberFormatException e) {
+            throw new InvalidRequestException("An illegal value was provided!");
+        }
     }
 
     public AppUser authenticate(String username, String password) throws AuthenticationException {

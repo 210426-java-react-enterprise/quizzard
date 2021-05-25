@@ -43,6 +43,26 @@ public class UserDAO {
         return users;
     }
 
+    public Optional<AppUser> findUserById(Connection conn, int id) {
+
+        Optional<AppUser> _user = Optional.empty();
+
+        try {
+            String sql = "SELECT * FROM quizzard.users WHERE user_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+            _user = getOne(rs);
+
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DataSourceException();
+        }
+
+        return _user;
+    }
+
     public void save(Connection conn, AppUser newUser) {
 
         try {

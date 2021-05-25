@@ -2,6 +2,8 @@ package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
 
@@ -27,7 +29,6 @@ public class UserServlet extends HttpServlet {
 
     }
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -45,8 +46,21 @@ public class UserServlet extends HttpServlet {
             return;
         }
 
-        List<AppUser> users = userService.getAllUsers();
-        writer.write(mapper.writeValueAsString(users));
+        String userIdParam = req.getParameter("id");
+
+        try {
+            if (userIdParam == null) {
+                List<AppUser> users = userService.getAllUsers();
+                writer.write(mapper.writeValueAsString(users));
+            } else {
+                AppUser user = userService.getUserById(userIdParam);
+                writer.write(mapper.writeValueAsString(user));
+            }
+        } catch (ResourceNotFoundException e) {
+            resp.setStatus(404);
+        } catch (InvalidRequestException e) {
+            resp.setStatus(400);
+        }
 
     }
 

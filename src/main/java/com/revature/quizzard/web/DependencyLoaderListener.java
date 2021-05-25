@@ -4,10 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.revature.quizzard.daos.FlashcardDAO;
-import com.revature.quizzard.daos.StudySetDAO;
 import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.web.servlets.AuthServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
