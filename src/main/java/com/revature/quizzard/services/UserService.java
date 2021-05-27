@@ -17,11 +17,6 @@ import java.util.function.Predicate;
 @Component
 public class UserService {
 
-
-
-//    private Logger logger = Logger.getLogger();
-
-
     private UserDAO userDao;
 
     @Autowired
