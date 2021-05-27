@@ -13,7 +13,6 @@ public class UserRepository {
     private SessionFactory sessionFactory;
 
     @Autowired
-
     public UserRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

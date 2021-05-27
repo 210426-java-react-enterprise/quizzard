@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
-@Service
+//@Service
 public class _UserService {
 
     private Logger logger = Logger.getLogger();
