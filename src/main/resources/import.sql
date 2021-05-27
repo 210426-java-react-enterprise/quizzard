@@ -1,0 +1,4 @@
+INSERT INTO users (username, password, first_name, last_name, email, age) VALUES ('wsingleton', 'password', 'Wezley', 'Singleton', 'wsingleton@revature.com', 30);
+INSERT INTO users (username, password, first_name, last_name, email, age) VALUES ('aanderson', 'p4ssw0rd', 'Wezley', 'Doubleton', 'aanderson@revature.com', 60);
+INSERT INTO users (username, password, first_name, last_name, email, age) VALUES ('bbailey', 'drowssap', 'Wezley', 'Tripleton', 'bbailey@revature.com', 90);
+INSERT INTO users (username, password, first_name, last_name, email, age) VALUES ('ccantrell', 'dr0wss4p', 'Wezley', 'Quadrupleton', 'ccantrell@revature.com', 120);

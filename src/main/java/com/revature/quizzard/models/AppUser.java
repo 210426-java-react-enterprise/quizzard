@@ -1,22 +1,23 @@
 package com.revature.quizzard.models;
 
-/*
-    Classes must be named the exact same as the file itself!
+import javax.persistence.*;
 
-    Class names should (for best practice) be in PascalCase
-        - not to be confused with camelCase
-
-    POJO = Plain Ol' Java Object
-        - Does not (usually) contain any methods beyond simple getters and setters
-            + maybe the occasional convenience method
- */
+@Entity
+@Table(name = "users")
 public class AppUser {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String username;
     private String password;
     private String email;
-    private String firstName; // variables should be in camelCase
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
     private int age;
 
