@@ -1,5 +1,8 @@
 package com.revature.quizzard.models;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 /*
     Classes must be named the exact same as the file itself!
 
@@ -10,14 +13,22 @@ package com.revature.quizzard.models;
         - Does not (usually) contain any methods beyond simple getters and setters
             + maybe the occasional convenience method
  */
+@Component
 public class AppUser {
 
+    @Value("id")
     private int id;
+    @Value("username")
     private String username;
+    @Value("password")
     private String password;
+    @Value("email")
     private String email;
+    @Value("firstName")
     private String firstName; // variables should be in camelCase
+    @Value("lastName")
     private String lastName;
+    @Value("age")
     private int age;
 
     public AppUser() {

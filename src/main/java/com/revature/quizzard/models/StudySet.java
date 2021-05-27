@@ -3,22 +3,31 @@ package com.revature.quizzard.models;
 //import com.revature.quizzard.util.structures.LinkedList;
 //import com.revature.quizzard.util.structures.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class StudySet {
 
+    @Value("id")
     private int id;
+    @Value("name")
     private String name;
+    @Value("flashcards")
     private List<Flashcard> flashcards;
-    private AppUser owner;
+
+
+    private AppUser owner; //dependency
 
     public StudySet() {
-        super();
     }
 
     public StudySet(String name, List<Flashcard> flashcards) {
+        super();
         this.name = name;
         this.flashcards = flashcards;
     }
@@ -46,6 +55,7 @@ public class StudySet {
     public void setFlashcards(List<Flashcard> flashcards) {
         this.flashcards = flashcards;
     }
+
 
     public StudySet addFlashcard(Flashcard flashcard) {
         if (flashcards == null) {

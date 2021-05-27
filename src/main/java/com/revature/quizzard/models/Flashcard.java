@@ -1,13 +1,23 @@
 package com.revature.quizzard.models;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+
 import java.util.Objects;
 
+@Component
 public class Flashcard {
 
+    @Value("id")
     private int id;
+    @Value("${question}")
     private String question;
+    @Value("${answer}")
     private String answer;
-    private Category category;
+
+    private Category category; //dependency
 
     public Flashcard() {
         super();
@@ -43,10 +53,12 @@ public class Flashcard {
         this.answer = answer;
     }
 
+    @Autowired //lets other devs know this is a dependency
     public Category getCategory() {
         return category;
     }
 
+    @Autowired //lets other devs know this is a dependency
     public void setCategory(Category category) {
         this.category = category;
     }
