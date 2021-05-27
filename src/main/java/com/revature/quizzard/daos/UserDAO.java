@@ -3,12 +3,14 @@ package com.revature.quizzard.daos;
 import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.logging.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component("userDao")
 public class UserDAO {
 
     private final Logger logger = Logger.getLogger();

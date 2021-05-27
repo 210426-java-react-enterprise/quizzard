@@ -1,5 +1,7 @@
 package com.revature.quizzard.util.logging;
 
+import org.springframework.stereotype.Component;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -7,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Component("logger")
 public class Logger {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -14,22 +17,20 @@ public class Logger {
     public static final String ANSI_YELLOW = "\u001B[33m";
 
     private static Logger logger;
-    private final boolean printToConsole;
 
-    private Logger(boolean printToConsole) {
-        this.printToConsole = printToConsole;
-    }
+    private Logger() {
+            }
 
     public static Logger getLogger() {
         if (logger == null) {
-            logger = new Logger(true);
+            logger = new Logger();
         }
         return logger;
     }
 
     public static Logger getLogger(boolean loggingToConsole) {
         if (logger == null) {
-            logger = new Logger(loggingToConsole);
+            logger = new Logger();
         }
         return logger;
     }
@@ -39,9 +40,9 @@ public class Logger {
             String formattedMessage = formatMessage("INFO", String.format(message, args));
             writer.write(formattedMessage + "\n");
 
-            if (printToConsole) {
+
                 printMessageToConsole("INFO", formattedMessage);
-            }
+
         } catch (IOException e) {
             printMessageToConsole("ERROR", "Could not write message to file");
         }
@@ -52,9 +53,9 @@ public class Logger {
             String formattedMessage = formatMessage("WARN", String.format(message, args));
             writer.write(formattedMessage + "\n");
 
-            if (printToConsole) {
+
                 printMessageToConsole("WARN", formattedMessage);
-            }
+
         } catch (IOException e) {
             printMessageToConsole("ERROR", "Could not write message to file");
         }
@@ -65,9 +66,9 @@ public class Logger {
             String formattedMessage = formatMessage("ERROR", String.format(message, args));
             writer.write(formattedMessage + "\n");
 
-            if (printToConsole) {
+
                 printMessageToConsole("ERROR", formattedMessage);
-            }
+
         } catch (IOException e) {
             printMessageToConsole("ERROR", "Could not write message to file");
         }
@@ -78,9 +79,9 @@ public class Logger {
             String formattedMessage = formatMessage("FATAL", String.format(message, args));
             writer.write(formattedMessage + "\n");
 
-            if (printToConsole) {
+
                 printMessageToConsole("FATAL", formattedMessage);
-            }
+
         } catch (IOException e) {
             printMessageToConsole("ERROR", "Could not write message to file");
         }

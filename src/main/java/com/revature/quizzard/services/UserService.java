@@ -5,6 +5,8 @@ import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
 import com.revature.quizzard.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,11 +14,17 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+@Component
 public class UserService {
 
-    private Logger logger = Logger.getLogger();
+
+
+//    private Logger logger = Logger.getLogger();
+
+
     private UserDAO userDao;
 
+    @Autowired
     public UserService(UserDAO userDao) {
         this.userDao = userDao;
     }
@@ -25,7 +33,7 @@ public class UserService {
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
             return userDao.findAllUsers(conn);
         }  catch (SQLException | DataSourceException e) {
-            logger.warn(e.getMessage());
+
             throw new ResourceNotFoundException();
         }
 
@@ -41,7 +49,7 @@ public class UserService {
                           .orElseThrow(ResourceNotFoundException::new);
 
         }  catch (SQLException | DataSourceException e) {
-            logger.warn(e.getMessage());
+
             throw new ResourceNotFoundException();
         } catch (NumberFormatException e) {
             throw new InvalidRequestException("An illegal value was provided!");
@@ -56,7 +64,7 @@ public class UserService {
                                       .orElseThrow(AuthenticationException::new);
 
         } catch (SQLException | DataSourceException e) {
-            logger.warn(e.getMessage());
+
             throw new AuthenticationException();
         }
 
@@ -82,11 +90,11 @@ public class UserService {
             conn.commit();
 
         } catch (SQLException e) {
-            logger.warn(e.getMessage());
+
             e.printStackTrace();
             throw new ResourcePersistenceException();
         } catch (UsernameUnavailableException | EmailUnavailableException e) {
-            logger.warn(e.getMessage());
+
             throw new ResourcePersistenceException(e.getMessage());
         }
 
