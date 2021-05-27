@@ -1,8 +1,10 @@
 package com.revature.quizzard.models;
 
-import com.revature.quizzard.util.structures.LinkedList;
-import com.revature.quizzard.util.structures.List;
+//import com.revature.quizzard.util.structures.LinkedList;
+//import com.revature.quizzard.util.structures.List;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class StudySet {

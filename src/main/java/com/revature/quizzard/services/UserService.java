@@ -4,11 +4,11 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.datasource.Session;
 import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -16,21 +16,44 @@ public class UserService {
 
     private Logger logger = Logger.getLogger();
     private UserDAO userDao;
-    private Session session;
 
-    public UserService(UserDAO userDao, Session session) {
+    public UserService(UserDAO userDao) {
         this.userDao = userDao;
-        this.session = session;
     }
 
-    public void authenticate(String username, String password) throws AuthenticationException {
+    public List<AppUser> getAllUsers() {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            return userDao.findAllUsers(conn);
+        }  catch (SQLException | DataSourceException e) {
+            logger.warn(e.getMessage());
+            throw new ResourceNotFoundException();
+        }
+
+    }
+
+    public AppUser getUserById(String idStr) {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            AppUser authUser = userDao.findUserByUsernameAndPassword(conn, username, password)
-                                      .orElseThrow(AuthenticationException::new);
+            int id = Integer.parseInt(idStr);
 
-            session.setUser(authUser);
+            return userDao.findUserById(conn, id)
+                          .orElseThrow(ResourceNotFoundException::new);
+
+        }  catch (SQLException | DataSourceException e) {
+            logger.warn(e.getMessage());
+            throw new ResourceNotFoundException();
+        } catch (NumberFormatException e) {
+            throw new InvalidRequestException("An illegal value was provided!");
+        }
+    }
+
+    public AppUser authenticate(String username, String password) throws AuthenticationException {
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+
+            return userDao.findUserByUsernameAndPassword(conn, username, password)
+                                      .orElseThrow(AuthenticationException::new);
 
         } catch (SQLException | DataSourceException e) {
             logger.warn(e.getMessage());
@@ -60,6 +83,7 @@ public class UserService {
 
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            e.printStackTrace();
             throw new ResourcePersistenceException();
         } catch (UsernameUnavailableException | EmailUnavailableException e) {
             logger.warn(e.getMessage());
