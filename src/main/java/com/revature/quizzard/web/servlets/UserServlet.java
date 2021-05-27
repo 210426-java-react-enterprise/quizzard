@@ -1,11 +1,10 @@
 package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.services._UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,9 +17,9 @@ import java.util.List;
 
 public class UserServlet extends HttpServlet {
 
-    private UserService userService;
+    private _UserService userService;
 
-    public UserServlet(UserService userService) {
+    public UserServlet(_UserService userService) {
         this.userService = userService;
     }
 

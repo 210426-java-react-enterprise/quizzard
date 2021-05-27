@@ -5,7 +5,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.services._UserService;
 import com.revature.quizzard.web.servlets.AuthServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
 
@@ -21,7 +21,7 @@ public class DependencyLoaderListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         UserDAO userDao = new UserDAO();
-        UserService userService = new UserService(userDao);
+        _UserService userService = new _UserService(userDao);
 
         AuthServlet authServlet = new AuthServlet(userService);
         UserServlet userServlet = new UserServlet(userService);

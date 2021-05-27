@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
-    private UserService sut;
+    private _UserService sut;
     private UserDAO mockUserDao;
     private Connection mockConnection;
     private ConnectionFactory mockConnectionFactory;
@@ -34,7 +34,7 @@ public class UserServiceTest {
         when(ConnectionFactory.getInstance()).thenReturn(mockConnectionFactory);
         when(mockConnectionFactory.getConnection()).thenReturn(mockConnection);
 
-        sut = new UserService(mockUserDao);
+        sut = new _UserService(mockUserDao);
 
     }
 

@@ -2,11 +2,10 @@ package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.dtos.Credentials;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.services._UserService;
 import com.revature.quizzard.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -21,9 +20,9 @@ public class AuthServlet extends HttpServlet {
 
     private final Logger logger = Logger.getLogger();
 
-    private final UserService userService;
+    private final _UserService userService;
 
-    public AuthServlet(UserService userService) {
+    public AuthServlet(_UserService userService) {
         this.userService = userService;
     }
 

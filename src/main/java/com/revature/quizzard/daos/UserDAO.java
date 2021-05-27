@@ -3,6 +3,7 @@ package com.revature.quizzard.daos;
 import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.logging.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -176,7 +177,7 @@ public class UserDAO {
         }
 
         return Optional.ofNullable(user);
-    
+
     }
 
 
