@@ -3,18 +3,34 @@ package com.revature.quizzard.models;
 //import com.revature.quizzard.util.structures.LinkedList;
 //import com.revature.quizzard.util.structures.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table
 public class StudySet {
 
+
+    @Id
+    @Column(name = "studyset_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "studyset_name")
     private String name;
+
+    @Column
     private List<Flashcard> flashcards;
+
+    @Column
     private AppUser owner;
 
-    public StudySet() {
+    @Autowired
+    public StudySet(List<Flashcard> flashcards, AppUser owner) {
         super();
     }
 
