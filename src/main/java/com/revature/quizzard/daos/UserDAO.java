@@ -43,6 +43,10 @@ public class UserDAO {
         return users;
     }
 
+    public List<AppUser> findAllUsers(){
+        return AppUserRepository.findAllUsers();
+    }
+
     public Optional<AppUser> findUserById(Connection conn, int id) {
 
         Optional<AppUser> _user = Optional.empty();
@@ -61,6 +65,10 @@ public class UserDAO {
         }
 
         return _user;
+    }
+
+    public Optional<AppUser> findUserById(int id){
+        return AppUserRepository.findUserById(id);
     }
 
     public void save(Connection conn, AppUser newUser) {
@@ -91,6 +99,10 @@ public class UserDAO {
 
     }
 
+    public void save(AppUser newUser){
+        AppUserRepository.save(newUser);
+    }
+
     public boolean isUsernameAvailable(Connection conn, String username) {
         try {
 
@@ -112,6 +124,10 @@ public class UserDAO {
 
     }
 
+    public boolean isUsernameAvailable(String username){
+        return AppUserRepository.isUsernameAvailable(username);
+    }
+
     public boolean isEmailAvailable(Connection conn, String email) {
         try {
 
@@ -130,6 +146,10 @@ public class UserDAO {
         }
 
         return true;
+    }
+
+    public boolean isEmailAvailable(String email){
+        return AppUserRepository.isEmailAvailable(email);
     }
 
     public Optional<AppUser> findUserByUsernameAndPassword(Connection conn, String username, String password) {
@@ -158,6 +178,10 @@ public class UserDAO {
 
         return _user;
 
+    }
+
+    public Optional<AppUser> findUserByUsernameAndPassword(String username, String password){
+        return AppUserRepository.findUserByUsernameAndPassword(username,password);
     }
 
     private Optional<AppUser> getOne(ResultSet rs) throws SQLException {

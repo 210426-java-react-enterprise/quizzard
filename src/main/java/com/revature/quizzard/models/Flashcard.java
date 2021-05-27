@@ -5,15 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
-@Component
+@Component("flashcards")
+@Entity
+@Table(name = "flashcards")
 public class Flashcard {
 
+    @Id
+    @Column(name = "flashcard_id")
     @Value("id")
     private int id;
+
+    @Column(name = "question", nullable = false)
     @Value("${question}")
     private String question;
+
+    @Column(name = "answer", nullable = false)
     @Value("${answer}")
     private String answer;
 

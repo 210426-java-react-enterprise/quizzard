@@ -3,6 +3,8 @@ package com.revature.quizzard.models;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import javax.persistence.*;
 /*
     Classes must be named the exact same as the file itself!
 
@@ -13,23 +15,41 @@ import org.springframework.beans.factory.annotation.Value;
         - Does not (usually) contain any methods beyond simple getters and setters
             + maybe the occasional convenience method
  */
-@Component
+
+@Component("users")
+@Entity
+@Table(name = "users")
 public class AppUser {
 
-    @Value("id")
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "username",unique = true,nullable = false)
     @Value("username")
     private String username;
+
+    @Column(name = "password",nullable = false)
     @Value("password")
     private String password;
+
+    @Column(name = "email",unique = true,nullable = false)
     @Value("email")
     private String email;
+
+    @Column(name = "first_name",nullable = false)
     @Value("firstName")
-    private String firstName; // variables should be in camelCase
+    private String firstName;
+
+    @Column(name = "last_name",nullable = false)
     @Value("lastName")
     private String lastName;
+
+    @Column(name = "age",nullable = false)
     @Value("age")
     private int age;
+
 
     public AppUser() {
         super();

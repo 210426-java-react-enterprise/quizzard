@@ -6,6 +6,8 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
 import com.revature.quizzard.util.logging.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,9 +25,11 @@ public class UserService {
         this.userDao = userDao;
     }
 
+
+    @Transactional(readOnly = true)
     public List<AppUser> getAllUsers() {
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            return userDao.findAllUsers(conn);
+            return userDao.findAllUsers();
         }  catch (SQLException | DataSourceException e) {
             logger.warn(e.getMessage());
             throw new ResourceNotFoundException();
@@ -33,13 +37,14 @@ public class UserService {
 
     }
 
+    @Transactional(readOnly = true,isolation = Isolation.READ_COMMITTED)
     public AppUser getUserById(String idStr) {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
             int id = Integer.parseInt(idStr);
 
-            return userDao.findUserById(conn, id)
+            return userDao.findUserById(id)
                           .orElseThrow(ResourceNotFoundException::new);
 
         }  catch (SQLException | DataSourceException e) {
@@ -50,11 +55,12 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
     public AppUser authenticate(String username, String password) throws AuthenticationException {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            return userDao.findUserByUsernameAndPassword(conn, username, password)
+            return userDao.findUserByUsernameAndPassword(username, password)
                                       .orElseThrow(AuthenticationException::new);
 
         } catch (SQLException | DataSourceException e) {
@@ -64,6 +70,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public void register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
 
         if (!isUserValid(newUser)) {
@@ -72,15 +79,15 @@ public class UserService {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            if (!userDao.isUsernameAvailable(conn, newUser.getUsername())) {
+            if (!userDao.isUsernameAvailable(newUser.getUsername())) {
                 throw new UsernameUnavailableException();
             }
 
-            if (!userDao.isEmailAvailable(conn, newUser.getEmail())) {
+            if (!userDao.isEmailAvailable(newUser.getEmail())) {
                 throw new EmailUnavailableException();
             }
 
-            userDao.save(conn, newUser);
+            userDao.save(newUser);
             conn.commit();
 
         } catch (SQLException e) {

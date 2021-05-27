@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.revature.quizzard.daos.AppUserRepository;
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.web.servlets.AuthServlet;
