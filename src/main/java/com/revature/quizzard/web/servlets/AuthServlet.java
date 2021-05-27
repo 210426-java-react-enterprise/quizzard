@@ -2,8 +2,7 @@ package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.dtos.Credentials;
+import com.revature.quizzard.dtos.AppUserDTO;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
@@ -45,7 +44,7 @@ public class AuthServlet extends HttpServlet {
         resp.setContentType("application/json");
 
         try {
-            Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
+            AppUserDTO creds = mapper.readValue(req.getInputStream(), AppUserDTO.class);
             logger.info("Attempting to authenticate user, %s, with provided credentials", creds.getUsername());
 
             AppUser authUser = userService.authenticate(creds.getUsername(), creds.getPassword());

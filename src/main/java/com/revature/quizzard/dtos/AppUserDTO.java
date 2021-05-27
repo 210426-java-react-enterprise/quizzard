@@ -1,11 +1,11 @@
 package com.revature.quizzard.dtos;
 
-public class Credentials {
+public class AppUserDTO {
 
     private String username;
     private String password;
 
-    public Credentials() {
+    public AppUserDTO() {
         super();
     }
 

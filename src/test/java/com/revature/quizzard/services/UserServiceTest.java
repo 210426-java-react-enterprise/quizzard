@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
-    private UserService sut;
+ /*   private UserService sut;
     private UserDAO mockUserDao;
     private Connection mockConnection;
     private ConnectionFactory mockConnectionFactory;
@@ -123,6 +123,6 @@ public class UserServiceTest {
 
 
     }
-
+*/
 
 }
