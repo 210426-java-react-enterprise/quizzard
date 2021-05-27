@@ -13,7 +13,7 @@ import javax.persistence.*;
             + maybe the occasional convenience method
  */
 @Entity
-@Table
+@Table(name = "appusers")
 public class AppUser {
 
     @Id

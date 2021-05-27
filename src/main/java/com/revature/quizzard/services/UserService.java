@@ -16,6 +16,7 @@ public class UserService {
 
     private Logger logger = Logger.getLogger();
     private UserDAO userDao;
+    List<AppUser> users;
 
     public UserService(UserDAO userDao) {
         this.userDao = userDao;

@@ -3,22 +3,22 @@ package com.revature.quizzard.models;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@Table
+//@Entity
+//@Table(name = "flashcards")
 public class Flashcard {
 
-    @Id
-    @Column(name = "flashcard_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @Column(name = "flashcard_id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String question;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String answer;
 
-    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
     private Category category;
 
     public Flashcard() {

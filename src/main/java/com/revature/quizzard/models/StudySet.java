@@ -10,26 +10,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table
+//@Entity
+//@Table
 public class StudySet {
 
 
-    @Id
-    @Column(name = "studyset_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @Column(name = "studyset_id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "studyset_name")
+//    @Column(name = "studyset_name")
     private String name;
 
-    @Column
+//    @JoinColumn
+//    @OneToMany
     private List<Flashcard> flashcards;
 
-    @Column
+//    @Column
     private AppUser owner;
 
-    @Autowired
     public StudySet(List<Flashcard> flashcards, AppUser owner) {
         super();
     }
