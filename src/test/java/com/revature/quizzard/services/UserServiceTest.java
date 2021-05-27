@@ -34,7 +34,7 @@ public class UserServiceTest {
         when(ConnectionFactory.getInstance()).thenReturn(mockConnectionFactory);
         when(mockConnectionFactory.getConnection()).thenReturn(mockConnection);
 
-        sut = new UserService(mockUserDao);
+        sut = new UserService();
 
     }
 
@@ -57,7 +57,7 @@ public class UserServiceTest {
         when(mockUserDao.isEmailAvailable(any(), anyString())).thenReturn(true);
 
         // Act
-        sut.register(new AppUser(0, "un", "pw", "email", "fn", "ln", 18));
+        sut.createNewUser(new AppUser(0, "un", "pw", "email", "fn", "ln", 18));
 
         // Assert
         verify(mockConnectionFactory, times(1)).getConnection();
@@ -74,7 +74,7 @@ public class UserServiceTest {
 
         // Act
         try {
-            sut.register(new AppUser(0, "sdf", "pw", "email", "fn", "ln", 18));
+            sut.createNewUser(new AppUser(0, "sdf", "pw", "email", "fn", "ln", 18));
         } catch (Exception e) {
             assertTrue(e instanceof ResourcePersistenceException);
         } finally {
@@ -94,7 +94,7 @@ public class UserServiceTest {
 
         // Act
         try {
-            sut.register(new AppUser(0, "un", "pw", "taken-email", "fn", "ln", 18));
+            sut.createNewUser(new AppUser(0, "un", "pw", "taken-email", "fn", "ln", 18));
         } catch (Exception e) {
             assertTrue(e instanceof ResourcePersistenceException);
         } finally {
@@ -113,7 +113,7 @@ public class UserServiceTest {
         AppUser invalidUser = new AppUser("", "", "", "", "", 30);
 
         // Act
-        sut.register(invalidUser);
+        sut.createNewUser(invalidUser);
 
         // Assert
         verify(mockConnectionFactory, times(0)).getConnection();

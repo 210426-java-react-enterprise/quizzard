@@ -1,5 +1,10 @@
 package com.revature.quizzard.models;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /*
     Classes must be named the exact same as the file itself!
 
@@ -12,12 +17,27 @@ package com.revature.quizzard.models;
  */
 public class AppUser {
 
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName; // variables should be in camelCase
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(name = "age", nullable = false)
     private int age;
 
     public AppUser() {

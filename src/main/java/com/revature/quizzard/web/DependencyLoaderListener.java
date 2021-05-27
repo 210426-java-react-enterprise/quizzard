@@ -21,7 +21,7 @@ public class DependencyLoaderListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         UserDAO userDao = new UserDAO();
-        UserService userService = new UserService(userDao);
+        UserService userService = new UserService();
 
         AuthServlet authServlet = new AuthServlet(userService);
         UserServlet userServlet = new UserServlet(userService);

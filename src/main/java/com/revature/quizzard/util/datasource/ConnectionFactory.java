@@ -37,7 +37,7 @@ public class ConnectionFactory {
 
     static {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -68,9 +68,9 @@ public class ConnectionFactory {
         try {
 
             conn = DriverManager.getConnection(
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password"));
+                    props.getProperty("db.url"),
+                    props.getProperty("db.username"),
+                    props.getProperty("db.password"));
 
             conn.setAutoCommit(false);
 

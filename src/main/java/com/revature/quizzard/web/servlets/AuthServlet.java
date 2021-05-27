@@ -48,7 +48,7 @@ public class AuthServlet extends HttpServlet {
             Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
             logger.info("Attempting to authenticate user, %s, with provided credentials", creds.getUsername());
 
-            AppUser authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
+            AppUser authUser = userService.authenticate_json(creds.getUsername(), creds.getPassword());
             writer.write(mapper.writeValueAsString(authUser));
 
             req.getSession().setAttribute("this-user", authUser);

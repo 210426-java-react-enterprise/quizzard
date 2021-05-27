@@ -4,6 +4,7 @@ import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.logging.Logger;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public class UserDAO {
 
     private final Logger logger = Logger.getLogger();
 
+    @Transactional
     public List<AppUser> findAllUsers(Connection conn) {
 
         List<AppUser> users = new ArrayList<>();
@@ -43,6 +45,7 @@ public class UserDAO {
         return users;
     }
 
+    @Transactional
     public Optional<AppUser> findUserById(Connection conn, int id) {
 
         Optional<AppUser> _user = Optional.empty();
@@ -63,6 +66,7 @@ public class UserDAO {
         return _user;
     }
 
+    @Transactional
     public void save(Connection conn, AppUser newUser) {
 
         try {
@@ -91,6 +95,7 @@ public class UserDAO {
 
     }
 
+    @Transactional
     public boolean isUsernameAvailable(Connection conn, String username) {
         try {
 
@@ -112,6 +117,7 @@ public class UserDAO {
 
     }
 
+    @Transactional
     public boolean isEmailAvailable(Connection conn, String email) {
         try {
 
@@ -132,6 +138,7 @@ public class UserDAO {
         return true;
     }
 
+    @Transactional
     public Optional<AppUser> findUserByUsernameAndPassword(Connection conn, String username, String password) {
 
         Optional<AppUser> _user = Optional.empty();
@@ -160,6 +167,7 @@ public class UserDAO {
 
     }
 
+    @Transactional
     private Optional<AppUser> getOne(ResultSet rs) throws SQLException {
 
         AppUser user = null;

@@ -50,10 +50,11 @@ public class UserServlet extends HttpServlet {
 
         try {
             if (userIdParam == null) {
-                List<AppUser> users = userService.getAllUsers();
+                List<AppUser> users = userService.getAllUsers_json();
                 writer.write(mapper.writeValueAsString(users));
             } else {
-                AppUser user = userService.getUserById(userIdParam);
+                int id = Integer.parseInt(userIdParam);
+                AppUser user = userService.getUserById_json(id);
                 writer.write(mapper.writeValueAsString(user));
             }
         } catch (ResourceNotFoundException e) {

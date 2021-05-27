@@ -1,109 +1,86 @@
 package com.revature.quizzard.services;
 
-import com.revature.quizzard.daos.UserDAO;
-import com.revature.quizzard.exceptions.*;
+import com.revature.quizzard.dtos.AppUserDTO;
+import com.revature.quizzard.dtos.AppUserList;
+import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.logging.Logger;
+import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+@Service
 public class UserService {
 
-    private Logger logger = Logger.getLogger();
-    private UserDAO userDao;
+    private static int nextId = 6;
+    List<AppUser> users;
 
-    public UserService(UserDAO userDao) {
-        this.userDao = userDao;
+    {
+        users = new ArrayList<>(Arrays.asList(
+                new AppUser("wsingleton", "revature", "wsingleton@gmail.com", "Wezley", "Singleton", 33),
+                new AppUser("aanderson", "password", "aanderson@gmail.com", "Alice", "Anderson" , 44),
+                new AppUser("bbailey", "password", "bbailey@gmail.com", "Bob", "Bailey", 55),
+                new AppUser("ccantrell", "password", "ccantrell@gmail.com", "Chris", "Cantrell", 66),
+                new AppUser("ddavis", "password", "ddavis@gmail.com", "Daniel", "Davis", 77))
+        );
     }
 
-    public List<AppUser> getAllUsers() {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            return userDao.findAllUsers(conn);
-        }  catch (SQLException | DataSourceException e) {
-            logger.warn(e.getMessage());
-            throw new ResourceNotFoundException();
+
+    public List<AppUser> getAllUsers_json() {
+        return users;
+    }
+
+    public AppUserList getAllUsers_xml() {
+        List<AppUserDTO> userList = users.stream().map(AppUserDTO::new).collect(Collectors.toList());
+        return new AppUserList(userList);
+    }
+
+    public AppUser authenticate_json(String username, String password){
+        AppUser usernameUser = users.stream().filter(appUser -> appUser.getUsername().equals(username))
+                .findFirst()
+                .orElseThrow(ResourceNotFoundException::new);
+        AppUser passUser = users.stream().filter(appUser -> appUser.getPassword().equals(password))
+                .findFirst()
+                .orElseThrow(ResourceNotFoundException::new);
+        if(usernameUser.equals(passUser)){
+            return usernameUser;
         }
-
+        return null;
+    }
+    public AppUser getUserById_json(int id) {
+        return users.stream()
+                .filter(appUser -> appUser.getId() == id)
+                .findFirst()
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public AppUser getUserById(String idStr) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-
-            int id = Integer.parseInt(idStr);
-
-            return userDao.findUserById(conn, id)
-                          .orElseThrow(ResourceNotFoundException::new);
-
-        }  catch (SQLException | DataSourceException e) {
-            logger.warn(e.getMessage());
-            throw new ResourceNotFoundException();
-        } catch (NumberFormatException e) {
-            throw new InvalidRequestException("An illegal value was provided!");
-        }
+    public AppUserDTO getUserById_xml(int id) {
+        return users.stream()
+                .filter(appUser -> appUser.getId() == id)
+                .map(AppUserDTO::new)
+                .findFirst()
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public AppUser authenticate(String username, String password) throws AuthenticationException {
-
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-
-            return userDao.findUserByUsernameAndPassword(conn, username, password)
-                                      .orElseThrow(AuthenticationException::new);
-
-        } catch (SQLException | DataSourceException e) {
-            logger.warn(e.getMessage());
-            throw new AuthenticationException();
-        }
-
+    public AppUser getUserByEmail(String email) {
+        return users.stream()
+                .filter(appUser -> appUser.getEmail().equals(email))
+                .findFirst()
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public void register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
-
-        if (!isUserValid(newUser)) {
-            throw new InvalidRequestException("Invalid new user data provided!");
-        }
-
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-
-            if (!userDao.isUsernameAvailable(conn, newUser.getUsername())) {
-                throw new UsernameUnavailableException();
-            }
-
-            if (!userDao.isEmailAvailable(conn, newUser.getEmail())) {
-                throw new EmailUnavailableException();
-            }
-
-            userDao.save(conn, newUser);
-            conn.commit();
-
-        } catch (SQLException e) {
-            logger.warn(e.getMessage());
-            e.printStackTrace();
-            throw new ResourcePersistenceException();
-        } catch (UsernameUnavailableException | EmailUnavailableException e) {
-            logger.warn(e.getMessage());
-            throw new ResourcePersistenceException(e.getMessage());
-        }
-
-
+    public AppUser createNewUser(AppUser newUser) {
+        newUser.setId(nextId++);
+        users.add(newUser);
+        return newUser;
     }
 
-    private boolean isUserValid(AppUser user) {
-        Predicate<String> isNullOrEmpty = str -> str == null || str.trim().isEmpty();
-        BiPredicate<String, Integer> lengthIsInvalid = (str, length) -> str.length() > length;
-
-        if (user == null) return false;
-        if (isNullOrEmpty.test(user.getUsername()) || lengthIsInvalid.test(user.getUsername(), 20)) return false;
-        if (isNullOrEmpty.test(user.getPassword()) || lengthIsInvalid.test(user.getPassword(), 255)) return false;
-        if (isNullOrEmpty.test(user.getEmail()) || lengthIsInvalid.test(user.getEmail(), 255)) return false;
-        if (isNullOrEmpty.test(user.getFirstName()) || lengthIsInvalid.test(user.getFirstName(), 25)) return false;
-        if (isNullOrEmpty.test(user.getLastName()) || lengthIsInvalid.test(user.getLastName(), 25)) return false;
-        return user.getAge() >= 0;
+    public AppUser updateUserEmail(int id, String email) {
+        AppUser user = users.get(id - 1);
+        user.setEmail(email);
+        return user;
     }
-
 }
