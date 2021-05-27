@@ -3,47 +3,36 @@ package com.revature.quizzard.daos;
 import com.revature.quizzard.exceptions.DataSourceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.logging.Logger;
+import org.hibernate.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDAO {
+@Repository
+public class UserRepository {
 
-    private final Logger logger = Logger.getLogger();
+    private SessionFactory sessionFactory;
+    //private final Logger logger = Logger.getLogger();
 
-    public List<AppUser> findAllUsers(Connection conn) {
-
-        List<AppUser> users = new ArrayList<>();
-
-        try {
-
-            String sql = "SELECT * FROM quizzard.users";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                AppUser temp = new AppUser();
-                temp.setId(rs.getInt("user_id"));
-                temp.setUsername(rs.getString("username"));
-                temp.setPassword(rs.getString("password"));
-                temp.setFirstName(rs.getString("first_name"));
-                temp.setLastName(rs.getString("last_name"));
-                temp.setEmail(rs.getString("email"));
-                temp.setAge(rs.getInt("age"));
-                users.add(temp);
-            }
-
-
-        } catch (SQLException e) {
-            logger.warn(e.getMessage());
-            throw new DataSourceException();
-        }
-
-        return users;
+    @Autowired
+    public UserRepository(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
-    public Optional<AppUser> findUserById(Connection conn, int id) {
+    @Transactional(readOnly = true)
+    public List<AppUser> findAllUsers() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from AppUser a where a.id =: a.email", AppUser.class).getResultList();
+    }
+
+ /*
+    public Optional<AppUser> findUserById(int id) {
 
         Optional<AppUser> _user = Optional.empty();
 
@@ -56,40 +45,22 @@ public class UserDAO {
             _user = getOne(rs);
 
         } catch (SQLException e) {
-            logger.warn(e.getMessage());
+            //logger.warn(e.getMessage());
             throw new DataSourceException();
         }
 
         return _user;
     }
+*/
+    public AppUser save(AppUser newUser) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(newUser);
+        return newUser;
 
-    public void save(Connection conn, AppUser newUser) {
-
-        try {
-
-            String sqlInsertUser = "insert into quizzard.users (username , password , email , first_name , last_name , age ) values (?,?,?,?,?,?)";
-            PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser, new String[] { "user_id" });
-            pstmt.setString(1,newUser.getUsername());
-            pstmt.setString(2,newUser.getPassword());
-            pstmt.setString(3,newUser.getEmail());
-            pstmt.setString(4,newUser.getFirstName());
-            pstmt.setString(5,newUser.getLastName());
-            pstmt.setInt(6,newUser.getAge());
-            int rowsInserted = pstmt.executeUpdate();
-
-            if (rowsInserted != 0) {
-                ResultSet rs = pstmt.getGeneratedKeys();
-                while (rs.next()) {
-                    newUser.setId(rs.getInt("user_id"));
-                }
-            }
-
-        } catch (SQLException e) {
-            logger.warn(e.getMessage());
-            throw new DataSourceException();
-        }
 
     }
+
+    /*
 
     public boolean isUsernameAvailable(Connection conn, String username) {
         try {
@@ -104,7 +75,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            logger.warn(e.getMessage());
+            //logger.warn(e.getMessage());
             throw new DataSourceException();
         }
 
@@ -125,7 +96,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            logger.warn(e.getMessage());
+            //logger.warn(e.getMessage());
             throw new DataSourceException();
         }
 
@@ -152,7 +123,7 @@ public class UserDAO {
             _user = getOne(rs);
 
         } catch (SQLException e) {
-            logger.warn(e.getMessage());
+            //logger.warn(e.getMessage());
             throw new DataSourceException();
         }
 
@@ -178,6 +149,8 @@ public class UserDAO {
         return Optional.ofNullable(user);
     
     }
+
+     */
 
 
 }

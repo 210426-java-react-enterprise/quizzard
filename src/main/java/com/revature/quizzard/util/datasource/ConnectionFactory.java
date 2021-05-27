@@ -72,8 +72,6 @@ public class ConnectionFactory {
                     props.getProperty("username"),
                     props.getProperty("password"));
 
-            conn.setAutoCommit(false);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

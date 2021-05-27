@@ -1,5 +1,9 @@
 package com.revature.quizzard.models;
 
+import org.springframework.stereotype.*;
+
+import javax.persistence.*;
+
 /*
     Classes must be named the exact same as the file itself!
 
@@ -10,14 +14,31 @@ package com.revature.quizzard.models;
         - Does not (usually) contain any methods beyond simple getters and setters
             + maybe the occasional convenience method
  */
+@Entity
+@Table(name = "users")
 public class AppUser {
 
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "username", nullable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName; // variables should be in camelCase
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(name = "age", nullable = false)
     private int age;
 
     public AppUser() {

@@ -1,10 +1,12 @@
 package com.revature.quizzard.services;
 
-import com.revature.quizzard.daos.UserDAO;
+import com.revature.quizzard.daos.UserRepository;
 import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
 import com.revature.quizzard.util.logging.Logger;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,32 +14,35 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+@Service
 public class UserService {
 
     private Logger logger = Logger.getLogger();
-    private UserDAO userDao;
+    private UserRepository userRepository;
 
-    public UserService(UserDAO userDao) {
-        this.userDao = userDao;
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<AppUser> getAllUsers() {
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            return userDao.findAllUsers(conn);
-        }  catch (SQLException | DataSourceException e) {
+        try {
+            return userRepository.findAllUsers();
+        }  catch (DataSourceException e) {
             logger.warn(e.getMessage());
             throw new ResourceNotFoundException();
         }
 
     }
+    /*
 
     public AppUser getUserById(String idStr) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try () {
 
             int id = Integer.parseInt(idStr);
 
-            return userDao.findUserById(conn, id)
+            return userRepository.findUserById(id)
                           .orElseThrow(ResourceNotFoundException::new);
 
         }  catch (SQLException | DataSourceException e) {
@@ -52,7 +57,7 @@ public class UserService {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            return userDao.findUserByUsernameAndPassword(conn, username, password)
+            return userRepository.findUserByUsernameAndPassword(conn, username, password)
                                       .orElseThrow(AuthenticationException::new);
 
         } catch (SQLException | DataSourceException e) {
@@ -61,30 +66,14 @@ public class UserService {
         }
 
     }
-
-    public void register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
+*/
+    public AppUser register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
 
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Invalid new user data provided!");
         }
-
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-
-            if (!userDao.isUsernameAvailable(conn, newUser.getUsername())) {
-                throw new UsernameUnavailableException();
-            }
-
-            if (!userDao.isEmailAvailable(conn, newUser.getEmail())) {
-                throw new EmailUnavailableException();
-            }
-
-            userDao.save(conn, newUser);
-            conn.commit();
-
-        } catch (SQLException e) {
-            logger.warn(e.getMessage());
-            e.printStackTrace();
-            throw new ResourcePersistenceException();
+        try {
+            return userRepository.save(newUser);
         } catch (UsernameUnavailableException | EmailUnavailableException e) {
             logger.warn(e.getMessage());
             throw new ResourcePersistenceException(e.getMessage());
@@ -92,6 +81,7 @@ public class UserService {
 
 
     }
+
 
     private boolean isUserValid(AppUser user) {
         Predicate<String> isNullOrEmpty = str -> str == null || str.trim().isEmpty();

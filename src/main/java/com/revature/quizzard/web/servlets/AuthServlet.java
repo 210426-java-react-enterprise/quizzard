@@ -2,7 +2,6 @@ package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.dtos.Credentials;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.models.AppUser;
@@ -48,10 +47,10 @@ public class AuthServlet extends HttpServlet {
             Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
             logger.info("Attempting to authenticate user, %s, with provided credentials", creds.getUsername());
 
-            AppUser authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
-            writer.write(mapper.writeValueAsString(authUser));
+            //AppUser authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
+            //writer.write(mapper.writeValueAsString(authUser));
 
-            req.getSession().setAttribute("this-user", authUser);
+            //req.getSession().setAttribute("this-user", authUser);
 
         } catch (MismatchedInputException e) {
             logger.warn(e.getMessage());

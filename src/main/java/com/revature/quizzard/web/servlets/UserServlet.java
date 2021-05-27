@@ -1,7 +1,6 @@
 package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.models.AppUser;
@@ -53,8 +52,8 @@ public class UserServlet extends HttpServlet {
                 List<AppUser> users = userService.getAllUsers();
                 writer.write(mapper.writeValueAsString(users));
             } else {
-                AppUser user = userService.getUserById(userIdParam);
-                writer.write(mapper.writeValueAsString(user));
+                //AppUser user = userService.getUserById(userIdParam);
+                //writer.write(mapper.writeValueAsString(user));
             }
         } catch (ResourceNotFoundException e) {
             resp.setStatus(404);
