@@ -4,11 +4,13 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.web.servlets.AuthServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -26,6 +28,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactorybean;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import java.util.Properties;
 
 @EnableWebMvc
 @Configuration
@@ -61,9 +64,20 @@ public class AppConfig implements WebMvcConfigurer, WebApplicationInitializer {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
-        sessionFactoryBean.setPackagesToScan("com.revature.spring_orm.models");
+        sessionFactoryBean.setPackagesToScan("com.revature.quizzard.models");
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
         return sessionFactoryBean;
+    }
+
+
+    private Properties hibernateProperties() {
+        Properties hibernateProps = new Properties();
+        hibernateProps.setProperty(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
+        hibernateProps.setProperty(Environment.SHOW_SQL, "true");
+        hibernateProps.setProperty(Environment.FORMAT_SQL, "true");
+        hibernateProps.setProperty(Environment.HBM2DDL_AUTO, "create");
+        hibernateProps.setProperty(Environment.HBM2DDL_IMPORT_FILES, "import.sql");
+        return hibernateProps;
     }
 
 
