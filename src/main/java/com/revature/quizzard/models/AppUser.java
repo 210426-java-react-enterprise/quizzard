@@ -10,14 +10,34 @@ package com.revature.quizzard.models;
         - Does not (usually) contain any methods beyond simple getters and setters
             + maybe the occasional convenience method
  */
-public class AppUser {
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="users")
+public class AppUser {
+    
+    @Id
+    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @Column(name="username")
     private String username;
+    
+    @Column(name="password")
     private String password;
+    
+    @Column(name="email")
     private String email;
+    
+    @Column(name="first_name")
     private String firstName; // variables should be in camelCase
+    
+    @Column(name="last_name")
     private String lastName;
+    
+    @Column(name="age")
     private int age;
 
     public AppUser() {
