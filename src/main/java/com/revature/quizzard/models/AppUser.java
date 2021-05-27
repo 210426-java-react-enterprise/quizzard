@@ -1,5 +1,7 @@
 package com.revature.quizzard.models;
 
+import javax.persistence.*;
+
 /*
     Classes must be named the exact same as the file itself!
 
@@ -10,15 +12,37 @@ package com.revature.quizzard.models;
         - Does not (usually) contain any methods beyond simple getters and setters
             + maybe the occasional convenience method
  */
+@Entity
+@Table(name="users")
 public class AppUser {
 
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String username;
+
+    @Column
     private String password;
+
+    @Column
     private String email;
+
+    @Column(name = "first_name")
     private String firstName; // variables should be in camelCase
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column
     private int age;
+
+    @Column(name = "role_number")
+    private int roleNumber;
+
+
 
     public AppUser() {
         super();
@@ -126,5 +150,13 @@ public class AppUser {
         sb.append(", age=").append(age);
         sb.append('}');
         return sb.toString();
+    }
+
+    public int getRoleNumber() {
+        return roleNumber;
+    }
+
+    public void setRoleNumber(int roleNumber) {
+        this.roleNumber = roleNumber;
     }
 }

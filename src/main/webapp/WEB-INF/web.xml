@@ -5,8 +5,8 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         version="2.5">
 
-    <listener>
+ <!--   <listener>
         <listener-class>com.revature.quizzard.web.DependencyLoaderListener</listener-class>
-    </listener>
+    </listener> -->
 
 </web-app>
