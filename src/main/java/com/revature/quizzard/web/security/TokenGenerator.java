@@ -11,12 +11,12 @@ import java.util.Date;
 @Component
 public class TokenGenerator {
 
-//    private JwtConfig jwtConfig;
+    private JwtConfig jwtConfig;
 
-//    @Autowired
-//    public TokenGenerator(JwtConfig jwtConfig) {
-//        this.jwtConfig = jwtConfig;
-//    }
+    @Autowired
+    public TokenGenerator(JwtConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
+    }
 
     public String createJwt(AppUser subject) {
 
@@ -28,14 +28,14 @@ public class TokenGenerator {
                                  .claim("role", subject.getRole().toString())
                                  .setIssuer("revature")
                                  .setIssuedAt(new Date(now))
-                                 .setExpiration(new Date(now + HackyJwtConfig.getExpiration()))
-                                 .signWith(HackyJwtConfig.getSigAlg(), HackyJwtConfig.getSigningKey());
+                                 .setExpiration(new Date(now + jwtConfig.getExpiration()))
+                                 .signWith(jwtConfig.getSigAlg(), jwtConfig.getSigningKey());
 
-        return HackyJwtConfig.getPrefix() + builder.compact();
+        return jwtConfig.getPrefix() + builder.compact();
 
     }
 
-//    public JwtConfig getJwtConfig() {
-//        return jwtConfig;
-//    }
+    public JwtConfig getJwtConfig() {
+        return jwtConfig;
+    }
 }

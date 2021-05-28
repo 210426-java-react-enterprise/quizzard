@@ -9,19 +9,19 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 
-//@Component
+@Component
 public class JwtConfig {
 
-//    @Value("${jwt.header}")
+    @Value("${jwt.header}")
     private String header;
 
-//    @Value("${jwt.prefix}")
+    @Value("${jwt.prefix}")
     private String prefix;
 
-//    @Value("${jwt.secret}")
+    @Value("${jwt.secret}")
     private String secret;
 
-//    @Value("#{24*60*60*1000}")
+    @Value("#{24*60*60*1000}")
     private int expiration;
 
     private SignatureAlgorithm sigAlg = SignatureAlgorithm.HS512;
@@ -52,7 +52,7 @@ public class JwtConfig {
         return signingKey;
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void postConstruct() {
         byte[] secretBytes = DatatypeConverter.parseBase64Binary(secret);
         signingKey = new SecretKeySpec(secretBytes, sigAlg.getJcaName());

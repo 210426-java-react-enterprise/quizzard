@@ -1,33 +1,36 @@
 package com.revature.quizzard.web.filters;
 
 import com.revature.quizzard.web.dtos.Principal;
-import com.revature.quizzard.web.security.HackyJwtConfig;
 import com.revature.quizzard.web.security.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
+import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
 @WebFilter("/*")
-public class AuthFilter extends OncePerRequestFilter {
+public class AuthFilter extends HttpFilter {
 
     private Logger logger = LogManager.getLogger();
 
+    private JwtConfig jwtConfig;
+
+    public void init(FilterConfig cfg) {
+        ApplicationContext container = WebApplicationContextUtils.getRequiredWebApplicationContext(cfg.getServletContext());
+        this.jwtConfig = container.getBean(JwtConfig.class);
+    }
 
     @Override
-    public void doFilterInternal(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws ServletException, IOException {
+    public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws ServletException, IOException {
         parseToken(req);
         chain.doFilter(req, resp);
     }
@@ -36,17 +39,17 @@ public class AuthFilter extends OncePerRequestFilter {
 
         try {
 
-            String header = req.getHeader(HackyJwtConfig.getHeader());
+            String header = req.getHeader(jwtConfig.getHeader());
 
-            if (header == null || !header.startsWith(HackyJwtConfig.getPrefix())) {
+            if (header == null || !header.startsWith(jwtConfig.getPrefix())) {
                 logger.info("Request originates from an unauthenticated source.");
                 return;
             }
 
-            String token = header.replaceAll(HackyJwtConfig.getPrefix(), "");
+            String token = header.replaceAll(jwtConfig.getPrefix(), "");
 
             Claims jwtClaims = Jwts.parser()
-                                   .setSigningKey(HackyJwtConfig.getSigningKey())
+                                   .setSigningKey(jwtConfig.getSigningKey())
                                    .parseClaimsJws(token)
                                    .getBody();
 

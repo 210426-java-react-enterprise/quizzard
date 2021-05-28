@@ -3,7 +3,7 @@ package com.revature.quizzard.web.controllers;
 import com.revature.quizzard.web.dtos.Credentials;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
-import com.revature.quizzard.web.security.HackyJwtConfig;
+import com.revature.quizzard.web.security.JwtConfig;
 import com.revature.quizzard.web.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,18 +21,20 @@ public class AuthController {
 
     private UserService userService;
     private TokenGenerator tokenGenerator;
+    private JwtConfig jwtConfig;
 
     @Autowired
-    public AuthController(UserService userService, TokenGenerator tokenGenerator) {
+    public AuthController(UserService userService, TokenGenerator tokenGenerator, JwtConfig jwtConfig) {
         this.userService = userService;
         this.tokenGenerator = tokenGenerator;
+        this.jwtConfig = jwtConfig;
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public AppUser authenticate(@RequestBody Credentials credentials, HttpServletResponse resp) {
         AppUser user = userService.authenticate(credentials.getUsername(), credentials.getPassword());
         String jwt = tokenGenerator.createJwt(user);
-        resp.setHeader(HackyJwtConfig.getHeader(), jwt);
+        resp.setHeader(jwtConfig.getHeader(), jwt);
         return user;
     }
 }
