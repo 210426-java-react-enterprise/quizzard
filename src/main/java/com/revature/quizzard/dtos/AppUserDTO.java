@@ -1,31 +1,27 @@
-package com.revature.quizzard.models;
+package com.revature.quizzard.dtos;
 
-import javax.persistence.*;
+import com.revature.quizzard.models.AppUser;
 
-@Entity
-@Table(name = "users")
-public class AppUser {
+public class AppUserDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String username;
-    private String password;
     private String email;
-    private int age;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "last_name")
     private String lastName;
+    private AppUser.Role role;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    public AppUser() {
+    public AppUserDTO() {
         super();
+    }
+
+    public AppUserDTO(AppUser u) {
+        id = u.getId();
+        username = u.getUsername();
+        email = u.getEmail();
+        firstName = u.getFirstName();
+        lastName = u.getLastName();
+        role = u.getRole();
     }
 
     public int getId() {
@@ -42,14 +38,6 @@ public class AppUser {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -76,36 +64,24 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Role getRole() {
+    public AppUser.Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(AppUser.Role role) {
         this.role = role;
     }
 
-        @Override
+    @Override
     public String toString() {
-        return "AppUser{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+        return "AppUserDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", age=" + age +
+                ", role=" + role +
                 '}';
-    }
-
-    public enum Role {
-        ADMIN, PREMIUM_USER, BASIC_USER;
     }
 
 }

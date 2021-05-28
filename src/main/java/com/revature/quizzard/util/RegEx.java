@@ -27,21 +27,6 @@ public enum RegEx {
             "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"),
 
     /**
-     * Minimum one character, maximum three characters, only numeric values allowed.
-     */
-    AGE_RANGE("^[0-9]{1,3}$"),
-
-    /**
-     * Only numeric values 1, 2, and 3 allowed.
-     */
-    VALID_WELCOME_SCREEN_INPUT("[1-3]"),
-
-    /**
-     * Only numeric values 1, 2, 3, and 4 allowed.
-     */
-    VALID_DASHBOARD_SCREEN_INPUT("[1-4]"),
-
-    /**
      * A non-value used as a default when no pattern validation is necessary.
      */
     NONE("");

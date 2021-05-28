@@ -17,7 +17,6 @@ public class MvcConfig implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        System.out.println("HERE WE ARE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
         container.register(AppConfig.class);
 

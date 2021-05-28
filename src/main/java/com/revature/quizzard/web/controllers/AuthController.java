@@ -24,7 +24,6 @@ public class AuthController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public AppUser authenticate(@RequestBody Credentials credentials) {
-        System.out.println("In AuthController#authenticate!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         AppUser user = userService.authenticate(credentials.getUsername(), credentials.getPassword());
         return user;
     }
