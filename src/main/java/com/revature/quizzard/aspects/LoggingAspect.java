@@ -15,7 +15,7 @@ public class LoggingAspect {
 
     private final Logger logger = LogManager.getLogger();
 
-    @Pointcut("within(com.revature.quizzard..*)")
+    @Pointcut("within(com.revature.quizzard..*) && !within(com.revature.quizzard.web.filters..*)")
     public void logAll() {}
 
     @Before("logAll()")

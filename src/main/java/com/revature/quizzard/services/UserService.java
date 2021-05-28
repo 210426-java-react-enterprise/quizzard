@@ -24,15 +24,13 @@ public class UserService {
     }
 
     @Transactional
-    public List<AppUser> searchUsers(Map<String, String> headerMap) {
-        System.out.println(headerMap);
+    public List<AppUser> searchUsers(Map<String, String> requestParamMap) {
 
-        if (headerMap.isEmpty()) return getAllUsers();
+        if (requestParamMap.isEmpty()) return getAllUsers();
 
         List<AppUser> matchingUsers = new ArrayList<>();
 
-        headerMap.forEach((key, value) -> {
-            System.out.println("Searching for " + key + ": " + value);
+        requestParamMap.forEach((key, value) -> {
             switch (key) {
                 case "id":
                     matchingUsers.add(getUserById(value));
