@@ -8,6 +8,7 @@ import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
 import com.revature.quizzard.util.datasource.EmbeddedDatabaseInitializer;
+import com.revature.quizzard.util.logging.Logger;
 import com.revature.quizzard.web.servlets.AuthServlet;
 import com.revature.quizzard.web.servlets.HealthCheckServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
@@ -20,8 +21,12 @@ import com.revature.quizzard.web.servlets.UserServlet;
  */
 public class DependencyLoaderListener implements ServletContextListener {
 
+    private Logger logger = Logger.getLogger();
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        logger.info("ServletContext initialized, configuring dependencies...");
 
         ConnectionFactory.initialize();
         UserDAO userDao = new UserDAO();
@@ -36,9 +41,12 @@ public class DependencyLoaderListener implements ServletContextListener {
         context.addServlet("UserServlet", userServlet).addMapping("/users/*");
         context.addServlet("HealthCheckServlet", healthCheckServlet).addMapping("/health");
 
+        logger.info("Context successfully configured; application is listening at endpoint: " + context.getContextPath());
+
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+
     }
 }
