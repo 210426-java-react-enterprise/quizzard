@@ -6,7 +6,10 @@ import javax.servlet.ServletContextListener;
 
 import com.revature.quizzard.daos.UserDAO;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.datasource.EmbeddedDatabaseInitializer;
 import com.revature.quizzard.web.servlets.AuthServlet;
+import com.revature.quizzard.web.servlets.HealthCheckServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
 
 /**
@@ -20,20 +23,22 @@ public class DependencyLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
+        EmbeddedDatabaseInitializer.initializeEmbeddedDatabase("import.sql");
         UserDAO userDao = new UserDAO();
         UserService userService = new UserService(userDao);
 
         AuthServlet authServlet = new AuthServlet(userService);
         UserServlet userServlet = new UserServlet(userService);
+        HealthCheckServlet healthCheckServlet = new HealthCheckServlet();
 
         ServletContext context = sce.getServletContext();
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
         context.addServlet("UserServlet", userServlet).addMapping("/users/*");
+        context.addServlet("HealthCheckServlet", healthCheckServlet).addMapping("/health");
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
     }
 }

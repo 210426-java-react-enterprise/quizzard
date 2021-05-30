@@ -19,7 +19,7 @@ public class UserDAO {
 
         try {
 
-            String sql = "SELECT * FROM quizzard.users";
+            String sql = "SELECT * FROM users";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -48,7 +48,7 @@ public class UserDAO {
         Optional<AppUser> _user = Optional.empty();
 
         try {
-            String sql = "SELECT * FROM quizzard.users WHERE user_id = ?";
+            String sql = "SELECT * FROM users WHERE user_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
 
@@ -67,7 +67,7 @@ public class UserDAO {
 
         try {
 
-            String sqlInsertUser = "insert into quizzard.users (username , password , email , first_name , last_name , age ) values (?,?,?,?,?,?)";
+            String sqlInsertUser = "insert into users (username , password , email , first_name , last_name , age ) values (?,?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sqlInsertUser, new String[] { "user_id" });
             pstmt.setString(1,newUser.getUsername());
             pstmt.setString(2,newUser.getPassword());
@@ -94,7 +94,7 @@ public class UserDAO {
     public boolean isUsernameAvailable(Connection conn, String username) {
         try {
 
-            String sql = "select * from quizzard.users where username = ?";
+            String sql = "select * from users where username = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
 
@@ -115,7 +115,7 @@ public class UserDAO {
     public boolean isEmailAvailable(Connection conn, String email) {
         try {
 
-            String sql = "select * from quizzard.users where email = ?";
+            String sql = "select * from users where email = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, email);
 
@@ -138,7 +138,7 @@ public class UserDAO {
 
         try {
 
-            String sql = "select * from quizzard.users where username = ? and password = ?";
+            String sql = "select * from users where username = ? and password = ?";
             if(conn == null) {
                 throw new NullPointerException(System.getProperty("host_url") +
                         " is what has been given as the host url from environment variables \n and the username is: "+

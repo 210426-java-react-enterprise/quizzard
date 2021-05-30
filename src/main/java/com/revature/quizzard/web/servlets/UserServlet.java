@@ -38,13 +38,13 @@ public class UserServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         AppUser requestingUser = (session == null) ? null : (AppUser) session.getAttribute("this-user");
 
-        if (requestingUser == null) {
-            resp.setStatus(401);
-            return;
-        } else if (!requestingUser.getUsername().equals("wsingleton")) {
-            resp.setStatus(403);
-            return;
-        }
+//        if (requestingUser == null) {
+//            resp.setStatus(401);
+//            return;
+//        } else if (!requestingUser.getUsername().equals("wsingleton")) {
+//            resp.setStatus(403);
+//            return;
+//        }
 
         String userIdParam = req.getParameter("id");
 

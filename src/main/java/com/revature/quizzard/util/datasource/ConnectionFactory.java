@@ -1,12 +1,13 @@
 package com.revature.quizzard.util.datasource;
 
-import java.io.FileReader;
+import com.revature.quizzard.exceptions.DataSourceException;
+import com.revature.quizzard.util.logging.Logger;
+import org.h2.jdbcx.JdbcConnectionPool;
+
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -32,25 +33,37 @@ import java.util.Properties;
  */
 public class ConnectionFactory {
 
+
     private static ConnectionFactory connectionFactory;
-    private Properties props = new Properties();
+
+    private Logger logger = Logger.getLogger();
+    private DataSource dataSource;
+    private String dbUrl;
+    private String dbUsername;
+    private String dbPassword;
 
     static {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     private ConnectionFactory() {
+
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            InputStream input = loader.getResourceAsStream("application.properties");
-            props.load(input);
-        } catch (IOException e) {
+            Properties props = new Properties();
+            props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties"));
+            dbUrl = props.getProperty("host-url");
+            dbUsername = props.getProperty("username");
+            dbPassword = props.getProperty("password");
+            logger.info("Creating embedded H2 database at: %s", dbUrl);
+            dataSource = JdbcConnectionPool.create(dbUrl, dbUsername, dbPassword);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static ConnectionFactory getInstance() {
@@ -66,16 +79,13 @@ public class ConnectionFactory {
         Connection conn = null;
 
         try {
-
-            conn = DriverManager.getConnection(
-                    props.getProperty("host-url"),
-                    props.getProperty("username"),
-                    props.getProperty("password"));
-
-            conn.setAutoCommit(false);
-
+            conn = dataSource.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        if (conn == null) {
+            throw new DataSourceException("Could not establish a connection to the database!");
         }
 
         return conn;
