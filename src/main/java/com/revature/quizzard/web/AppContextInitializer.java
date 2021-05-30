@@ -12,6 +12,7 @@ import com.revature.quizzard.util.logging.Logger;
 import com.revature.quizzard.web.servlets.AuthServlet;
 import com.revature.quizzard.web.servlets.HealthCheckServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
+import org.h2.tools.Server;
 
 /**
  *      This class is tied to the startup and shutdown of Tomcat. Just implement
@@ -19,14 +20,14 @@ import com.revature.quizzard.web.servlets.UserServlet;
  *      methods. Make sure you inform Tomcat of this class by including it
  *      in your deployment descriptor (web.xml) under the listener tag.
  */
-public class DependencyLoaderListener implements ServletContextListener {
+public class AppContextInitializer implements ServletContextListener {
 
     private Logger logger = Logger.getLogger();
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        logger.info("ServletContext initialized, configuring dependencies...");
+        logger.info("Servlet context initialized, initializing web application context...");
 
         ConnectionFactory.initialize();
         UserDAO userDao = new UserDAO();
@@ -41,7 +42,7 @@ public class DependencyLoaderListener implements ServletContextListener {
         context.addServlet("UserServlet", userServlet).addMapping("/users/*");
         context.addServlet("HealthCheckServlet", healthCheckServlet).addMapping("/health");
 
-        logger.info("Context successfully configured; application is listening at endpoint: " + context.getContextPath());
+        logger.info("Web application context initialized, listening at endpoint: " + context.getContextPath());
 
     }
 

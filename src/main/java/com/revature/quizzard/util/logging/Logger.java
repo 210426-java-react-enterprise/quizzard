@@ -14,80 +14,47 @@ public class Logger {
     public static final String ANSI_YELLOW = "\u001B[33m";
 
     private static Logger logger;
-    private final boolean printToConsole;
 
-    private Logger(boolean printToConsole) {
-        this.printToConsole = printToConsole;
+    boolean logToFile;
+
+    public Logger() {
+        logToFile = canWriteToFile();
     }
 
     public static Logger getLogger() {
         if (logger == null) {
-            logger = new Logger(true);
+            logger = new Logger();
         }
-        return logger;
-    }
 
-    public static Logger getLogger(boolean loggingToConsole) {
-        if (logger == null) {
-            logger = new Logger(loggingToConsole);
-        }
         return logger;
     }
 
     public void info(String message, Object... args) {
-        try (Writer writer = new FileWriter(getLogFileName(), true)) {
-            String formattedMessage = formatMessage("INFO", String.format(message, args));
-            writer.write(formattedMessage + "\n");
-
-            if (printToConsole) {
-                printMessageToConsole("INFO", formattedMessage);
-            }
-        } catch (IOException e) {
-            printMessageToConsole("ERROR", "Could not write message to file");
-        }
+        String formattedMessage = formatMessage("INFO", String.format(message, args));
+        if (logToFile) writeMessageToFile("INFO", formattedMessage);
+        printMessageToConsole("INFO", formattedMessage);
     }
 
     public void warn(String message, Object... args) {
-        try (Writer writer = new FileWriter(getLogFileName(), true)) {
-            String formattedMessage = formatMessage("WARN", String.format(message, args));
-            writer.write(formattedMessage + "\n");
-
-            if (printToConsole) {
-                printMessageToConsole("WARN", formattedMessage);
-            }
-        } catch (IOException e) {
-            printMessageToConsole("ERROR", "Could not write message to file");
-        }
+        String formattedMessage = formatMessage("WARN", String.format(message, args));
+        if (logToFile) writeMessageToFile("WARN", formattedMessage);
+        printMessageToConsole("WARN", formattedMessage);
     }
 
     public void error(String message, Object... args) {
-        try (Writer writer = new FileWriter(getLogFileName(), true)) {
-            String formattedMessage = formatMessage("ERROR", String.format(message, args));
-            writer.write(formattedMessage + "\n");
-
-            if (printToConsole) {
-                printMessageToConsole("ERROR", formattedMessage);
-            }
-        } catch (IOException e) {
-            printMessageToConsole("ERROR", "Could not write message to file");
-        }
+        String formattedMessage = formatMessage("ERROR", String.format(message, args));
+        if (logToFile) writeMessageToFile("ERROR", formattedMessage);
+        printMessageToConsole("ERROR", formattedMessage);
     }
 
     public void fatal(String message, Object... args) {
-        try (Writer writer = new FileWriter(getLogFileName(), true)) {
-            String formattedMessage = formatMessage("FATAL", String.format(message, args));
-            writer.write(formattedMessage + "\n");
-
-            if (printToConsole) {
-                printMessageToConsole("FATAL", formattedMessage);
-            }
-        } catch (IOException e) {
-            printMessageToConsole("ERROR", "Could not write message to file");
-        }
+        String formattedMessage = formatMessage("FATAL", String.format(message, args));
+        if (logToFile) writeMessageToFile("FATAL", formattedMessage);
+        printMessageToConsole("FATAL", formattedMessage);
     }
 
     private String getLogFileName() {
-        String logDirectoryPath = "src/main/resources/logs";
+        String logDirectoryPath = "/tmp/logs";
         String fileName = LocalDate.now().format(DateTimeFormatter.ofPattern("d-MM-uuuu"));
         return logDirectoryPath + "/" + fileName + ".log";
     }
@@ -104,6 +71,14 @@ public class Logger {
         return String.format("%s [%s] %s (%s) - %s", datetime, threadName, level, callerName, message);
     }
 
+    private void writeMessageToFile(String level, String formattedMessage) {
+        try (Writer writer = new FileWriter(getLogFileName(), true)) {
+            writer.write(formattedMessage + "\n");
+        } catch (IOException e) {
+            printMessageToConsole("ERROR", "Could not write message to file");
+        }
+    }
+
     private void printMessageToConsole(String level, String message) {
         switch (level) {
             case "INFO":
@@ -117,6 +92,15 @@ public class Logger {
                 System.out.println(ANSI_RED + message + ANSI_RESET);
                 break;
         }
+    }
+
+    private boolean canWriteToFile() {
+        try {
+            new FileWriter(getLogFileName(), true);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -6,7 +6,7 @@
         version="2.5">
 
     <listener>
-        <listener-class>com.revature.quizzard.web.DependencyLoaderListener</listener-class>
+        <listener-class>com.revature.quizzard.web.AppContextInitializer</listener-class>
     </listener>
 
     <servlet>
