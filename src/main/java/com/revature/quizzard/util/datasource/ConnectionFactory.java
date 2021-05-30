@@ -5,32 +5,11 @@ import com.revature.quizzard.util.logging.Logger;
 import org.h2.jdbcx.JdbcConnectionPool;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/*
-    Singleton Design Pattern
-
-        - Creational pattern
-        - Restricts a class in such a way that only one instance can be made of it.
-        - Constructor cannot be invoked outside of this class
-
-        Types:
-            - Eager singleton:
-                + The class is created "eagerly" or ahead of time by instantiating it
-                  on the same line as it is declared.
- */
-
-/*
-    Factory Design Pattern
-
-        - Creational pattern
-        - Abstracts away the creation logic of some object
- */
 public class ConnectionFactory {
 
 
@@ -53,22 +32,39 @@ public class ConnectionFactory {
     private ConnectionFactory() {
 
         try {
-            Properties props = new Properties();
-            props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties"));
-            dbUrl = props.getProperty("host-url");
-            dbUsername = props.getProperty("username");
-            dbPassword = props.getProperty("password");
-            logger.info("Creating embedded H2 database at: %s", dbUrl);
-            dataSource = JdbcConnectionPool.create(dbUrl, dbUsername, dbPassword);
+            InputStream resourceFile = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties");
+
+            if (resourceFile == null) {
+                dbUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
+                dbUsername = "admin";
+                dbPassword = "revature";
+                logger.info("Creating embedded database connection pool for database at JDBC url: %s", dbUrl);
+                dataSource = JdbcConnectionPool.create(dbUrl, dbUsername, dbPassword);
+                EmbeddedDatabaseInitializer.initializeEmbeddedDatabase(dataSource.getConnection(), "import.sql");
+            } else {
+                Properties props = new Properties();
+                props.load(resourceFile);
+                dbUrl = props.getProperty("host-url");
+                dbUsername = props.getProperty("username");
+                dbPassword = props.getProperty("password");
+                logger.info("Creating database connection pool for database at JDBC url: %s", dbUrl);
+                dataSource = JdbcConnectionPool.create(dbUrl, dbUsername, dbPassword);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    public static void initialize() {
+        connectionFactory = new ConnectionFactory();
+    }
+
     public static ConnectionFactory getInstance() {
         if (connectionFactory == null) {
-            connectionFactory = new ConnectionFactory();
+            initialize();
         }
 
         return connectionFactory;

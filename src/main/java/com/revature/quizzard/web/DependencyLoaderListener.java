@@ -23,7 +23,7 @@ public class DependencyLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        EmbeddedDatabaseInitializer.initializeEmbeddedDatabase("import.sql");
+        ConnectionFactory.initialize();
         UserDAO userDao = new UserDAO();
         UserService userService = new UserService(userDao);
 

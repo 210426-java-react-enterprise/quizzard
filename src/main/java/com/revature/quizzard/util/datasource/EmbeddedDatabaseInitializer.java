@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class EmbeddedDatabaseInitializer {
@@ -14,11 +15,11 @@ public class EmbeddedDatabaseInitializer {
 
     private EmbeddedDatabaseInitializer() { }
 
-    public static void initializeEmbeddedDatabase(String sqlFileName) {
+    public static void initializeEmbeddedDatabase(Connection conn, String sqlFileName) throws SQLException {
 
         logger.info("Initializing embedded H2 database using file: %s", sqlFileName);
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
 
             InputStream fileInputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(sqlFileName);
             BufferedReader sqlFileReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(fileInputStream)));
@@ -52,6 +53,8 @@ public class EmbeddedDatabaseInitializer {
             logger.warn("%s thrown, check logs for more details", e.getClass().getSimpleName());
             e.printStackTrace();
         }
+
+        conn.close();
 
         logger.info("Initialization of embedded H2 database complete!");
 
