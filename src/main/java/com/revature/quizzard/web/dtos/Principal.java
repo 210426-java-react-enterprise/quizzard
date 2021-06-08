@@ -12,7 +12,7 @@ public class Principal {
     public Principal(Claims jwtClaims) {
         this.id = Integer.parseInt(jwtClaims.getId());
         this.username = jwtClaims.getSubject();
-        this.role = AppUser.Role.valueOf(jwtClaims.get("role", String.class));
+        this.role = AppUser.Role.valueOf(jwtClaims.get("role", String.class).toUpperCase()); // TODO fix this hacky garbage
     }
 
     public int getId() {

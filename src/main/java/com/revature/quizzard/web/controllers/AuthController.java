@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.*;
 
@@ -32,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public AppUserDTO authenticate(@RequestBody Credentials credentials, HttpServletResponse resp) {
+    public AppUserDTO authenticate(@RequestBody @Valid Credentials credentials, HttpServletResponse resp) {
         AppUser user = userService.authenticate(credentials.getUsername(), credentials.getPassword());
         String jwt = tokenGenerator.createJwt(user);
         resp.setHeader(jwtConfig.getHeader(), jwt);

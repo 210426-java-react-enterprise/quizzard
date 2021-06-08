@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Secured(allowedRoles = {"ADMIN"})
+    @Secured(allowedRoles = {"Admin"})
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public List<AppUserDTO> searchUsers(@RequestParam Map<String, String> requestParams, HttpServletResponse resp) {
         List<AppUserDTO> users = userService.searchUsers(requestParams)
@@ -40,7 +41,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-    public AppUserDTO registerNewUser(@RequestBody AppUser newUser, HttpServletResponse resp) {
+    public AppUserDTO registerNewUser(@RequestBody @Valid AppUser newUser, HttpServletResponse resp) {
         AppUserDTO registeredUser = new AppUserDTO(userService.register(newUser));
         resp.setHeader("Cache-Control", "no-store");
         return registeredUser;
