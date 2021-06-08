@@ -1,5 +1,6 @@
 package com.revature.quizzard.web.controllers;
 
+import com.revature.quizzard.web.dtos.AppUserDTO;
 import com.revature.quizzard.web.dtos.Credentials;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
@@ -31,10 +32,10 @@ public class AuthController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public AppUser authenticate(@RequestBody Credentials credentials, HttpServletResponse resp) {
+    public AppUserDTO authenticate(@RequestBody Credentials credentials, HttpServletResponse resp) {
         AppUser user = userService.authenticate(credentials.getUsername(), credentials.getPassword());
         String jwt = tokenGenerator.createJwt(user);
         resp.setHeader(jwtConfig.getHeader(), jwt);
-        return user;
+        return new AppUserDTO(user);
     }
 }

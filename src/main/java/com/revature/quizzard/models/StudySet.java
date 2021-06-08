@@ -1,26 +1,35 @@
 package com.revature.quizzard.models;
 
-//import com.revature.quizzard.util.structures.LinkedList;
-//import com.revature.quizzard.util.structures.List;
-
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "study_sets")
 public class StudySet {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String name;
+
+    @ManyToMany
+    @JoinTable(
+            name = "study_set_cards",
+            joinColumns = @JoinColumn(name = "study_set_id"),
+            inverseJoinColumns = @JoinColumn(name = "flashcard_id")
+    )
     private List<Flashcard> flashcards;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private AppUser owner;
 
     public StudySet() {
         super();
-    }
-
-    public StudySet(String name, List<Flashcard> flashcards) {
-        this.name = name;
-        this.flashcards = flashcards;
     }
 
     public int getId() {

@@ -1,19 +1,26 @@
 package com.revature.quizzard.models;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "app_users")
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(unique = true, nullable = false)
     private String email;
-    private int age;
 
     @Column(name = "first_name")
     private String firstName;
@@ -21,8 +28,11 @@ public class AppUser {
     @Column(name = "last_name")
     private String lastName;
 
-    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "owner")
+    private List<StudySet> userStudySets;
 
     public AppUser() {
         super();
@@ -76,14 +86,6 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -92,7 +94,15 @@ public class AppUser {
         this.role = role;
     }
 
-        @Override
+    public List<StudySet> getUserStudySets() {
+        return userStudySets;
+    }
+
+    public void setUserStudySets(List<StudySet> userStudySets) {
+        this.userStudySets = userStudySets;
+    }
+
+    @Override
     public String toString() {
         return "AppUser{" +
                 "username='" + username + '\'' +
@@ -100,12 +110,24 @@ public class AppUser {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", age=" + age +
                 '}';
     }
 
     public enum Role {
-        ADMIN, PREMIUM_USER, BASIC_USER;
+        ADMIN("Admin"), DEV("Dev"), BASIC_USER("Basic User"),
+        PREMIUM_USER("Premium User"), LOCKED("Locked");
+
+        private String name;
+
+        Role(String name) {
+            this.name = name;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return name;
+        }
     }
 
 }

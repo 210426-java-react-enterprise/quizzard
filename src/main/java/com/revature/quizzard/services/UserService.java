@@ -61,7 +61,7 @@ public class UserService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<AppUser> getAllUsers() {
-       return userRepo.findAllUsers();
+       return userRepo.findAll();
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -80,7 +80,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid id value provided!");
 
         try {
-            return userRepo.findUserById(id).orElseThrow(ResourceNotFoundException::new);
+            return userRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
         } catch (Exception e) {
             throw new DataSourceException(e);
         }
@@ -94,7 +94,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid username value provided!");
 
         try {
-            return userRepo.findUserByUsername(username)
+            return userRepo.findAppUserByUsername(username)
                            .orElseThrow(ResourceNotFoundException::new);
         } catch (Exception e) {
             throw new DataSourceException(e);
@@ -123,7 +123,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid email value provided!");
 
         try {
-            return userRepo.findUserByEmail(email)
+            return userRepo.findAppUserByEmail(email)
                     .orElseThrow(ResourceNotFoundException::new);
         } catch (Exception e) {
             if (e instanceof ResourceNotFoundException) throw e;
@@ -154,7 +154,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid first name value provided!");
 
         try {
-            List<AppUser> users = userRepo.findUsersByFirstName(firstName);
+            List<AppUser> users = userRepo.findAppUsersByFirstName(firstName);
             if (users.isEmpty()) throw new ResourceNotFoundException();
             return users;
         } catch (Exception e) {
@@ -171,7 +171,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid last name value provided!");
 
         try {
-            List<AppUser> users = userRepo.findUsersByLastName(lastName);
+            List<AppUser> users = userRepo.findAppUsersByLastName(lastName);
             if (users.isEmpty()) throw new ResourceNotFoundException();
             return users;
         } catch (Exception e) {
@@ -188,7 +188,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid role value provided!");
 
         try {
-            List<AppUser> users = userRepo.findUsersByRole(AppUser.Role.valueOf(role));
+            List<AppUser> users = userRepo.findAppUsersByRole(AppUser.Role.valueOf(role));
             if (users.isEmpty()) throw new ResourceNotFoundException();
             return users;
         } catch (Exception e) {
@@ -206,7 +206,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid username value provided!");
 
         try {
-            return userRepo.findUserByUsernameAndPassword(username, password)
+            return userRepo.findAppUserByUsernameAndPassword(username, password)
                            .orElseThrow(AuthenticationException::new);
         } catch (Exception e) {
             if (e instanceof ResourceNotFoundException) throw e;
@@ -251,9 +251,6 @@ public class UserService {
 
         if (!isValid(u.getLastName(), "lastName"))
             throw new InvalidRequestException("An invalid last name was provided.");
-
-        if (u.getAge() >= 0)
-            throw new InvalidRequestException("An invalid age was provided.");
 
     }
 
