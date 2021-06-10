@@ -3,6 +3,7 @@ package com.revature.quizzard.services;
 import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.repositories.UserRepository;
+import com.revature.quizzard.web.dtos.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -200,14 +201,18 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public AppUser authenticate(String username, String password) throws AuthenticationException {
+    public Principal authenticate(String username, String password) throws AuthenticationException {
 
         if (!isValid(username, "username") && !isValid(password, "password"))
             throw new InvalidRequestException("Invalid username value provided!");
 
         try {
-            return userRepo.findAppUserByUsernameAndPassword(username, password)
-                           .orElseThrow(AuthenticationException::new);
+
+            AppUser authUser = userRepo.findAppUserByUsernameAndPassword(username, password)
+                                       .orElseThrow(AuthenticationException::new);
+
+            return new Principal(authUser);
+
         } catch (Exception e) {
             if (e instanceof ResourceNotFoundException) throw e;
             throw new DataSourceException(e);

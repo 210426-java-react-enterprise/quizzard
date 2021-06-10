@@ -1,6 +1,7 @@
 package com.revature.quizzard.web.security;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.web.dtos.Principal;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class TokenGenerator {
         this.jwtConfig = jwtConfig;
     }
 
-    public String createJwt(AppUser subject) {
+    public String createJwt(Principal subject) {
 
         long now = System.currentTimeMillis();
 

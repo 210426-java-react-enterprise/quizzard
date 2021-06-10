@@ -9,10 +9,20 @@ public class Principal {
     private String username;
     private AppUser.Role role;
 
+    public Principal() {
+        super();
+    }
+
     public Principal(Claims jwtClaims) {
         this.id = Integer.parseInt(jwtClaims.getId());
         this.username = jwtClaims.getSubject();
         this.role = AppUser.Role.valueOf(jwtClaims.get("role", String.class).toUpperCase()); // TODO fix this hacky garbage
+    }
+
+    public Principal(AppUser user) {
+        this.id = user.getId();;
+        this.username = user.getUsername();
+        this.role = user.getRole();
     }
 
     public int getId() {

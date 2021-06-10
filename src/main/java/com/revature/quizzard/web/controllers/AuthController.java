@@ -4,6 +4,7 @@ import com.revature.quizzard.web.dtos.AppUserDTO;
 import com.revature.quizzard.web.dtos.Credentials;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.web.dtos.Principal;
 import com.revature.quizzard.web.security.JwtConfig;
 import com.revature.quizzard.web.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class AuthController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public AppUserDTO authenticate(@RequestBody @Valid Credentials credentials, HttpServletResponse resp) {
-        AppUser user = userService.authenticate(credentials.getUsername(), credentials.getPassword());
+    public Principal authenticate(@RequestBody @Valid Credentials credentials, HttpServletResponse resp) {
+        Principal user = userService.authenticate(credentials.getUsername(), credentials.getPassword());
         String jwt = tokenGenerator.createJwt(user);
         resp.setHeader(jwtConfig.getHeader(), jwt);
-        return new AppUserDTO(user);
+        return user;
     }
 }
