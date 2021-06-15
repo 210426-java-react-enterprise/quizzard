@@ -9,6 +9,7 @@ public class Credentials {
 
     @NotEmpty
     private String password;
+    private String email;
 
     public Credentials() {
         super();
@@ -30,4 +31,11 @@ public class Credentials {
         this.password = password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
