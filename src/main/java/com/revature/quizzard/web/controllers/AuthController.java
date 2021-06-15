@@ -8,6 +8,7 @@ import com.revature.quizzard.web.dtos.Principal;
 import com.revature.quizzard.web.security.JwtConfig;
 import com.revature.quizzard.web.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ public class AuthController {
     private UserService userService;
     private TokenGenerator tokenGenerator;
     private JwtConfig jwtConfig;
+
+    @Autowired
+    ApplicationEventPublisher eventPublisher;
 
     @Autowired
     public AuthController(UserService userService, TokenGenerator tokenGenerator, JwtConfig jwtConfig) {

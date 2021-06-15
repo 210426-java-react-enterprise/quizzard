@@ -34,8 +34,12 @@ public class AppUser {
     @OneToMany(mappedBy = "owner")
     private List<StudySet> userStudySets;
 
+    @Column(name= "enabled")
+    private boolean enabled;
+
     public AppUser() {
         super();
+        this.enabled=false;
     }
 
     public int getId() {

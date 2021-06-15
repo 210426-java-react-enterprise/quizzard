@@ -1,11 +1,16 @@
 package com.revature.quizzard.web.controllers;
 
+import com.revature.quizzard.dtos.CredentialsDTO;
+import com.revature.quizzard.exceptions.EmailUnavailableException;
+import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.UsernameUnavailableException;
 import com.revature.quizzard.web.dtos.AppUserDTO;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.web.security.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,12 +44,38 @@ public class UserController {
         return users;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public AppUserDTO registerNewUser(@RequestBody @Valid AppUser newUser, HttpServletResponse resp) {
         AppUserDTO registeredUser = new AppUserDTO(userService.register(newUser));
         resp.setHeader("Cache-Control", "no-store");
         return registeredUser;
+    }
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(name="/registration",consumes = APPLICATION_JSON_VALUE,produces= APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> registerUserRequest (@Valid @RequestBody AppUser registerRequest, HttpServletResponse resp){
+        AppUser registeredUser = new AppUser();
+        registeredUser.setFirstName(registerRequest.getFirstName());
+        registeredUser.setLastName(registerRequest.getLastName());
+        registeredUser.setUsername(registerRequest.getUsername());
+        //TODO: create an encoder for password encryption
+        registeredUser.setPassword(registerRequest.getPassword());
+        registeredUser.setEmail(registerRequest.getEmail());
+        try{
+            userService.register(registeredUser);
+        }catch(UsernameUnavailableException uue){
+            return ResponseEntity.badRequest().body("This username has already been used.");
+        }catch(EmailUnavailableException eue){
+            return ResponseEntity.badRequest().body("This email has already been registered.");
+        }catch(InvalidRequestException ire){
+            return ResponseEntity.badRequest().body("Invalid information given.");
+        }
+
+        CredentialsDTO registeredUserCreds = new CredentialsDTO();
+        registeredUserCreds.setUsername(registeredUser.getUsername());
+        registeredUserCreds.setPassword(registeredUser.getPassword());
+        return ResponseEntity.ok(userService.authenticate(registeredUserCreds.getUsername(), registeredUserCreds.getPassword()));
+
     }
 
 }
