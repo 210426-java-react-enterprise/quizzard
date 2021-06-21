@@ -1,7 +1,7 @@
 package com.revature.quizzard.web.controllers;
 
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.web.dtos.Principal;
+import com.revature.quizzard.web.dtos.auth.Principal;
 import com.revature.quizzard.web.security.TokenGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

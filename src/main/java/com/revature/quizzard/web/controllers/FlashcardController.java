@@ -2,6 +2,7 @@ package com.revature.quizzard.web.controllers;
 
 import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.services.FlashcardService;
+import com.revature.quizzard.web.dtos.requests.NewFlashcardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,8 +43,8 @@ public class FlashcardController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createNewCard(@RequestBody Flashcard newCard) {
-        cardService.saveNewCard(newCard);
+    public void createNewCard(@RequestBody NewFlashcardRequest newFlashcardRequest) {
+        cardService.saveNewCard(newFlashcardRequest.toFlashcard());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

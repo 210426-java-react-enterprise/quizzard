@@ -2,7 +2,7 @@ package com.revature.quizzard.aspects;
 
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.AuthorizationException;
-import com.revature.quizzard.web.dtos.Principal;
+import com.revature.quizzard.web.dtos.auth.Principal;
 import com.revature.quizzard.web.security.JwtConfig;
 import com.revature.quizzard.web.security.Secured;
 import io.jsonwebtoken.Claims;

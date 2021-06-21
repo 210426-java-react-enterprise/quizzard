@@ -3,15 +3,16 @@ package com.revature.quizzard.services;
 import com.revature.quizzard.exceptions.*;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.repositories.UserRepository;
-import com.revature.quizzard.web.dtos.Principal;
+import com.revature.quizzard.web.dtos.requests.Credentials;
+import com.revature.quizzard.web.dtos.auth.Principal;
+import com.revature.quizzard.web.dtos.requests.RegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.validation.Valid;
+import java.util.*;
 
 @Service
 @Transactional
@@ -25,11 +26,11 @@ public class UserService {
     }
 
     @Transactional
-    public List<AppUser> searchUsers(Map<String, String> requestParamMap) {
+    public Set<AppUser> searchUsers(Map<String, String> requestParamMap) {
 
-        if (requestParamMap.isEmpty()) return getAllUsers();
+        if (requestParamMap.isEmpty()) return new HashSet<>(getAllUsers());
 
-        List<AppUser> matchingUsers = new ArrayList<>();
+        Set<AppUser> matchingUsers = new HashSet<>();
 
         requestParamMap.forEach((key, value) -> {
             switch (key) {
@@ -201,14 +202,11 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public Principal authenticate(String username, String password) throws AuthenticationException {
-
-        if (!isValid(username, "username") && !isValid(password, "password"))
-            throw new InvalidRequestException("Invalid username value provided!");
+    public Principal authenticate(@Valid Credentials credentials) throws AuthenticationException {
 
         try {
 
-            AppUser authUser = userRepo.findAppUserByUsernameAndPassword(username, password)
+            AppUser authUser = userRepo.findAppUserByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
                                        .orElseThrow(AuthenticationException::new);
 
             return new Principal(authUser);
@@ -221,42 +219,19 @@ public class UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public AppUser register(AppUser newUser) throws InvalidRequestException, ResourcePersistenceException {
+    public AppUser register(@Valid RegistrationRequest registrationRequest) throws InvalidRequestException, ResourcePersistenceException {
 
-        isUserValid(newUser);
-
-        if (isUsernameAvailable(newUser.getUsername())) {
+        if (isUsernameAvailable(registrationRequest.getUsername())) {
             throw new ResourcePersistenceException("Provided username is already taken!");
         }
 
-        if (isEmailAvailable(newUser.getEmail())) {
+        if (isEmailAvailable(registrationRequest.getEmail())) {
             throw new ResourcePersistenceException("Provided email is already taken!");
         }
 
+        AppUser newUser = registrationRequest.toUser();
         newUser.setRole(AppUser.Role.BASIC_USER);
         return userRepo.save(newUser);
-    }
-
-    public void isUserValid(AppUser u) throws InvalidRequestException {
-
-        if (u == null)
-            throw new InvalidRequestException("A null user was provided.");
-
-        if (!isValid(u.getUsername(), "username"))
-            throw new InvalidRequestException("An invalid username was provided.");
-
-        if (!isValid(u.getPassword(), "password"))
-            throw new InvalidRequestException("An invalid password was provided.");
-
-        if (!isValid(u.getEmail(), "email"))
-            throw new InvalidRequestException("An invalid email was provided.");
-
-        if (!isValid(u.getFirstName(), "firstName"))
-            throw new InvalidRequestException("An invalid first name was provided.");
-
-        if (!isValid(u.getLastName(), "lastName"))
-            throw new InvalidRequestException("An invalid last name was provided.");
-
     }
 
     public boolean isValid(String str, String fieldName) {
