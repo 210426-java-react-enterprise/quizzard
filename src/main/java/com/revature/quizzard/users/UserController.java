@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Secured(allowedRoles = {"Admin"})
+    @Secured(allowedRoles = {"ADMIN"})
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public List<AppUserResponse> searchUsers(@RequestParam Map<String, String> requestParams, HttpServletResponse resp) {
         List<AppUserResponse> users = userService.searchUsers(requestParams)

@@ -3,6 +3,7 @@ package com.revature.quizzard.util.helpers;
 import com.revature.quizzard.flashcards.Flashcard;
 import com.revature.quizzard.users.AppUser;
 import com.revature.quizzard.util.exceptions.InvalidRequestException;
+import com.revature.quizzard.util.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,12 @@ public class EntitySearchHelper {
             try {
                 Field searchField = entityClass.getDeclaredField(searchKey);
                 if (searchField.getType().isEnum()) {
-                    Enum enumVal = Enum.valueOf((Class<Enum>) searchField.getType(), searchVal);
-                    predicate = cb.and(predicate, cb.equal(root.get(searchKey), enumVal));
+                    try {
+                        Enum enumVal = Enum.valueOf((Class<Enum>) searchField.getType(), searchVal.toUpperCase());
+                        predicate = cb.and(predicate, cb.equal(root.get(searchKey), enumVal));
+                    } catch (IllegalArgumentException e) {
+                        throw new ResourceNotFoundException();
+                    }
                 } else {
                     predicate = cb.and(predicate, cb.equal(root.get(searchKey), searchVal));
                 }

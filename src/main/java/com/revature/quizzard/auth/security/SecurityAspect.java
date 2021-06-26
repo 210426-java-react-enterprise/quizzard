@@ -1,10 +1,8 @@
-package com.revature.quizzard.util.aspects;
+package com.revature.quizzard.auth.security;
 
 import com.revature.quizzard.util.exceptions.AuthenticationException;
 import com.revature.quizzard.util.exceptions.AuthorizationException;
 import com.revature.quizzard.auth.dtos.responses.Principal;
-import com.revature.quizzard.auth.security.JwtConfig;
-import com.revature.quizzard.auth.security.Secured;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.aspectj.lang.ProceedingJoinPoint;
