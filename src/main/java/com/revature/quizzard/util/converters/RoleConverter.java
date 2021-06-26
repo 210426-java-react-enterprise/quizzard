@@ -1,6 +1,6 @@
 package com.revature.quizzard.util.converters;
 
-import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.users.AppUser;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.AttributeConverter;

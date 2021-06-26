@@ -1,6 +1,6 @@
 package com.revature.quizzard.util.converters;
 
-import com.revature.quizzard.models.Flashcard;
+import com.revature.quizzard.flashcards.Flashcard;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.AttributeConverter;
@@ -21,7 +21,6 @@ public class CategoryConverter implements AttributeConverter<Flashcard.Category,
 
     @Override
     public Flashcard.Category convertToEntityAttribute(String categoryName) {
-        System.out.println(categoryName);
         return Stream.of(Flashcard.Category.values())
                      .filter(c -> c.toString().equals(categoryName))
                      .findFirst()

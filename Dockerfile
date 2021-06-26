@@ -1,21 +1,29 @@
-#The starting point of the image, the image we need to modify to make ours
-FROM tomcat:8.5.66-jdk8-adoptopenjdk-hotspot
-# container port to expose
-EXPOSE 8080
+# Base image
+FROM openjdk:8-jdk-alpine
 
-# arguments to be passed in through build command during build phase
-# ARG db_host=fkjgh
-# ARG db_user=sadkjfg
-# ARG db_pass=sdlkjb
-#
-#
-# #environment variables
-# ENV host_url=${db_host}
-# ENV db_username=${db_user}
-# ENV db_password=${db_pass}
+# Arguments to be provided when building the Docker image
+ARG dbUrl=jdbc:h2:mem:test
+ARG dbUsername=admin
+ARG dbPassword=revature
 
-COPY setenv.sh bin/setenv.sh
-# copy from local system into image
-COPY target/quizzard.war webapps/quizzard.war
-# The entrypoint for the container, remember containers only have 1 process
-# ENTRYPOINT bin/startup.sh
+# Environment variables that need to be made available to the container
+ENV DB_URL=$dbUrl
+ENV DB_USERNAME=$dbUsername
+ENV DB_PASSWORD=$dbPassword
+ENV JAR_FILE=./target/*.jar
+
+# Establish a working directory for the container
+WORKDIR /home/docker/data
+
+# Move the compiled JAR file into the working directory with the name "app.jar"
+COPY ${JAR_FILE} ./app.jar
+
+# Allow the JAR file to be executed
+RUN chmod +x ./app.jar
+
+# Specify a port that the container should expose to interface with the application
+EXPOSE 5000
+
+# Starting command that Docker should execute when it runs a container based on
+# the image created by this Dockerfile
+ENTRYPOINT ["java", "-jar", "./app.jar"]
