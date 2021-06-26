@@ -1,9 +1,9 @@
-INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('wsingleton', 'revature', 'Wezley', 'Singleton', 'Admin', 'wezley.singleton@revature.com');
-INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('rconnell', 'rolltide', 'Robert', 'Connell', 'Admin', 'robert.connell@revature.com');
-INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('skelsey', 'revasteve', 'Steven', 'Kelsey', 'Dev', 'steven.kelsey@revature.com');
-INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('mknighten', 'knifehand', 'Jason', 'Knighten', 'Basic User', 'jason.knighten@revature.com');
-INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('bkruppa', 'revature', 'Blake', 'Kruppa', 'Premium User', 'blake.kruppa@revature.com');
-INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('trolluser', 'banned', 'Eric', 'Cartman', 'Locked', 'eric.cartman@gmail.com');
+INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('wsingleton', 'revature', 'Wezley', 'Singleton', 'ADMIN', 'wezley.singleton@revature.com');
+INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('rconnell', 'rolltide', 'Robert', 'Connell', 'ADMIN', 'robert.connell@revature.com');
+INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('skelsey', 'revasteve', 'Steven', 'Kelsey', 'DEV', 'steven.kelsey@revature.com');
+INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('mknighten', 'knifehand', 'Jason', 'Knighten', 'BASIC_USER', 'jason.knighten@revature.com');
+INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('bkruppa', 'revature', 'Blake', 'Kruppa', 'PREMIUM_USER', 'blake.kruppa@revature.com');
+INSERT INTO app_users (username, password, first_name, last_name, role, email) VALUES ('trolluser', 'banned', 'Eric', 'Cartman', 'LOCKED', 'eric.cartman@gmail.com');
 
 INSERT INTO flashcards (question, answer, category, creator_id) VALUES ('Dummy Core Java Question 1', 'Dummy Answer', 'Core Java', 2);
 INSERT INTO flashcards (question, answer, category, creator_id) VALUES ('Dummy Core Java Question 2', 'Dummy Answer', 'Core Java', 2);
